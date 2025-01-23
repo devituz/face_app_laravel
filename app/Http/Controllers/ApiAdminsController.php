@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use App\Models\ApiAdmins;
+
+class ApiAdminsController extends Controller
+{
+
+
+    public function dashboard()
+    {
+        return response()->json(['message' => 'Admin boshqaruv paneliga xush kelibsiz']);
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('phone', 'password');
+
+        $validator = Validator::make($credentials, [
+            'phone' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Telefon raqam bo'yicha foydalanuvchini tekshirish
+        $admin = ApiAdmins::where('phone', $credentials['phone'])->first();
+
+        $phoneError = false;
+        $passwordError = false;
+
+        if (!$admin) {
+            $phoneError = true; // Telefon raqam noto'g'ri
+        } else if ($admin->password !== $credentials['password']) {
+            $passwordError = true; // Parol noto'g'ri
+        }
+
+        // Xato holatlarni qaytarish
+        if ($phoneError && $passwordError) {
+            return response()->json(['message' => 'Both informations are wrong'], 401);
+        } elseif ($phoneError) {
+            return response()->json(['message' => 'The phone number is incorrect'], 401);
+        } elseif ($passwordError) {
+            return response()->json(['message' => 'The password is incorrect'], 401);
+        }
+
+        if (!$admin->is_admin) {
+            return response()->json(['message' => 'Limited time'], 403);
+        }
+
+        $token = $admin->createToken('AdminToken')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'admin' => $admin,
+        ]);
+    }
+
+    public function getAdmins()
+    {
+
+        $admin = auth()->user();
+        if ($admin->image) {
+            $admin->image = URL::to(Storage::url($admin->image));
+        }
+
+        return response()->json($admin);
+    }
+
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            $scan_id = Auth::id(); // Avtomatik ravishda foydalanuvchi ID'sini olish
+
+            $response = Http::attach('file', file_get_contents($file), $file->getClientOriginalName())
+                    ->post('http://127.0.0.1:5000/api/search/', [
+                        'scan_id' => $scan_id, // Avtomatik IDni yuborish
+                    ]);
+
+            if (!$response->successful()) {
+                Log::error('API request failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+            }
+
+            return response()->json($response->json(), $response->status());
+        } catch (\Exception $e) {
+            Log::error('Error occurred in search method', [
+                'message' => $e->getMessage(),
+                'request' => $request->all(), // Yuborilgan so'rov ma'lumotlari
+            ]);
+
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+}
