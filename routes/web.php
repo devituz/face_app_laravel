@@ -12,7 +12,27 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//Route::get('/', function () {
+//    return view('tabbar.tab-index.index');
+//});
+//
+//Route::get('/login', function () {
+//    return view('auth.login.login');
+//});
+//
+//Route::get('/dashboard', function () {
+//    return view('dashboard.dashboard');
+//});
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::get('/user', function () {
+    return view('user');
+})->name('user');
+
+Route::get('/candidate', function () {
+    return view('candidate');
+})->name('candidate');
