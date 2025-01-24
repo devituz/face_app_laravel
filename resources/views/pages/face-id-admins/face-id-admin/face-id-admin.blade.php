@@ -208,10 +208,15 @@
                                    </td>
                                </tr>
                                @endfor
-                                <div class="row">
-                                    <div class="col-12" style="width: 200px; visibility: hidden;">
-                                    </div>
-                                </div>
+                               <div class="container">
+                                   <div class="row">
+                                       <div class="col-12" style="height: 200px; visibility: hidden;">
+                                           <!-- Bu yerda elementning balandligi 200px bo'lsa-da, u ko'rinmas bo'ladi -->
+                                           Bu element ko'rinmaydi, lekin joy egallaydi.
+                                       </div>
+                                   </div>
+                               </div>
+
                                 </tbody>
 
                             </table>
