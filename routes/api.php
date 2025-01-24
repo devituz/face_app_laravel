@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/face/login', [ApiAdminsController::class, 'login']);
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::get('/dashboard', [ApiAdminsController::class, 'dashboard']);
+    Route::get('/dashboards', [ApiAdminsController::class, 'dashboard']);
     Route::get('/getme', [ApiAdminsController::class, 'getAdmins']);
     Route::post('/student', [ApiAdminsController::class, 'search']);
     Route::get('/students/my-register', [ApiStudentsController::class, 'myregister']);

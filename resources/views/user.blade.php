@@ -3,10 +3,6 @@
 @section('content')
     <div class="main-content">
 
-
-
-
-
         <!-- HEADER -->
         <div class="header">
             <div class="container-fluid">

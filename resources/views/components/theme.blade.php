@@ -44,98 +44,51 @@
             </div>
         </div>
 
-        <!-- Heading -->
-        <h4 class="mb-1">
-            Navigation Position
-        </h4>
 
-        <!-- Text -->
-        <p class="small text-body-secondary mb-3">
-            Select the primary navigation paradigm for your app.
-        </p>
 
         <!-- Button group -->
         <div class="btn-group-toggle row gx-2 mb-4">
             <div class="col">
                 <input class="btn-check" name="navPosition" id="navPositionSidenav" type="radio" value="sidenav">
-                <label class="btn w-100 btn-white" for="navPositionSidenav">
-                    Sidenav
-                </label>
+
             </div>
             <div class="col">
                 <input class="btn-check" name="navPosition" id="navPositionTopnav" type="radio" value="topnav">
-                <label class="btn w-100 btn-white" for="navPositionTopnav">
-                    Topnav
-                </label>
+
             </div>
             <div class="col">
                 <input class="btn-check" name="navPosition" id="navPositionCombo" type="radio" value="combo">
-                <label class="btn w-100 btn-white" for="navPositionCombo">
-                    Combo
-                </label>
+
             </div>
         </div>
 
         <!-- Collapse -->
         <div id="sidebarSizeContainer">
 
-            <!-- Heading -->
-            <h4 class="mb-1">
-                Sidenav Sizing
-            </h4>
-
-            <!-- Text -->
-            <p class="small text-body-secondary mb-3">
-                Standard navigation sizing or minified icons with dropdowns.
-            </p>
-
             <!-- Button group -->
             <div class="btn-group-toggle row gx-2 mb-4">
                 <div class="col">
                     <input class="btn-check" name="sidebarSize" id="sidebarSizeBase" type="radio" value="base">
-                    <label class="btn w-100 btn-white" for="sidebarSizeBase">
-                        Fullsize
-                    </label>
                 </div>
                 <div class="col">
                     <input class="btn-check" name="sidebarSize" id="sidebarSizeSmall" type="radio" value="small">
-                    <label class="btn w-100 btn-white" for="sidebarSizeSmall">
-                        Icons
-                    </label>
                 </div>
             </div>
 
         </div>
 
-        <!-- Heading -->
-        <h4 class="mb-1">
-            Navigation Color
-        </h4>
-
-        <!-- Text -->
-        <p class="small text-body-secondary mb-3">
-            Usually dictated by the color scheme, but can be overriden.
-        </p>
 
         <!-- Button group -->
         <div class="btn-group-toggle row gx-2">
             <div class="col">
                 <input class="btn-check" name="navColor" id="navColorDefault" type="radio" value="default">
-                <label class="btn w-100 btn-white" for="navColorDefault">
-                    Default
-                </label>
+
             </div>
             <div class="col">
                 <input class="btn-check" name="navColor" id="navColorInverted" type="radio" value="inverted">
-                <label class="btn w-100 btn-white" for="navColorInverted">
-                    Inverted
-                </label>
             </div>
             <div class="col">
                 <input class="btn-check" name="navColor" id="navColorVibrant" type="radio" value="vibrant">
-                <label class="btn w-100 btn-white" for="navColorVibrant">
-                    Vibrant
-                </label>
             </div>
         </div>
 

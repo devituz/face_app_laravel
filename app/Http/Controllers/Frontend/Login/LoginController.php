@@ -16,7 +16,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboards');
         }
         return back()->withErrors(['error' => 'Email or password is incorrect']);
     }

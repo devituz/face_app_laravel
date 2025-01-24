@@ -32,7 +32,7 @@
                 </p>
 
                 <!-- Button -->
-                <a href="{{ url('/') }}" class="btn btn-lg btn-primary">
+                <a href="#" onclick="window.history.back();" class="btn btn-lg btn-primary">
                     Return to your back
                 </a>
 

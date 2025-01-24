@@ -37,7 +37,6 @@
 
             </div>
 
-            <!-- Collapse -->
             <div class="collapse navbar-collapse" id="sidebarCollapse">
 
                 <!-- Form -->
@@ -55,7 +54,7 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{{ url('/dashboard') }}" class="nav-link active">
+                        <a href="{{ url('/dashboards') }}" class="nav-link active">
                             <i class="fe fe-home"></i>   Default
                         </a>
                     </li>
@@ -66,15 +65,16 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('/candidate') }}" class="nav-link ">
-                            <i class="fe fe-home"></i>  E-Commerce
+                            <i class="fe fe-home"></i>  Candidate
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/face-id-admin') }}" class="nav-link ">
+                            <i class="fe fe-user"></i>  Face Id Admin
                         </a>
                     </li>
                 </ul>
 
-
-
-
-                <!-- Navigation -->
                 <ul class="navbar-nav mb-md-4">
 
                 </ul>
@@ -83,7 +83,7 @@
                 <div class="mt-auto"></div>
 
                 <!-- Customize -->
-                <div class="mb-4" id="popoverDemo" title="Make Dashkit Your Own!" data-bs-content="Switch the demo to Dark Mode or adjust the navigation layout, icons, and colors!">
+                <div class="mb-4" id="popoverDemo" title="" data-bs-content="">
                     <a class="btn w-100 btn-primary" data-bs-toggle="offcanvas" href="index.html#offcanvasDemo" aria-controls="offcanvasDemo">
                         <i class="fe fe-sliders me-2"></i> Customize
                     </a>
