@@ -1,0 +1,34 @@
+/* Authda Xatoliklar ko'rsatilganda animatsiya qilish */
+
+#error-alert {
+    height: 50px;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* Xatolik boshlang'ichda o'ngda ko'rinmasin */
+    width: 300px;
+    z-index: 9999;
+    transition: right 0.5s ease-in-out;
+}
+
+/* Xatolikni ko'rsatganda o'ngga surish */
+#error-alert.show {
+    right: 20px; /* O'ngga 20px masofada ko'rinishga keladi */
+}
+
+/* Kichik ekranlar uchun */
+@media (max-width: 767px) {
+    #error-alert {
+        width: 250px; /* Kichik ekranlarda kenglikni kamaytirish */
+        right: -250px; /* Xatolik boshlang'ichda ko'rinmasin */
+    }
+}
+
+/* O'rtacha ekranlar uchun (tabletlarga mos) */
+@media (max-width: 1024px) and (min-width: 768px) {
+    #error-alert {
+        width: 280px; /* O'rtacha ekranlarda kenglikni biroz kamaytirish */
+        right: -280px; /* Xatolik boshlang'ichda ko'rinmasin */
+    }
+}
+
+/* Authda Xatoliklar ko'rsatilganda animatsiya qilish */

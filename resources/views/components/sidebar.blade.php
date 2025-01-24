@@ -115,7 +115,7 @@
                             <a href="profile-posts.html" class="dropdown-item">Profile</a>
                             <a href="account-general.html" class="dropdown-item">Settings</a>
                             <hr class="dropdown-divider">
-                            <a href="sign-in.html" class="dropdown-item">Logout</a>
+                            <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                         </div>
 
                     </div>

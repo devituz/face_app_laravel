@@ -1,10 +1,6 @@
 <form class="offcanvas offcanvas-end" id="offcanvasDemo" tabindex="-1">
     <div class="offcanvas-body">
-
-        <!-- Close -->
         <a class="btn-close" href="index.html#" data-bs-dismiss="offcanvas" aria-label="Close"></a>
-
-        <!-- Image -->
         <div class="text-center">
             <img src="assets/img/illustrations/designer-life.svg" alt="..." class="img-fluid mb-3">
         </div>

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" data-bs-theme="">
 <head>
@@ -17,26 +16,38 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{asset("assets/css/theme.bundle.css")}}">
+    <link rel="stylesheet" href="{{asset("assets/css/custom.css")}}">
 
-    <style>body { display: none; }</style>
+    <style>body {
+            display: none;
+        }</style>
 
     <!-- Title -->
     <title>Dashkit</title>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156446909-1"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "UA-156446909-1");</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156446909-1"></script>
+    <script>window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag("js", new Date());
+        gtag("config", "UA-156446909-1");</script>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    @include('components.sidebar')
-    @yield('content')
 
+@auth
+    @include('components.sidebar')
+@endauth
+
+@yield('content')
 
 
 <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-
 <script src="{{asset("assets/js/vendor.bundle.js")}}"></script>
-
+<script src="{{asset("assets/js/custom.js")}}"></script>
 <script src="{{asset("assets/js/theme.bundle.js")}}"></script>
 
 </body>
