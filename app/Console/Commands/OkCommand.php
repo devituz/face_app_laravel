@@ -16,7 +16,7 @@ class OkCommand extends Command
     protected $signature = 'devit:ok';
 
     /**
-     * The console command description.
+     * The console command descriptiondd.
      *
      * @var string
      */
