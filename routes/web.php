@@ -1,14 +1,20 @@
 <?php
 
-use App\Http\Controllers\Frontend\Login\LoginController;
-use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Frontend\Faceid\FaceidContoller;
+use App\Http\Controllers\Frontend\Login\LoginController;
+use App\Models\ApiAdmins;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+
+
 
 
 Route::get('/login', function () {
@@ -34,9 +40,12 @@ Route::middleware('auth')->group(function () {
     })->name('candidate');
 
 
-    Route::get('/face-id-admin', function () {
-        return view('pages.face-id-admins.face-id-admin.face-id-admin');
-    })->name('candidate');
+
+
+    Route::resource('face-id-admin', FaceidContoller::class);
+
+    Route::post('admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('admin.bulkDelete');
+
 
 
 

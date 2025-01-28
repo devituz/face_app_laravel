@@ -5,7 +5,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable; // Bu qatorda kengaytirish
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ApiAdmins extends Authenticatable
 {
@@ -28,5 +28,14 @@ class ApiAdmins extends Authenticatable
             ->setTimezone('Asia/Tashkent')
             ->format('M d, Y H:i:s');
     }
+
+
+    public function getImageUrlAttribute()
+    {
+        return asset('storage/' . $this->image);
+    }
+
+
+
 
 }

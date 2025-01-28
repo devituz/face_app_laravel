@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
@@ -48,7 +49,9 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 <script src="{{asset("assets/js/vendor.bundle.js")}}"></script>
 <script src="{{asset("assets/js/custom.js")}}"></script>
+<script src="{{asset("assets/js/faceid.js")}}"></script>
 <script src="{{asset("assets/js/theme.bundle.js")}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>
