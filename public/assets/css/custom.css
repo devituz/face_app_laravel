@@ -1,14 +1,21 @@
 /* Authda Xatoliklar ko'rsatilganda animatsiya qilish */
 
 #error-alert {
-    height: 50px;
     position: fixed;
     top: 20px;
     right: -300px; /* Xatolik boshlang'ichda o'ngda ko'rinmasin */
-    width: 300px;
+    max-width: 300px;
     z-index: 9999;
+    padding: 10px 15px; /* Ichki bo'shliqni aniqlash */
+    background-color: red; /* Xatolik uchun rang */
+    color: white;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word; /* So'zlar qator bo'ylab tushadi */
     transition: right 0.5s ease-in-out;
 }
+
 
 /* Xatolikni ko'rsatganda o'ngga surish */
 #error-alert.show {

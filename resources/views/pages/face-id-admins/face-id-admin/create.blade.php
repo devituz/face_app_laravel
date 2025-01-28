@@ -28,6 +28,16 @@
                         <div class="card">
                             <div class="card-body">
 
+                                @if ($errors->any())
+                                    <div id="error-alert" class="alert alert-danger" role="alert">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <!-- Form -->
                                 <form action="{{ route('face-id-admin.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -56,12 +66,12 @@
                                                 <img id="imagePreview" src="#" alt="Image preview" style="display: none; width: 100%; max-height: 200px; object-fit: cover;">
                                             </div>
                                         </div>
-                                        <!-- Password input -->
+
                                         <div class="col-md-6 mb-3">
                                             <label for="password" class="form-label">Password</label>
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
                                         </div>
-                                        <!-- Password confirmation input -->
+
                                         <div class="col-md-6 mb-3">
                                             <label for="password_confirmation" class="form-label">Confirm Password</label>
                                             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
@@ -69,7 +79,8 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="close-btn"  class="btn btn-secondary">Close</button>
+
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
                                 </form>
@@ -80,6 +91,7 @@
                 </div>
             </div>
         </div>
+
 @endsection
 
 

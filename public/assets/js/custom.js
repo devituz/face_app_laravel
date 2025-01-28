@@ -14,3 +14,6 @@ window.onload = function() {
 /* Authda Xatoliklar ko'rsatilganda animatsiya qilish */
 
 
+document.getElementById('close-btn').addEventListener('click', function () {
+    window.history.back();
+});

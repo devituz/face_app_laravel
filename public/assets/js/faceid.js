@@ -1,10 +1,5 @@
-document.getElementById('myButton').addEventListener('click', function() {
-    console.log('Tugma bosildi!');
-});
 
-
-
-// Create Face id Modal uchun
+// Create Face id Modal
 function previewImage(event) {
     var reader = new FileReader();
     reader.onload = function() {
@@ -14,7 +9,7 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]); // Read the image file
 }
-// Create Face id Modal uchun
+// Create Face id Modal
 
 
 

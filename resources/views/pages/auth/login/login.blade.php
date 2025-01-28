@@ -15,12 +15,8 @@
                 Sign in
             </h1>
 
-            <!-- Subheading -->
-            <p class="text-body-secondary text-center mb-5">
-                Free access to our dashboard.
-            </p>
 
-            <!-- Xatoliklar bo'lsa, ularni ko'rsatish -->
+
             @if ($errors->any())
                 <div id="error-alert" class="alert alert-danger" role="alert">
                     <ul>
@@ -65,9 +61,6 @@
                         <!-- Input -->
                         <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" placeholder="Enter your password" required>
                         <!-- Icon -->
-                        <span class="input-group-text">
-                            <i class="fe fe-eye"></i>
-                        </span>
                     </div>
                     @error('password')
                     <div class="invalid-feedback">

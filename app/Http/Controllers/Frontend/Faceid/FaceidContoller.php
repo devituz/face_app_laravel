@@ -31,34 +31,45 @@ class FaceidContoller extends Controller
 
     public function store(Request $request)
     {
-        // Validatsiya qilish
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15|unique:api_admins',
-            'email' => 'required|email|unique:api_admins',
-            'password' => 'required|string|min:5|confirmed',  // Parolni tasdiqlash
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Rasmni validatsiya qilish
-        ]);
+        try {
+            // Validatsiya qilish
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:15|unique:api_admins',
+                'email' => 'required|email|unique:api_admins',
+                'password' => 'required|string|min:5|confirmed',  // Parolni tasdiqlash
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Rasmni validatsiya qilish
+            ]);
 
-        // Adminni yaratish
-        $admin = new ApiAdmins();
-        $admin->name = $request->name;
-        $admin->phone = $request->phone;
-        $admin->email = $request->email;
-        $admin->password = $request->password;
+            // Adminni yaratish
+            $admin = new ApiAdmins();
+            $admin->name = $request->name;
+            $admin->phone = $request->phone;
+            $admin->email = $request->email;
+            $admin->password = bcrypt($request->password); // Parolni shifrlash
 
-        // Agar rasm yuklangan bo‘lsa, uni saqlash
-        if ($request->hasFile('image')) {
-            // Rasmni 'storage/app/public/faceid' papkasiga yuklash
-            $imagePath = $request->file('image')->store('faceid', 'public');
-            $admin->image = $imagePath;
+            // Agar rasm yuklangan bo‘lsa, uni saqlash
+            if ($request->hasFile('image')) {
+                // Rasmni 'storage/app/public/faceid' papkasiga yuklash
+                $imagePath = $request->file('image')->store('faceid', 'public');
+                $admin->image = $imagePath;
+            }
+
+            // Adminni saqlash
+            $admin->save();
+
+            return redirect()->route('face-id-admin.index')->with('success', 'Admin successfully added');
+
+        } catch (\Exception $e) {
+            // Errorni logga yozish
+
+            // Foydalanuvchiga xabar qaytarish
+            return redirect()->back()->withErrors([
+                'error' => $e->getMessage(),
+            ])->withInput(); // Foydalanuvchi kiritgan ma'lumotlarni saqlash
         }
-
-        // Adminni saqlash
-        $admin->save();
-
-        return redirect()->route('face-id-admin.index')->with('success', 'Admin successfully added');
     }
+
 
 
 
@@ -78,46 +89,54 @@ class FaceidContoller extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validatsiya qilish
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15|unique:api_admins,phone,' . $id, // Tahrirda faqat bitta telefon raqami takrorlanishi mumkin
-            'email' => 'required|email|unique:api_admins,email,' . $id, // Tahrirda faqat bitta email takrorlanishi mumkin
-            'password' => 'nullable|string|min:5|confirmed', // Parolni tasdiqlash, agar bo‘lsa
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Rasmni validatsiya qilish
-        ]);
+        try {
+            // Validatsiya qilish
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:15|unique:api_admins,phone,' . $id,
+                'email' => 'required|email|unique:api_admins,email,' . $id,
+                'password' => 'nullable|string|min:5|confirmed',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-        // Adminni olish
-        $admin = ApiAdmins::findOrFail($id);
+            // Adminni topish
+            $admin = ApiAdmins::findOrFail($id);
 
-        // Adminni yangilash
-        $admin->name = $request->name;
-        $admin->phone = $request->phone;
-        $admin->email = $request->email;
+            // Adminni yangilash
+            $admin->name = $request->name;
+            $admin->phone = $request->phone;
+            $admin->email = $request->email;
 
-        // Parolni yangilash, agar yangi parol kiritilgan bo‘lsa
-        if ($request->filled('password')) {
-            $admin->password = $request->password;
-        }
-
-        // Agar rasm yuklangan bo‘lsa, uni saqlash
-        if ($request->hasFile('image')) {
-            // Eski rasmni o‘chirish (agar bo‘lsa)
-            if ($admin->image) {
-                Storage::disk('public')->delete($admin->image);
+            // Agar parol kiritilgan bo'lsa, yangilash
+            if ($request->filled('password')) {
+                $admin->password = bcrypt($request->password); // Parolni shifrlash
             }
 
-            // Yangi rasmni yuklash
-            $imagePath = $request->file('image')->store('faceid', 'public');
-            $admin->image = $imagePath;
+            // Rasmni yangilash
+            if ($request->hasFile('image')) {
+                if ($admin->image) {
+                    // Eski rasmni o'chirish
+                    Storage::disk('public')->delete($admin->image);
+                }
+
+                // Yangi rasmni saqlash
+                $imagePath = $request->file('image')->store('faceid', 'public');
+                $admin->image = $imagePath;
+            }
+
+            // Adminni saqlash
+            $admin->save();
+
+            // Muvaffaqiyatli yangilandi degan xabar bilan qaytish
+            return redirect()->route('face-id-admin.index')->with('success', 'Admin successfully updated');
+        } catch (\Exception $e) {
+            // Xatolik yuz bersa, xatolik xabarini ko'rsatish
+            return redirect()->back()
+                ->with('error', $e->getMessage()) // Xatolikni aniq ko'rsatish
+                ->withInput();
         }
-
-        // Adminni yangilash
-        $admin->save();
-
-        // Yuborilgan xabar bilan qaytish
-        return redirect()->route('face-id-admin.index')->with('success', 'Admin successfully updated');
     }
+
 
 
     public function destroy($id)
@@ -144,5 +163,12 @@ class FaceidContoller extends Controller
         // Yuborilgan xabar bilan qaytish
         return response()->json(['success' => 'Admins successfully deleted']);
     }
+
+    // Controllerda
+    public function back(Request $request)
+    {
+        // Malumotlarni saqlash yoki boshqa amallarni bajarishdan so'ng
+        return redirect()->back()->withInput();    }
+
 
 }

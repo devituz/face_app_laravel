@@ -1,9 +1,6 @@
 @extends('layouts.app')
-
-
 @section('content')
 
-    <!-- MAIN CONTENT -->
     <div class="main-content">
 
         @extends('components.theme')
@@ -33,6 +30,16 @@
                         <div class="card">
                             <div class="card-body">
 
+
+                                @if ($errors->any())
+                                    <div id="error-alert" class="alert alert-danger" role="alert">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <!-- Form -->
                                 <form action="{{ route('face-id-admin.update', $admin->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -76,7 +83,7 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="close-btn"  class="btn btn-secondary">Close</button>
                                         <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
 
