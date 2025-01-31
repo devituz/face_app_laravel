@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Frontend\Candidate\CandidateController;
 use App\Http\Controllers\Frontend\Faceid\FaceidContoller;
 use App\Http\Controllers\Frontend\Login\LoginController;
 use App\Models\ApiAdmins;
@@ -31,20 +32,25 @@ Route::middleware('auth')->group(function () {
         return view('pages.dashboards.dashboard.dashboard');
     })->name('dashboards');
 
+
+
     Route::get('/user', function () {
         return view('user');
     })->name('user');
 
-    Route::get('/candidate', function () {
-        return view('pages.candidates.candidate.candidate');
-    })->name('candidate');
 
 
 
 
     Route::resource('face-id-admin', FaceidContoller::class);
+    Route::post('face-id-admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('face-id-admin.bulkDelete');
 
-    Route::post('admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('admin.bulkDelete');
+    Route::resource('candidate', CandidateController::class);
+    Route::post('candidate/bulk-delete', [CandidateController::class, 'bulkDestroy'])->name('candidate.bulkDelete');
+
+
+
+
 
 
 

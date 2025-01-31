@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class Candidate extends Model
 {
-    use Sushi;
+    use HasFactory;
 
     // Modelda bazaga bog'lanishning oldini olish uchun table null qilib o'rnatish
     protected $table = null;
@@ -49,7 +50,7 @@ class Candidate extends Model
                 return;
             }
 
-            $uploadPath = 'http://127.0.0.1:8000/api/upload/';
+            $uploadPath = 'http://127.0.0.1:5000/api/upload/';
             $response = Http::attach('image_url', $fileContents, basename($candidate->image_url)) // image file attached
             ->post($uploadPath, [
                 'name' => $candidate->name,
@@ -76,36 +77,6 @@ class Candidate extends Model
         });
     }
 
-    public function getRows(): array
-    {
-        // Fetch data from the API
-        $response = Http::get('http://127.0.0.1:5000/api/user_images/');
-
-        // Check if the response is successful and contains the expected data structure
-        if ($response->successful() && isset($response->json()['students']) && is_array($response->json()['students'])) {
-            $students = $response->json()['students'];
-        } else {
-            Log::error('API response invalid or missing students array', [
-                'response_body' => $response->body()
-            ]);
-            return []; // Return an empty array if the data is invalid
-        }
-
-        // Ensure that $students is iterable
-        if (!is_array($students)) {
-            Log::error('Invalid data format for students', ['data' => $students]);
-            return [];
-        }
-
-        // Map attributes to the required fields
-        return array_map(function ($item) {
-            return Arr::only($item, [
-                'id',
-                'name',
-                'image_url',
-            ]);
-        }, $students);
-    }
 }
 
 

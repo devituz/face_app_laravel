@@ -15,9 +15,12 @@ class FaceidContoller extends Controller
         $admins = ApiAdmins::all();
 
 
+        // Adminlar sonini hisoblash
+        $adminCount = $admins->count();
+
 
         // Blade faylga yuborish
-        return view('pages.face-id-admins.face-id-admin.face-id-admin', compact('admins'));
+        return view('pages.face-id-admins.face-id-admin.index', compact('admins', 'adminCount'));
     }
 
 
@@ -46,7 +49,7 @@ class FaceidContoller extends Controller
             $admin->name = $request->name;
             $admin->phone = $request->phone;
             $admin->email = $request->email;
-            $admin->password = bcrypt($request->password); // Parolni shifrlash
+            $admin->password = $request->password;
 
             // Agar rasm yuklangan bo‘lsa, uni saqlash
             if ($request->hasFile('image')) {
@@ -109,7 +112,7 @@ class FaceidContoller extends Controller
 
             // Agar parol kiritilgan bo'lsa, yangilash
             if ($request->filled('password')) {
-                $admin->password = bcrypt($request->password); // Parolni shifrlash
+                $admin->password = $request->password;
             }
 
             // Rasmni yangilash
@@ -168,7 +171,8 @@ class FaceidContoller extends Controller
     public function back(Request $request)
     {
         // Malumotlarni saqlash yoki boshqa amallarni bajarishdan so'ng
-        return redirect()->back()->withInput();    }
+        return redirect()->back()->withInput();
+    }
 
 
 }

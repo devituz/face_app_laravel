@@ -12,16 +12,11 @@
 
                                 <!-- Title -->
                                 <h1 class="header-title">
-                                    Forms
+                                    Create Face Id Admin
                                 </h1>
 
 
-                                <p class="header-subtitle">
-                                    Dashkit supports all of Bootstrap's default form styling in addition to a handful of new input types and
-                                    features. Please read
-                                    <a target="_blank" href="https://getbootstrap.com/docs/5.3/forms/overview/">the official documentation</a> for
-                                    a full list of options from Bootstrap's core library.
-                                </p>
+
 
                             </div>
                         </div>
@@ -79,9 +74,14 @@
 
                                     </div>
                                     <div class="modal-footer">
+                                        <div class="card-body">
                                         <button id="close-btn"  class="btn btn-secondary">Close</button>
 
                                         <button type="submit" class="btn btn-primary">Save</button>
+
+</div>
+
+
                                     </div>
                                 </form>
                             </div>

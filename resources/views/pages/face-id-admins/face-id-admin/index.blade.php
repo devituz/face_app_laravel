@@ -23,7 +23,7 @@
 
                                     <!-- Title -->
                                     <h1 class="header-title text-truncate">
-                                        Face id Admin
+                                        Face id Admin List
                                     </h1>
 
                                 </div>
@@ -40,7 +40,7 @@
                                     <ul class="nav nav-tabs nav-overflow header-tabs">
                                         <li class="nav-item">
                                             <a href="crm-contacts.html#!" class="nav-link text-nowrap active">
-                                                All contacts <span class="badge rounded-pill text-bg-secondary-subtle">823</span>
+                                                All Face Id Admins <span class="badge rounded-pill text-bg-secondary-subtle">{{ $adminCount }}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 1, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
+                    <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -100,9 +100,9 @@
                                     <th>
                                         <a class="list-sort text-body-secondary" data-sort="item-phone">Phone</a>
                                     </th>
-                                    <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Status</a>
-                                    </th>
+{{--                                    <th>--}}
+{{--                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Status</a>--}}
+{{--                                    </th>--}}
                                     <th>
                                         <a class="list-sort text-body-secondary" data-sort="item-password">Password</a>
                                     </th>
@@ -133,9 +133,9 @@
                                         <td>
                                             <span class="item-phone text-reset">{{ $admin->phone }}</span>
                                         </td>
-                                        <td>
-                                            <span class="item-score badge text-bg-danger-subtle">{{ $admin->is_admin == 1 ? 'Active' : 'Inactive' }}</span>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            <span class="item-score badge text-bg-danger-subtle">{{ $admin->is_admin == 1 ? 'Active' : 'Inactive' }}</span>--}}
+{{--                                        </td>--}}
                                         <td>
                                             <span class="item-phone text-reset">{{ $admin->password }}</span>
                                         </td>
@@ -150,9 +150,9 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a data-bs-target="#modalUpdate" href="{{ route('face-id-admin.edit', $admin->id) }}" class="dropdown-item">Edit</a>
-                                                    <a href="#deleteModal" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="event.preventDefault(); document.getElementById('deleteForm').action = '{{ route('face-id-admin.destroy', $admin->id) }}';">
-                                                        Delete
-                                                    </a>
+{{--                                                    <a href="#deleteModal" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="event.preventDefault(); document.getElementById('deleteForm').action = '{{ route('face-id-admin.destroy', $admin->id) }}';">--}}
+{{--                                                        Delete--}}
+{{--                                                    </a>--}}
                                                 </div>
                                             </div>
                                         </td>
@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto me-n3">
-                                        <button id="bulk-delete-btn" data-url="{{ route('admin.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
+                                        <button id="bulk-delete-btn" data-url="{{ route('face-id-admin.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
                                             Delete Selected
                                         </button>
                                     </div>
