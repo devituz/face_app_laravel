@@ -32,6 +32,11 @@
                                         Add Candidate
                                     </a>
                                 </div>
+                                <div class="col-auto">
+                                    <a href="{{ route('students.export') }}" class="btn btn-primary">
+                                        Export Excel
+                                    </a>
+                                </div>
                             </div> <!-- / .row -->
                             <div class="row align-items-center">
                                 <div class="col">
@@ -39,7 +44,7 @@
                                     <!-- Nav -->
                                     <ul class="nav nav-tabs nav-overflow header-tabs">
                                         <li class="nav-item">
-                                            <a href="crm-contacts.html#!" class="nav-link text-nowrap active">
+                                            <a href="" class="nav-link text-nowrap active">
                                                 All Candidates <span class="badge rounded-pill text-bg-secondary-subtle"></span>
                                             </a>
                                         </li>
@@ -50,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
+                    <div class="card" data-list='{"valueNames": ["item-name","item-identifier", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -116,31 +121,42 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <!-- Avatar rasm -->
                                             <div class="avatar avatar-xs align-middle me-2">
-                                                <img class="avatar-img rounded-circle" src="{{ $student['image_url'] }}" alt="...">
+                                                <img class="avatar-img"
+                                                     src="{{ $student['image_url'] }}"
+                                                     data-bs-toggle="modal"
+                                                     data-bs-target="#imageModal"
+                                                     data-image="{{ $student['image_url'] }}"
+                                                     alt="...">
                                             </div>
+
+                                            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="imageModalLabel">Full Image</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img id="modalImage" class="img-fluid" src="" alt="Full Image">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                         <td>
                                             <span class="item-title">{{ $student['name'] }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-title">{{ $student['identifier'] }}</span>
+                                            <span class="item-identifier">{{ $student['identifier'] }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-title">{{ $student['created_at'] }}</span>
+                                            <span class="item-created_at">{{ $student['created_at'] }}</span>
                                         </td>
-{{--                                        <td class="text-end">--}}
-{{--                                            <!-- Dropdown -->--}}
-{{--                                            <div class="dropdown">--}}
-{{--                                                <a class="dropdown-ellipses dropdown-toggle" href="crm-contacts.html#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                                                    <i class="fe fe-more-vertical"></i>--}}
-{{--                                                </a>--}}
-{{--                                                <div class="dropdown-menu dropdown-menu-end">--}}
-{{--                                                    <a data-bs-target="#modalUpdate" href="{{ route('candidate.edit', $student['id']) }}" class="dropdown-item">Edit</a>--}}
 
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
+
                                     </tr>
                                 @endforeach
                                 <div class="container">
@@ -195,17 +211,24 @@
                                         </button>
                                     </div>
                                 </div>
-                                <!-- / .row -->
-                                <!-- Close -->
                                 <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- / .row -->
         </div>
     </div>
 
+    <script>
+        // Modal ochilganda rasm manzilini o'zgartirish
+        document.querySelectorAll('.avatar img').forEach(function(avatar) {
+            avatar.addEventListener('click', function() {
+                var imageUrl = avatar.getAttribute('data-image');
+                document.getElementById('modalImage').src = imageUrl;
+            });
+        });
+
+    </script>
 
 @endsection

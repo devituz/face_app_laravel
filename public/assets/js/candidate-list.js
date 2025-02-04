@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const deleteBtn = document.getElementById('candidate-bulk-delete-btn');
+    const deleteBtn = document.getElementById('candidate-list-bulk-delete-btn');
     const url = deleteBtn.getAttribute('data-url');  // URLni data-url atributidan olish
 
     const checkboxes = document.querySelectorAll('.list-checkbox');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        console.log('Selected IDs: ', selectedIds);
+        console.log('Selected IDssssssss: ', selectedIds);
     });
 
     // Har bir checkboxni tekshirish
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // SweetAlert2 bilan tasdiqlash oynasini chiqarish
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you want to delete the selected candidate?',
+                text: 'Do you want to delete the selected candidate list?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete them!',
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // O'chirilganidan keyin sahifani yangilash
                                 Swal.fire(
                                     'Deleted!',
-                                    'The selected candidate have been deleted.',
+                                    'The selected candidate list have been deleted.',
                                     'success'
                                 );
                                 location.reload();
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Agar foydalanuvchi "No" ni bossa, tasdiqlash oynasi yopiladi
                     Swal.fire(
                         'Cancelled',
-                        'No candidate were deleted.',
+                        'No candidate list were deleted.',
                         'info'
                     );
                 }

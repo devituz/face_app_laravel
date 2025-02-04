@@ -39,3 +39,27 @@
 }
 
 /* Authda Xatoliklar ko'rsatilganda animatsiya qilish */
+
+
+
+
+.modal-body img {
+    width: 100%;
+    height: auto;
+    border: 5px solid #ddd; /* Chegara qo'shish */
+    border-radius: 10px; /* Chegarani yumshatish uchun radius */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Chiroyli soyali effekt */
+    transition: transform 0.3s ease; /* Zoom effekti uchun o'zgarish */
+}
+
+.modal-body img:hover {
+    transform: scale(1.05); /* Hover (ko'rsatish) vaqtida biroz kattalashish effekti */
+}
+
+
+
+.avatar-img {
+    width: 40px;  /* Rasmning kengligini o'zgartirish */
+    height: 40px; /* Rasmning balandligini o'zgartirish */
+    object-fit: cover; /* Rasmni to'liq ko'rsatish, lekin o'lchamni saqlash */
+}

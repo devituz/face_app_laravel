@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Frontend\Candidate\CandidateController;
+use App\Http\Controllers\Frontend\CandidateList\CandidateListController;
 use App\Http\Controllers\Frontend\Faceid\FaceidContoller;
 use App\Http\Controllers\Frontend\Login\LoginController;
 use App\Models\ApiAdmins;
@@ -19,19 +20,17 @@ Route::get('/', function () {
 
 
 Route::get('/login', function () {
-    return view('pages.auth.login.login'); // Login sahifasi
+    return view('pages.auth.login.login');
 })->name('login')->middleware('guest');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::middleware('auth')->group(function () {
-    // Logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/dashboards', function () {
         return view('pages.dashboards.dashboard.dashboard');
     })->name('dashboards');
-
 
 
     Route::get('/user', function () {
@@ -40,6 +39,10 @@ Route::middleware('auth')->group(function () {
 
 
 
+    Route::resource('candidate-list', CandidateListController::class);
+    Route::post('candidate-list/bulk-delete', [CandidateListController::class, 'bulkDestroy'])->name('candidate-list.bulkDelete');
+    Route::get('candidatelist/export', [CandidateListController::class, 'export'])->name('candidatelist.export');
+
 
 
     Route::resource('face-id-admin', FaceidContoller::class);
@@ -47,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('candidate', CandidateController::class);
     Route::post('candidate/bulk-delete', [CandidateController::class, 'bulkDestroy'])->name('candidate.bulkDelete');
-
+    Route::get('students/export', [CandidateController::class, 'export'])->name('students.export');
 
 
 

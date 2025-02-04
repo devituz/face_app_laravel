@@ -9,7 +9,7 @@
 
             <!-- Brand -->
             <a class="navbar-brand" href="index.html">
-                <img src="assets/img/logo.svg" class="navbar-brand-img mx-auto" alt="...">
+                <img src="{{asset('assets/logo/NewUU_Logo.png')}}" class="navbar-brand-img mx-auto" alt="...">
             </a>
 
             <!-- User (xs) -->
@@ -21,7 +21,7 @@
                     <!-- Toggle -->
                     <a href="index.html#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-sm avatar-online">
-                            <img src="assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle" alt="...">
+                            <img src="{{asset('assets/img/avatars/profiles/avatar-1.jpg')}}" class="avatar-img rounded-circle" alt="...">
                         </div>
                     </a>
 
@@ -54,26 +54,32 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{{ url('/dashboards') }}" class="nav-link active">
-                            <i class="fe fe-home"></i>   Default
+                        <a href="{{ url('/dashboards') }}" class="nav-link {{ Request::is('dashboards') ? 'active' : '' }}">
+                            <i class="fe fe-home"></i> Default
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/user') }}" class="nav-link ">
+                        <a href="{{ url('/user') }}" class="nav-link {{ Request::is('user') ? 'active' : '' }}">
                             <i class="fe fe-home"></i> Project Management
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/candidate') }}" class="nav-link ">
-                            <i class="fe fe-home"></i>  Candidate
+                        <a href="{{ url('/candidate-list') }}" class="nav-link {{ Request::is('candidate-list') ? 'active' : '' }}">
+                            <i class="fe fe-users"></i> Scan Lists
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/face-id-admin') }}" class="nav-link ">
-                            <i class="fe fe-user"></i>  Face Id Admin
+                        <a href="{{ url('/candidate') }}" class="nav-link {{ Request::is('candidate') ? 'active' : '' }}">
+                            <i class="fe fe-user-plus"></i> Candidates
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/face-id-admin') }}" class="nav-link {{ Request::is('face-id-admin') ? 'active' : '' }}">
+                            <i class="fe fe-user"></i> Mobile Admins
                         </a>
                     </li>
                 </ul>
+
 
                 <ul class="navbar-nav mb-md-4">
 
@@ -89,47 +95,28 @@
                     </a>
                 </div>
                 <div id="popoverDemoContainer" data-bs-theme="dark"></div>
-
-                <!-- User (md) -->
                 <div class="navbar-user d-none d-md-flex" id="sidebarUser">
-
-                    <!-- Icon -->
-                    <a class="navbar-user-link" data-bs-toggle="offcanvas" href="index.html#sidebarOffcanvasActivity" aria-controls="sidebarOffcanvasActivity">
-                  <span class="icon">
-                    <i class="fe fe-bell"></i>
-                  </span>
-                    </a>
-
-                    <!-- Dropup -->
                     <div class="dropup">
 
                         <!-- Toggle -->
                         <a href="index.html#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-sm avatar-online">
-                                <img src="assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle" alt="...">
+                                <img src="{{asset('assets/img/user/img.png')}}" class="avatar-img rounded-circle" alt="...">
                             </div>
                         </a>
 
                         <!-- Menu -->
                         <div class="dropdown-menu" aria-labelledby="sidebarIconCopy">
-                            <a href="profile-posts.html" class="dropdown-item">Profile</a>
-                            <a href="account-general.html" class="dropdown-item">Settings</a>
+                            <a href="" class="dropdown-item">{{ Auth::user()->name }}</a>
                             <hr class="dropdown-divider">
                             <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                         </div>
 
                     </div>
 
-                    <!-- Icon -->
-                    <a class="navbar-user-link" data-bs-toggle="offcanvas" href="index.html#sidebarOffcanvasSearch" aria-controls="sidebarOffcanvasSearch">
-                  <span class="icon">
-                    <i class="fe fe-search"></i>
-                  </span>
-                    </a>
-
                 </div>
 
-            </div> <!-- / .navbar-collapse -->
+            </div>
 
         </div>
     </nav>

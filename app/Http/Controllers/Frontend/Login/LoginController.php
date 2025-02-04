@@ -8,6 +8,21 @@ use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
+
+
+    public function __construct()
+    {
+        // Auth foydalanuvchi ma'lumotlarini har bir view bilan ulash
+        view()->share('user', Auth::user());
+    }
+
+    public function profile()
+    {
+        return view('components.sidebar');
+    }
+
+
+
     public function login(Request $request)
     {
         $request->validate([

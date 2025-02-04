@@ -8,18 +8,35 @@ use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use App\Exports\CandidateExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class CandidateController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+
+    public function export()
+    {
+        // JSON ma'lumotlarini olish
+        $response = Http::get('http://127.0.0.1:5000/api/user_images/');
+        $data = $response->json();
+
+        // Excel faylni yaratish va qaytarish
+        return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
+    }
+
     public function index()
     {
         $response = Http::get('http://127.0.0.1:5000/api/user_images/');
 
         // JSON ma'lumotlarni olish
         $data = $response->json();
+
 
         // Blade sahifaga yuborish
         return view('pages.candidates.candidate.index', ['students' => $data['students']]);
@@ -49,9 +66,11 @@ class CandidateController extends Controller
 
             // 2. **Faylni olish va vaqtincha saqlash**
             $image = $request->file('image_url');
-            $filePath = $image->store('public/uploads'); // Storage'ga yuklash
+            $extension = $image->getClientOriginalExtension(); // Fayl kengaytmasini olish
+            $newFileName = $request->identifier . '.' . $extension; // Yangi nom
+
+            $filePath = $image->storeAs('public/uploads', $newFileName); // Storage'ga yuklash
             $fullPath = storage_path('app/' . $filePath);
-            $fileName = $image->getClientOriginalName();
             $mimeType = $image->getMimeType();
 
             // 3. **Guzzle orqali API'ga yuborish**
@@ -73,7 +92,7 @@ class CandidateController extends Controller
                     [
                         'name' => 'image_url',
                         'contents' => Utils::tryFopen($fullPath, 'r'),
-                        'filename' => $fileName,
+                        'filename' => $newFileName, // Yangi fayl nomi bilan yuborish
                         'headers'  => [
                             'Content-Type' => $mimeType
                         ]
@@ -100,6 +119,7 @@ class CandidateController extends Controller
             return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
     }
+
 
 
 

@@ -17,3 +17,14 @@ window.onload = function() {
 document.getElementById('close-btn').addEventListener('click', function () {
     window.history.back();
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.avatar').forEach(function(avatar) {
+        avatar.addEventListener('click', function() {
+            var imageUrl = avatar.getAttribute('data-image');
+            document.getElementById('modalImage').src = imageUrl;
+        });
+    });
+});

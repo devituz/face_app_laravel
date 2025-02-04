@@ -15,32 +15,36 @@
                         <div class="header-body">
                             <div class="row align-items-center">
                                 <div class="col">
+
+                                    <!-- Pretitle -->
                                     <h6 class="header-pretitle">
                                         Overview
                                     </h6>
 
-
+                                    <!-- Title -->
                                     <h1 class="header-title text-truncate">
-                                       Mobile Admins List
+                                        Scan Lists
                                     </h1>
 
-                                </div>
-                                <div class="col-auto">
-                                    <a href="{{ route('face-id-admin.create') }}" class="btn btn-primary">
-                                        Add Admin
-                                    </a>
-                                </div>
-                            </div>
 
+
+                                </div>
+                                    <div class="col-auto">
+                                        <a href="{{ route('candidatelist.export') }}" class="btn btn-primary">
+                                            Export Excel
+                                        </a>
+                                    </div>
+
+
+                            </div> <!-- / .row -->
                             <div class="row align-items-center">
                                 <div class="col">
+
+                                    <!-- Nav -->
                                     <ul class="nav nav-tabs nav-overflow header-tabs">
                                         <li class="nav-item">
                                             <a href="" class="nav-link text-nowrap active">
-                                                All Mobile Admins
-{{--                                                <span class="badge rounded-pill text-bg-secondary-subtle">--}}
-{{--                                                    {{ $adminCount }}--}}
-{{--                                                </span>--}}
+                                                All  Scan Lists <span class="badge rounded-pill text-bg-secondary-subtle"></span>
                                             </a>
                                         </li>
                                     </ul>
@@ -50,10 +54,12 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
+                    <div class="card" data-list='{"valueNames": ["item-name","item-identifier", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
+
+                                    <!-- Form -->
                                     <form>
                                         <div class="input-group input-group-flush input-group-merge input-group-reverse">
                                             <input class="form-control list-search" type="search" placeholder="Search">
@@ -65,6 +71,8 @@
 
                                 </div>
                                 <div class="col-auto me-n3">
+
+                                    <!-- Select -->
                                     <form>
                                         <select class="form-select form-select-sm form-control-flush" data-choices='{"searchEnabled": false}'>
                                             <option>5 per page</option>
@@ -74,8 +82,7 @@
                                     </form>
 
                                 </div>
-                            </div>
-
+                            </div> <!-- / .row -->
                         </div>
 
                         <div class="table-responsive">
@@ -89,69 +96,86 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Image</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Search Image</a>
+                                    </th>
+                                    <th>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Upload Image</a>
                                     </th>
                                     <th>
                                         <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-email">Email</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Identifier</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Phone</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Scan</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-password">Password</a>
-                                    </th>
-                                    <th colspan="2">
-                                        <a class="list-sort text-body-secondary" data-sort="item-company">Created At</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Created_at</a>
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody class="list fs-base">
-                                @foreach($admins as $admin)
+                                @foreach ($students as $student)
                                     <tr>
                                         <td>
 
                                             <div class="form-check">
-                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $admin->id }}">
+                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">
                                                 <label class="form-check-label" for="listCheckboxOne"></label>
                                             </div>
                                         </td>
-                                        <td>
 
-                                            <div class="avatar avatar-xs align-middle me-2" data-bs-toggle="modal" data-bs-target="#imageModal" data-image="{{ $admin->image_url }}">
-                                                <img class="avatar-img" src="{{ $admin->image_url }}" alt="...">
+                                        <td>
+                                            <div class="avatar avatar-xs align-middle me-2">
+                                                <img class="avatar-img"
+                                                     src="{{ $student['search_image_urls'] }}"
+                                                     data-bs-toggle="modal"
+                                                     data-bs-target="#imageModal"
+                                                     data-image="{{ $student['search_image_urls'] }}"
+                                                     alt="...">
                                             </div>
                                         </td>
 
-                                         <td>
-                                            <span class="item-title">{{ $admin->name }}</span>
-                                         </td>
                                         <td>
-                                            <span class="item-title">{{ $admin->email }}</span>
-                                        </td>
-                                        <td>
-                                            <span class="item-phone text-reset">{{ $admin->phone }}</span>
+                                            <div class="avatar avatar-xs align-middle me-2">
+                                                <img class="avatar-img"
+                                                     src="{{ $student['student']['image_url'] }}"
+                                                     data-bs-toggle="modal"
+                                                     data-bs-target="#imageModal"
+                                                     data-image="{{ $student['student']['image_url'] }}"
+                                                     alt="...">
+                                            </div>
                                         </td>
 
-                                        <td>
-                                            <span class="item-phone text-reset">{{ $admin->password }}</span>
-                                        </td>
-                                        <td>
-                                            <span class="item-phone text-reset">{{ $admin->formatted_created_at }}</span>
-                                        </td>
-                                        <td class="text-end">
 
-                                            <div class="dropdown">
-                                                <a class="dropdown-ellipses dropdown-toggle" href="crm-contacts.html#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fe fe-more-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a data-bs-target="#modalUpdate" href="{{ route('face-id-admin.edit', $admin->id) }}" class="dropdown-item">Edit</a>
+                                        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="imageModalLabel">Full Image</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img id="modalImage" class="img-fluid" src="" alt="Full Image">
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <td>
+                                            <span class="item-title">{{ $student['student']['name'] }}</span>
                                         </td>
+                                        <td>
+                                            <span class="item-identifier">{{ $student['student']['identifier'] }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="item-identifier">{{ $student['scan_id'] }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="item-created_at">{{ $student['created_at'] }}</span>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                                 <div class="container">
@@ -166,7 +190,6 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
-
                             <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
                                 <li class="page-item">
                                     <a class="page-link ps-0 pe-4 border-end" href="crm-contacts.html#">
@@ -177,6 +200,7 @@
 
 
                             <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
+
                             <ul class="list-pagination-next pagination pagination-tabs card-pagination">
                                 <li class="page-item">
                                     <a class="page-link ps-4 pe-0 border-start" href="crm-contacts.html#">
@@ -184,11 +208,9 @@
                                     </a>
                                 </li>
                             </ul>
-
                             <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <!-- Checkbox -->
                                         <div class="form-check">
                                             <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
                                             <label class="form-check-label text-white" for="listAlertCheckbox">
@@ -197,7 +219,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto me-n3">
-                                        <button id="bulk-delete-btn" data-url="{{ route('face-id-admin.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
+                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
                                             Delete Selected
                                         </button>
                                     </div>
@@ -208,20 +230,18 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
-
-    <script>
-        document.querySelectorAll('.avatar').forEach(function(avatar) {
-            avatar.addEventListener('click', function() {
-                var imageUrl = avatar.getAttribute('data-image');
-                document.getElementById('modalImage').src = imageUrl;
-            });
+<script>
+    // Modal ochilganda rasm manzilini o'zgartirish
+    document.querySelectorAll('.avatar img').forEach(function(avatar) {
+        avatar.addEventListener('click', function() {
+            var imageUrl = avatar.getAttribute('data-image');
+            document.getElementById('modalImage').src = imageUrl;
         });
+    });
 
-    </script>
-    @extends('components.model')
-    @extends('pages.face-id-admins.face-id-admin.modal')
-
+</script>
 @endsection
