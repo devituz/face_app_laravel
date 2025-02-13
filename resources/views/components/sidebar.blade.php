@@ -89,32 +89,11 @@
                 <div class="mt-auto"></div>
 
                 <!-- Customize -->
-                <div class="mb-4" id="popoverDemo" title="" data-bs-content="">
-                    <a class="btn w-100 btn-primary" data-bs-toggle="offcanvas" href="index.html#offcanvasDemo" aria-controls="offcanvasDemo">
-                        <i class="fe fe-sliders me-2"></i> Customize
-                    </a>
-                </div>
+                <a class="btn w-100 btn-primary" href="{{ route('logout') }}" id="logout-btn">
+                    <i class="fe fe-log-out me-2"></i> Logout
+                </a>
                 <div id="popoverDemoContainer" data-bs-theme="dark"></div>
-                <div class="navbar-user d-none d-md-flex" id="sidebarUser">
-                    <div class="dropup">
 
-                        <!-- Toggle -->
-                        <a href="index.html#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-sm avatar-online">
-                                <img src="{{asset('assets/img/user/img.png')}}" class="avatar-img rounded-circle" alt="...">
-                            </div>
-                        </a>
-
-                        <!-- Menu -->
-                        <div class="dropdown-menu" aria-labelledby="sidebarIconCopy">
-                            <a href="" class="dropdown-item">{{ Auth::user()->name }}</a>
-                            <hr class="dropdown-divider">
-                            <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
-                        </div>
-
-                    </div>
-
-                </div>
 
             </div>
 
