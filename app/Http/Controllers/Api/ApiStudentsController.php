@@ -16,7 +16,7 @@ class ApiStudentsController extends  Controller
     {
         $scan_id = Auth::id();
         try {
-            $response = Http::post('http://127.0.0.1:5000/api/getme_register/', [
+            $response = Http::post('http://172.24.25.141:5000/api/getme_register/', [
                 'scan_id' => $scan_id,
             ]);
 

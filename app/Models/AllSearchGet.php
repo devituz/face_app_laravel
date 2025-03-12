@@ -20,7 +20,7 @@ class AllSearchGet extends Model
     public function getRows(): array
     {
 
-        $response = Http::get('http://127.0.0.1:5000/api/all');
+        $response = Http::get('http://172.24.25.141:5000/api/all');
 
 
         $data = $response->json();

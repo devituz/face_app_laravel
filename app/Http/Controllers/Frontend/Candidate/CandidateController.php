@@ -23,7 +23,7 @@ class CandidateController extends Controller
     public function export()
     {
         // JSON ma'lumotlarini olish
-        $response = Http::get('http://127.0.0.1:5000/api/user_images/');
+        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
         $data = $response->json();
 
         // Excel faylni yaratish va qaytarish
@@ -32,7 +32,7 @@ class CandidateController extends Controller
 
     public function index()
     {
-        $response = Http::get('http://127.0.0.1:5000/api/user_images/');
+        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
 
         // JSON ma'lumotlarni olish
         $data = $response->json();
@@ -100,7 +100,7 @@ class CandidateController extends Controller
                 ]
             ];
 
-            $response = $client->post('http://127.0.0.1:5000/api/upload/', [
+            $response = $client->post('http://172.24.25.141:5000/api/upload/', [
                 'headers' => $headers,
                 'multipart' => $options['multipart']
             ]);
@@ -166,7 +166,7 @@ class CandidateController extends Controller
         Log::info('Ids integer formatida:', ['ids' => $candidateIds]);
 
         // Django API URL
-        $djangoApiUrl = "http://127.0.0.1:5000/api/candidates/delete/";
+        $djangoApiUrl = "http://172.24.25.141:5000/api/candidates/delete/";
         Log::info('Django API URL:', ['url' => $djangoApiUrl]);
 
         // Guzzle HTTP Client

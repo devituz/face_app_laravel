@@ -64,7 +64,7 @@
     </div>
     <!-- JavaScript for Select All, Delete Button Visibility, and Counter -->
     <script>
-        const djangoUrl = 'http://91.240.15.199/api/user_delete/';
+        const djangoUrl = 'http://172.24.25.141:5000/api/user_delete/';
         let selectedIds = [];
 
         function toggleSelectAll() {

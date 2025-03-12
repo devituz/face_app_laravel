@@ -18,7 +18,7 @@ class CandidateListController extends Controller
 
     public function export()
     {
-        $response = Http::get('http://127.0.0.1:5000/api/all/');
+        $response = Http::get('http://172.24.25.141:5000/api/all/');
         $data = $response->json();
 
         $students = collect($data['search_records'])->map(function ($record) {
@@ -60,7 +60,7 @@ class CandidateListController extends Controller
 
     public function index()
     {
-        $response = Http::get('http://127.0.0.1:5000/api/all/');
+        $response = Http::get('http://172.24.25.141:5000/api/all/');
         $data = $response->json();
 
         $students = collect($data['search_records'])->map(function ($record) {
@@ -108,7 +108,7 @@ class CandidateListController extends Controller
         Log::info('Ids integer formatida:', ['ids' => $candidateIds]);
 
         // Django API URL
-        $djangoApiUrl = "http://127.0.0.1:5000/api/user_delete/";
+        $djangoApiUrl = "http://172.24.25.141:5000/api/user_delete/";
         Log::info('Django API URL:', ['url' => $djangoApiUrl]);
 
         // Guzzle HTTP Client

@@ -69,14 +69,25 @@ class ApiAdminsController extends Controller
 
     public function getAdmins()
     {
-
         $admin = auth()->user();
+
         if ($admin->image) {
             $admin->image = URL::to(Storage::url($admin->image));
         }
 
+        // Telefon raqamini formatlash
+        if ($admin->phone) {
+            $admin->phone = $this->formatPhoneNumber($admin->phone);
+        }
+
         return response()->json($admin);
     }
+
+    private function formatPhoneNumber($phone)
+    {
+        return preg_replace('/(\+998)(\d{2})(\d{3})(\d{2})(\d{2})/', '$1 $2 $3 $4 $5', $phone);
+    }
+
 
 
     public function search(Request $request)
@@ -91,7 +102,7 @@ class ApiAdminsController extends Controller
             $scan_id = Auth::id(); // Avtomatik ravishda foydalanuvchi ID'sini olish
 
             $response = Http::attach('file', file_get_contents($file), $file->getClientOriginalName())
-                    ->post('http://127.0.0.1:5000/api/search/', [
+                    ->post('http://172.24.25.141:5000/api/search/', [
                         'scan_id' => $scan_id, // Avtomatik IDni yuborish
                     ]);
 
