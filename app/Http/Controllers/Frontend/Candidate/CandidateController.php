@@ -30,17 +30,21 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
+        $page = $request->query('page', 1); // Default 1-sahifa
+        $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
 
-        // JSON ma'lumotlarni olish
         $data = $response->json();
 
-
-        // Blade sahifaga yuborish
-        return view('pages.candidates.candidate.index', ['students' => $data['students']]);
+        return view('pages.candidates.candidate.index', [
+            'students' => $data['students'],
+            'currentPage' => $page,
+            'nextPage' => $data['next'] ? $page + 1 : null,
+            'prevPage' => $data['previous'] ? $page - 1 : null
+        ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
