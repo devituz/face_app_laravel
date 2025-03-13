@@ -37,19 +37,9 @@ class CandidateController extends Controller
         $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
         $data = $response->json();
 
-        // Sahifa raqamlarini API'dan olish
-        $prevPage = null;
-        $nextPage = null;
-
-        if (!empty($data['Prev'])) {
-            parse_str(parse_url($data['Prev'], PHP_URL_QUERY), $query);
-            $prevPage = $query['page'] ?? null;
-        }
-
-        if (!empty($data['Next'])) {
-            parse_str(parse_url($data['Next'], PHP_URL_QUERY), $query);
-            $nextPage = $query['page'] ?? null;
-        }
+        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
+        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
+        $prevPage = $page > 1 ? $page - 1 : null;
 
         return view('pages.candidates.candidate.index', [
             'students' => $data['students'],
@@ -57,7 +47,6 @@ class CandidateController extends Controller
             'nextPage' => $nextPage
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
