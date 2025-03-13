@@ -40,10 +40,11 @@ class CandidateController extends Controller
         return view('pages.candidates.candidate.index', [
             'students' => $data['results']['students'] ?? [],
             'currentPage' => $page,
-            'nextPage' => $data['results']['next'] ? $page + 1 : null,
-            'prevPage' => $data['results']['previous'] ? $page - 1 : null
+            'nextPage' => isset($data['next']) ? $page + 1 : null,
+            'prevPage' => isset($data['previous']) ? $page - 1 : null
         ]);
     }
+
 
 
     /**
