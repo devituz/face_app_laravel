@@ -30,9 +30,12 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
+
+        $page = $request->query('page', 1);
+
+        $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
 
         // JSON ma'lumotlarni olish
         $data = $response->json();
