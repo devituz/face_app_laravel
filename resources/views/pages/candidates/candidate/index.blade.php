@@ -173,20 +173,27 @@
                         <div class="card-footer d-flex justify-content-between">
                             <!-- Pagination (prev) -->
                             <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
-                                <li class="page-item">
-                                    <a class="page-link ps-0 pe-4 border-end" href="crm-contacts.html#">
+                                <li class="page-item {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                    <a class="page-link ps-0 pe-4 border-end" href="{{ route('candidate.index', ['page' => $currentPage - 1]) }}">
                                         <i class="fe fe-arrow-left me-1"></i> Prev
                                     </a>
                                 </li>
                             </ul>
 
-                            <!-- Pagination -->
-                            <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
 
+                            <!-- Pagination -->
+                            <!-- Sahifa raqamlari -->
+                            <ul class="pagination pagination-tabs card-pagination">
+                                @for ($i = 1; $i <= $totalPages; $i++)
+                                    <li class="page-item {{ $currentPage == $i ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ route('candidate.index', ['page' => $i]) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+                            </ul>
                             <!-- Pagination (next) -->
                             <ul class="list-pagination-next pagination pagination-tabs card-pagination">
-                                <li class="page-item">
-                                    <a class="page-link ps-4 pe-0 border-start" href="crm-contacts.html#">
+                                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+                                    <a class="page-link ps-4 pe-0 border-start" href="{{ route('candidate.index', ['page' => $currentPage + 1]) }}">
                                         Next <i class="fe fe-arrow-right ms-1"></i>
                                     </a>
                                 </li>
