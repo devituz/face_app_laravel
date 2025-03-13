@@ -174,21 +174,11 @@
                             <!-- Pagination (prev) -->
                             <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
                                 <li class="page-item">
-                                    @if($prevPage)
-                                        <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $prevPage }}">
-                                            <i class="fe fe-arrow-left me-1"></i> Prev
-                                        </a>
-                                    @else
-                                        <button class="btn btn-outline-secondary disabled">
-                                            <i class="fe fe-arrow-left me-1"></i> Prev
-                                        </button>
-                                    @endif
+                                    <a class="page-link ps-0 pe-4 border-end" href="crm-contacts.html#">
+                                        <i class="fe fe-arrow-left me-1"></i> Prev
+                                    </a>
                                 </li>
                             </ul>
-
-
-                            <span class="text-muted">Page {{ $currentPage }}</span>
-
 
                             <!-- Pagination -->
                             <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
@@ -196,16 +186,9 @@
                             <!-- Pagination (next) -->
                             <ul class="list-pagination-next pagination pagination-tabs card-pagination">
                                 <li class="page-item">
-                                    <!-- Pagination (next) -->
-                                    @if($nextPage)
-                                        <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $nextPage }}">
-                                            Next <i class="fe fe-arrow-right ms-1"></i>
-                                        </a>
-                                    @else
-                                        <button class="btn btn-outline-secondary disabled">
-                                            Next <i class="fe fe-arrow-right ms-1"></i>
-                                        </button>
-                                    @endif
+                                    <a class="page-link ps-4 pe-0 border-start" href="crm-contacts.html#">
+                                        Next <i class="fe fe-arrow-right ms-1"></i>
+                                    </a>
                                 </li>
                             </ul>
 
