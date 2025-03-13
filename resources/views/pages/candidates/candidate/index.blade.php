@@ -171,56 +171,29 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
-                            <!-- Pagination (prev) -->
-                            <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
-                                <li class="page-item {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                    <a class="page-link ps-0 pe-4 border-end" href="{{ route('candidate.index', ['page' => $currentPage - 1]) }}">
-                                        <i class="fe fe-arrow-left me-1"></i> Prev
-                                    </a>
-                                </li>
-                            </ul>
+                            <!-- Prev button -->
+                            @if ($prevPage)
+                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </a>
+                            @else
+                                <button class="btn btn-outline-secondary disabled">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </button>
+                            @endif
 
-
-                            <!-- Pagination -->
-                            <!-- Sahifa raqamlari -->
-                            <ul class="pagination pagination-tabs card-pagination">
-                                @for ($i = 1; $i <= $totalPages; $i++)
-                                    <li class="page-item {{ $currentPage == $i ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ route('candidate.index', ['page' => $i]) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
-                            </ul>
-                            <!-- Pagination (next) -->
-                            <ul class="list-pagination-next pagination pagination-tabs card-pagination">
-                                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
-                                    <a class="page-link ps-4 pe-0 border-start" href="{{ route('candidate.index', ['page' => $currentPage + 1]) }}">
-                                        Next <i class="fe fe-arrow-right ms-1"></i>
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <!-- Alert -->
-                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
-                                <!-- Content -->
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <!-- Checkbox -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
-                                            <label class="form-check-label text-white" for="listAlertCheckbox">
-                                                <span class="list-alert-count">0</span> deal(s)
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto me-n3">
-                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
-                                            Delete Selected
-                                        </button>
-                                    </div>
-                                </div>
-                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
-                            </div>
+                            <!-- Next button -->
+                            @if ($nextPage)
+                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
+                                    Next <i class="fe fe-arrow-right"></i>
+                                </a>
+                            @else
+                                <button class="btn btn-outline-secondary disabled">
+                                    Next <i class="fe fe-arrow-right"></i>
+                                </button>
+                            @endif
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -32,18 +32,22 @@ class CandidateController extends Controller
 
     public function index(Request $request)
     {
-
         $page = $request->query('page', 1);
 
         $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
-
-        // JSON ma'lumotlarni olish
         $data = $response->json();
 
+        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
+        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
+        $prevPage = $page > 1 ? $page - 1 : null;
 
-        // Blade sahifaga yuborish
-        return view('pages.candidates.candidate.index', ['students' => $data['students']]);
+        return view('pages.candidates.candidate.index', [
+            'students' => $data['students'],
+            'prevPage' => $prevPage,
+            'nextPage' => $nextPage
+        ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
