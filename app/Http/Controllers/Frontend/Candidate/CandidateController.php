@@ -32,10 +32,14 @@ class CandidateController extends Controller
 
     public function index()
     {
+        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
+
+        // JSON ma'lumotlarni olish
+        $data = $response->json();
 
 
         // Blade sahifaga yuborish
-        return view('pages.candidates.candidate.index');
+        return view('pages.candidates.candidate.index', ['students' => $data['students']]);
     }
     /**
      * Show the form for creating a new resource.
