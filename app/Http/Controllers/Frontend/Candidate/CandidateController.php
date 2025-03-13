@@ -38,12 +38,13 @@ class CandidateController extends Controller
         $data = $response->json();
 
         return view('pages.candidates.candidate.index', [
-            'students' => $data['students'],
+            'students' => $data['results']['students'] ?? [],
             'currentPage' => $page,
-            'nextPage' => $data['next'] ? $page + 1 : null,
-            'prevPage' => $data['previous'] ? $page - 1 : null
+            'nextPage' => $data['results']['next'] ? $page + 1 : null,
+            'prevPage' => $data['results']['previous'] ? $page - 1 : null
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
