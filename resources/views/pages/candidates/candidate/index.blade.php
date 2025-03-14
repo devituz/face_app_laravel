@@ -71,7 +71,18 @@
                                     </form>
 
                                 </div>
+                                <div class="col-auto me-n3">
 
+                                    <!-- Select -->
+                                    <form>
+                                        <select class="form-select form-select-sm form-control-flush" data-choices='{"searchEnabled": false}'>
+                                            <option>5 per page</option>
+                                            <option selected>10 per page</option>
+                                            <option>All</option>
+                                        </select>
+                                    </form>
+
+                                </div>
                             </div> <!-- / .row -->
                         </div>
 
@@ -171,7 +182,7 @@
                                                                                     </button>
                                                                                 @endif
                                                     <!-- Pagination -->
-{{--                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>--}}
+                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
 
                                                     <!-- Pagination (next) -->
                                                     @if ($nextPage)
@@ -208,7 +219,30 @@
                                                     </div>
                                                 </div>
 
+{{--                        <div class="card-footer d-flex justify-content-between">--}}
+{{--                            <!-- Prev button -->--}}
+{{--                            @if ($prevPage)--}}
+{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
+{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
+{{--                                </a>--}}
+{{--                            @else--}}
+{{--                                <button class="btn btn-outline-secondary disabled">--}}
+{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
+{{--                                </button>--}}
+{{--                            @endif--}}
 
+{{--                            <!-- Next button -->--}}
+{{--                            @if ($nextPage)--}}
+{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
+{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
+{{--                                </a>--}}
+{{--                            @else--}}
+{{--                                <button class="btn btn-outline-secondary disabled">--}}
+{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
+{{--                                </button>--}}
+{{--                            @endif--}}
+
+{{--                        </div>--}}
 
                     </div>
                 </div>
