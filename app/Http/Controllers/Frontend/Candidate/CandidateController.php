@@ -30,6 +30,33 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
+    public function search(Request $request)
+    {
+        // API URL
+        $apiUrl = "http://172.24.25.141:5000/api/user_json/";
+
+        // API'ga GET so‘rov yuborish
+        $response = Http::get($apiUrl);
+
+        if ($response->failed()) {
+            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
+        }
+
+        // JSON ma'lumotlarni olish
+        $students = collect($response->json()['students'] ?? []);
+
+        // Qidiruv so‘rovi
+        $query = $request->input('query');
+
+        // Qidiruv bo‘yicha filterlash
+        $filteredStudents = $students->filter(function ($student) use ($query) {
+            return str_contains(strtolower($student['name']), strtolower($query)) ||
+                str_contains(strtolower($student['identifier']), strtolower($query));
+        });
+
+        return view('pages.candidates.candidate.index', compact('filteredStudents'))->render();
+    }
+
     public function index(Request $request)
     {
         $page = $request->query('page', 1);
