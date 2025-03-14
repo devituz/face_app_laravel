@@ -74,13 +74,7 @@
                                 <div class="col-auto me-n3">
 
                                     <!-- Select -->
-                                    <form>
-                                        <select class="form-select form-select-sm form-control-flush" data-choices='{"searchEnabled": false}'>
-                                            <option>5 per page</option>
-                                            <option selected>10 per page</option>
-                                            <option>All</option>
-                                        </select>
-                                    </form>
+
 
                                 </div>
                             </div> <!-- / .row -->
@@ -182,7 +176,7 @@
                                                                                     </button>
                                                                                 @endif
                                                     <!-- Pagination -->
-                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
+{{--                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>--}}
 
                                                     <!-- Pagination (next) -->
                                                     @if ($nextPage)
