@@ -23,7 +23,7 @@ class CandidateController extends Controller
     public function export()
     {
         // JSON ma'lumotlarini olish
-        $response = Http::get('http://172.24.25.141:5000/api/user_images/');
+        $response = Http::get('http://172.24.25.141:5000/api/user_json/');
         $data = $response->json();
 
         // Excel faylni yaratish va qaytarish
