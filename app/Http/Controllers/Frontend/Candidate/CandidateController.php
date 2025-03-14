@@ -57,23 +57,38 @@ class CandidateController extends Controller
         return view('pages.candidates.candidate.index', compact('filteredStudents'))->render();
     }
 
-    public function index(Request $request)
-    {
-        $page = $request->query('page', 1);
 
-        $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
+    public function index()
+    {
+        $response = Http::get('http://127.0.0.1:5000/api/user_json/');
+
+        // JSON ma'lumotlarni olish
         $data = $response->json();
 
-        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
-        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
-        $prevPage = $page > 1 ? $page - 1 : null;
+        $students = array_slice($data['students'], 0, 10);
 
-        return view('pages.candidates.candidate.index', [
-            'students' => $data['students'],
-            'prevPage' => $prevPage,
-            'nextPage' => $nextPage
-        ]);
+
+        // Blade sahifaga yuborish
+        return view('pages.candidates.candidate.index', compact('students'));
     }
+
+//    public function index(Request $request)
+//    {
+//        $page = $request->query('page', 1);
+//
+//        $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
+//        $data = $response->json();
+//
+//        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
+//        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
+//        $prevPage = $page > 1 ? $page - 1 : null;
+//
+//        return view('pages.candidates.candidate.index', [
+//            'students' => $data['students'],
+//            'prevPage' => $prevPage,
+//            'nextPage' => $nextPage
+//        ]);
+//    }
 
     /**
      * Show the form for creating a new resource.
