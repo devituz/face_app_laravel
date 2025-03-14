@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post('candidate-list/bulk-delete', [CandidateListController::class, 'bulkDestroy'])->name('candidate-list.bulkDelete');
     Route::get('candidatelist/export', [CandidateListController::class, 'export'])->name('candidatelist.export');
 
+    Route::get('/search-candidates', [CandidateController::class, 'search'])->name('candidates.search');
 
 
     Route::resource('face-id-admin', FaceidContoller::class);

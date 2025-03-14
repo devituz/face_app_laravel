@@ -21,7 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/search-candidates', [CandidateController::class, 'search'])->name('candidates.search');
 
 
 Route::post('/face/login', [ApiAdminsController::class, 'login']);
