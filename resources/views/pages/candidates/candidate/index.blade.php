@@ -219,30 +219,7 @@
                                                     </div>
                                                 </div>
 
-{{--                        <div class="card-footer d-flex justify-content-between">--}}
-{{--                            <!-- Prev button -->--}}
-{{--                            @if ($prevPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
 
-{{--                            <!-- Next button -->--}}
-{{--                            @if ($nextPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
-
-{{--                        </div>--}}
 
                     </div>
                 </div>
