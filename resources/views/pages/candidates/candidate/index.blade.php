@@ -208,31 +208,6 @@
                                                     </div>
                                                 </div>
 
-{{--                        <div class="card-footer d-flex justify-content-between">--}}
-{{--                            <!-- Prev button -->--}}
-{{--                            @if ($prevPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
-
-{{--                            <!-- Next button -->--}}
-{{--                            @if ($nextPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
-
-{{--                        </div>--}}
-
                     </div>
                 </div>
             </div>
@@ -246,6 +221,32 @@
                 var imageUrl = avatar.getAttribute('data-image');
                 document.getElementById('modalImage').src = imageUrl;
             });
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let checkboxes = document.querySelectorAll(".list-checkbox");
+            let alertBox = document.querySelector(".list-alert");
+            let alertCount = document.querySelector(".list-alert-count");
+
+            function updateAlert() {
+                let selectedCount = document.querySelectorAll(".list-checkbox:checked").length;
+
+                if (selectedCount > 0) {
+                    alertBox.classList.add("show");
+                    alertCount.textContent = selectedCount;
+                } else {
+                    alertBox.classList.remove("show");
+                }
+            }
+
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener("change", updateAlert);
+            });
+
+            // Sahifa yuklanganda tekshirish
+            updateAlert();
         });
 
     </script>
