@@ -65,11 +65,9 @@ class CandidateController extends Controller
         // JSON ma'lumotlarni olish
         $data = $response->json();
 
-        $students = array_slice($data['students'], 0, 10);
-
 
         // Blade sahifaga yuborish
-        return view('pages.candidates.candidate.index', compact('students'));
+        return view('pages.candidates.candidate.index', ['students' => $data['students']]);
     }
 
 //    public function index(Request $request)
