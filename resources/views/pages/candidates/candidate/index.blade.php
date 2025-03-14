@@ -171,7 +171,7 @@
                                                                                     </button>
                                                                                 @endif
                                                     <!-- Pagination -->
-                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
+                                                    <ul class="list-pagination pagination pagination-tabs card-pagination">dedede</ul>
 
                                                     <!-- Pagination (next) -->
                                                     @if ($nextPage)
