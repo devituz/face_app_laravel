@@ -55,7 +55,8 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='{"valueNames": ["item-name","item-identifier", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
+{{--                    <div class="card" data-list='{"valueNames": ["item-name","item-identifier", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">--}}
+
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -63,10 +64,10 @@
                                     <!-- Form -->
                                     <form>
                                         <div class="input-group input-group-flush input-group-merge input-group-reverse">
-                                            <input class="form-control list-search" type="search" placeholder="Search">
+                                            <input id="searchInput" class="form-control list-search" type="search" placeholder="Search">
                                             <span class="input-group-text">
-                                                <i class="fe fe-search"></i>
-                                            </span>
+                                            <i class="fe fe-search"></i>
+                                        </span>
                                         </div>
                                     </form>
 
@@ -159,64 +160,6 @@
                             </table>
                         </div>
 
-{{--                        <div class="card-footer d-flex justify-content-between">--}}
-{{--                            <!-- Pagination (prev) -->--}}
-{{--                            <ul class="list-pagination-prev pagination pagination-tabs card-pagination">--}}
-{{--                                <li class="page-item">--}}
-{{--                                    @if ($prevPage)--}}
-{{--                                        <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
-{{--                                            <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                        </a>--}}
-{{--                                    @else--}}
-{{--                                        <button class="btn btn-outline-secondary disabled">--}}
-{{--                                            <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                        </button>--}}
-{{--                                    @endif--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-
-{{--                            <!-- Pagination -->--}}
-{{--                            <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>--}}
-
-{{--                            <!-- Pagination (next) -->--}}
-{{--                            <ul class="list-pagination-next pagination pagination-tabs card-pagination">--}}
-{{--                                <li class="page-item">--}}
-{{--                                    <!-- Next button -->--}}
-{{--                                    @if ($nextPage)--}}
-{{--                                        <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
-{{--                                            Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                        </a>--}}
-{{--                                    @else--}}
-{{--                                        <button class="btn btn-outline-secondary disabled">--}}
-{{--                                            Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                        </button>--}}
-{{--                                    @endif--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-
-{{--                            <!-- Alert -->--}}
-{{--                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">--}}
-{{--                                <!-- Content -->--}}
-{{--                                <div class="row align-items-center">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <!-- Checkbox -->--}}
-{{--                                        <div class="form-check">--}}
-{{--                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>--}}
-{{--                                            <label class="form-check-label text-white" for="listAlertCheckbox">--}}
-{{--                                                <span class="list-alert-count">0</span> deal(s)--}}
-{{--                                            </label>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-auto me-n3">--}}
-{{--                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">--}}
-{{--                                            Delete Selected--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
                         <div class="card-footer d-flex justify-content-between">
                             <!-- Prev button -->
                             @if ($prevPage)
@@ -266,7 +209,11 @@
                 </div>
             </div>
         </div>
-    </div>
+{{--    </div>--}}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+
 
     <script>
         // Modal ochilganda rasm manzilini o'zgartirish
@@ -277,6 +224,68 @@
             });
         });
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const apiUrl = "http://172.24.25.141:5000/api/user_json";
+            const contactsList = document.getElementById("contactsList").getElementsByTagName("tbody")[0];
+
+            // API dan ma'lumotlarni olish va localStorage ga saqlash
+            async function fetchStudents() {
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    localStorage.setItem("students", JSON.stringify(data.students));
+                    displayStudents(data.students);
+                } catch (error) {
+                    console.error("Xatolik yuz berdi:", error);
+                }
+            }
+
+            // Ma'lumotlarni jadvalga chiqarish
+            function displayStudents(students) {
+                contactsList.innerHTML = ""; // Oldingi ma'lumotlarni tozalash
+                students.forEach((student, index) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>
+                            <img src="${student.image_url}" class="avatar avatar-xs align-middle me-2" alt="Avatar">
+                        </td>
+                        <td class="item-name">${student.name}</td>
+                        <td class="item-identifier">${student.identifier}</td>
+                        <td class="item-created_at">${student.created_at}</td>
+                    `;
+                    contactsList.appendChild(tr);
+                });
+
+                // List.js ni ishga tushirish
+                new List("contactsList", {
+                    valueNames: ["item-name", "item-identifier", "item-created_at"],
+                    page: 10,
+                    pagination: true
+                });
+            }
+
+            // LocalStorage dan yuklash
+            function loadFromStorage() {
+                const storedData = localStorage.getItem("students");
+                if (storedData) {
+                    displayStudents(JSON.parse(storedData));
+                } else {
+                    fetchStudents();
+                }
+            }
+
+            // Sahifa yuklanganda ma'lumotlarni olib kelish
+            loadFromStorage();
+        });
+
     </script>
+
+
+
+
+
+
 
 @endsection
