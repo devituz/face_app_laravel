@@ -170,108 +170,108 @@
                             </table>
                         </div>
 
-                                                <div class="card-footer d-flex justify-content-between">
-                                                    <!-- Pagination (prev) -->
-                                                    <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
-                                                        <li class="page-item">
-                                                            @if ($prevPage)
-                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
-                                                                    <i class="fe fe-arrow-left"></i> Prev
-                                                                </a>
-                                                            @else
-                                                                <button class="btn btn-outline-secondary disabled">
-                                                                    <i class="fe fe-arrow-left"></i> Prev
-                                                                </button>
-                                                            @endif
-                                                        </li>
-                                                    </ul>
+{{--                                                <div class="card-footer d-flex justify-content-between">--}}
+{{--                                                    <!-- Pagination (prev) -->--}}
+{{--                                                    <ul class="list-pagination-prev pagination pagination-tabs card-pagination">--}}
+{{--                                                        <li class="page-item">--}}
+{{--                                                            @if ($prevPage)--}}
+{{--                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
+{{--                                                                    <i class="fe fe-arrow-left"></i> Prev--}}
+{{--                                                                </a>--}}
+{{--                                                            @else--}}
+{{--                                                                <button class="btn btn-outline-secondary disabled">--}}
+{{--                                                                    <i class="fe fe-arrow-left"></i> Prev--}}
+{{--                                                                </button>--}}
+{{--                                                            @endif--}}
+{{--                                                        </li>--}}
+{{--                                                    </ul>--}}
 
-                                                    <!-- Pagination -->
-                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
+{{--                                                    <!-- Pagination -->--}}
+{{--                                                    <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>--}}
 
-                                                    <!-- Pagination (next) -->
-                                                    <ul class="list-pagination-next pagination pagination-tabs card-pagination">
-                                                        <li class="page-item">
-                                                            <!-- Next button -->
-                                                            @if ($nextPage)
-                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
-                                                                    Next <i class="fe fe-arrow-right"></i>
-                                                                </a>
-                                                            @else
-                                                                <button class="btn btn-outline-secondary disabled">
-                                                                    Next <i class="fe fe-arrow-right"></i>
-                                                                </button>
-                                                            @endif
-                                                        </li>
-                                                    </ul>
+{{--                                                    <!-- Pagination (next) -->--}}
+{{--                                                    <ul class="list-pagination-next pagination pagination-tabs card-pagination">--}}
+{{--                                                        <li class="page-item">--}}
+{{--                                                            <!-- Next button -->--}}
+{{--                                                            @if ($nextPage)--}}
+{{--                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
+{{--                                                                    Next <i class="fe fe-arrow-right"></i>--}}
+{{--                                                                </a>--}}
+{{--                                                            @else--}}
+{{--                                                                <button class="btn btn-outline-secondary disabled">--}}
+{{--                                                                    Next <i class="fe fe-arrow-right"></i>--}}
+{{--                                                                </button>--}}
+{{--                                                            @endif--}}
+{{--                                                        </li>--}}
+{{--                                                    </ul>--}}
 
-                                                    <!-- Alert -->
-                                                    <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
-                                                        <!-- Content -->
-                                                        <div class="row align-items-center">
-                                                            <div class="col">
-                                                                <!-- Checkbox -->
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
-                                                                    <label class="form-check-label text-white" for="listAlertCheckbox">
-                                                                        <span class="list-alert-count">0</span> deal(s)
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-auto me-n3">
-                                                                <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
-                                                                    Delete Selected
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
-                                                    </div>
-                                                </div>
+{{--                                                    <!-- Alert -->--}}
+{{--                                                    <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">--}}
+{{--                                                        <!-- Content -->--}}
+{{--                                                        <div class="row align-items-center">--}}
+{{--                                                            <div class="col">--}}
+{{--                                                                <!-- Checkbox -->--}}
+{{--                                                                <div class="form-check">--}}
+{{--                                                                    <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>--}}
+{{--                                                                    <label class="form-check-label text-white" for="listAlertCheckbox">--}}
+{{--                                                                        <span class="list-alert-count">0</span> deal(s)--}}
+{{--                                                                    </label>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="col-auto me-n3">--}}
+{{--                                                                <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">--}}
+{{--                                                                    Delete Selected--}}
+{{--                                                                </button>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                        <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
 
-{{--                        <div class="card-footer d-flex justify-content-between">--}}
-{{--                            <!-- Prev button -->--}}
-{{--                            @if ($prevPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    <i class="fe fe-arrow-left"></i> Prev--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
+                        <div class="card-footer d-flex justify-content-between">
+                            <!-- Prev button -->
+                            @if ($prevPage)
+                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </a>
+                            @else
+                                <button class="btn btn-outline-secondary disabled">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </button>
+                            @endif
 
-{{--                            <!-- Next button -->--}}
-{{--                            @if ($nextPage)--}}
-{{--                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </a>--}}
-{{--                            @else--}}
-{{--                                <button class="btn btn-outline-secondary disabled">--}}
-{{--                                    Next <i class="fe fe-arrow-right"></i>--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
+                            <!-- Next button -->
+                            @if ($nextPage)
+                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
+                                    Next <i class="fe fe-arrow-right"></i>
+                                </a>
+                            @else
+                                <button class="btn btn-outline-secondary disabled">
+                                    Next <i class="fe fe-arrow-right"></i>
+                                </button>
+                            @endif
 
-{{--                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">--}}
-{{--                                <!-- Content -->--}}
-{{--                                <div class="row align-items-center">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <!-- Checkbox -->--}}
-{{--                                        <div class="form-check">--}}
-{{--                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>--}}
-{{--                                            <label class="form-check-label text-white" for="listAlertCheckbox">--}}
-{{--                                                <span class="list-alert-count">0</span> deal(s)--}}
-{{--                                            </label>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-auto me-n3">--}}
-{{--                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">--}}
-{{--                                            Delete Selected--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
+                                <!-- Content -->
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
+                                            <label class="form-check-label text-white" for="listAlertCheckbox">
+                                                <span class="list-alert-count">0</span> deal(s)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto me-n3">
+                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
+                                            Delete Selected
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
