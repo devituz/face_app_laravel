@@ -60,7 +60,7 @@ class CandidateController extends Controller
 
     public function index()
     {
-        $response = Http::get('http://127.0.0.1:5000/api/user_json/');
+        $response = Http::get('http://172.24.25.141:5000/api/user_json/');
 
         // JSON ma'lumotlarni olish
         $data = $response->json();
