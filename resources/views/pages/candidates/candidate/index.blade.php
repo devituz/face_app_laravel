@@ -172,38 +172,29 @@
 
                                                 <div class="card-footer d-flex justify-content-between">
                                                     <!-- Pagination (prev) -->
-                                                    <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
-                                                        <li class="page-item">
-                                                            @if ($prevPage)
-                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
-                                                                    <i class="fe fe-arrow-left"></i> Prev
-                                                                </a>
-                                                            @else
-                                                                <button class="btn btn-outline-secondary disabled">
-                                                                    <i class="fe fe-arrow-left"></i> Prev
-                                                                </button>
-                                                            @endif
-                                                        </li>
-                                                    </ul>
-
+                                                                                @if ($prevPage)
+                                                                                    <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
+                                                                                        <i class="fe fe-arrow-left"></i> Prev
+                                                                                    </a>
+                                                                                @else
+                                                                                    <button class="btn btn-outline-secondary disabled">
+                                                                                        <i class="fe fe-arrow-left"></i> Prev
+                                                                                    </button>
+                                                                                @endif
                                                     <!-- Pagination -->
                                                     <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
 
                                                     <!-- Pagination (next) -->
-                                                    <ul class="list-pagination-next pagination pagination-tabs card-pagination">
-                                                        <li class="page-item">
-                                                            <!-- Next button -->
-                                                            @if ($nextPage)
-                                                                <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
-                                                                    Next <i class="fe fe-arrow-right"></i>
-                                                                </a>
-                                                            @else
-                                                                <button class="btn btn-outline-secondary disabled">
-                                                                    Next <i class="fe fe-arrow-right"></i>
-                                                                </button>
-                                                            @endif
-                                                        </li>
-                                                    </ul>
+                                                    @if ($nextPage)
+                                                        <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
+                                                            Next <i class="fe fe-arrow-right"></i>
+                                                        </a>
+                                                    @else
+                                                        <button class="btn btn-outline-secondary disabled">
+                                                            Next <i class="fe fe-arrow-right"></i>
+                                                        </button>
+                                                    @endif
+
 
                                                     <!-- Alert -->
                                                     <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
