@@ -33,6 +33,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
 
 
     Route::get('/students/my-register', [ApiStudentsController::class, 'myregister']);
-    Route::get('/excel-export', [ApiStudentsController::class, 'exportExcel']);
+//    Route::get('/excel-export', [ApiStudentsController::class, 'exportExcel']);
 
 });
