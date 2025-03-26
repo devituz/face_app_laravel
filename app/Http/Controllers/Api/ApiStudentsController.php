@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use App\Exports\MyStudentExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ApiStudentsController extends  Controller
@@ -52,5 +54,37 @@ class ApiStudentsController extends  Controller
     }
 
 
+
+    public function exportExcel()
+    {
+        // API orqali ma'lumot olish
+        $response = Http::get('http://172.24.25.141:5000/admin/students/my-register');
+        $data = $response->json();
+
+        if (!isset($data['results'])) {
+            return response()->json(['error' => 'No data found'], 404);
+        }
+
+        // Kerakli maydonlarni yig‘ish
+        $students = collect($data['results'])->map(function ($record) {
+            return [
+                'id' => $record['id'],
+                'scan_id' => $record['scan_id'],
+                'student_name' => $record['student_name'],
+                'created_at' => $record['created_at'],
+            ];
+        });
+
+        // Fayl nomi
+        $fileName = 'students-export.xlsx';
+
+        // Excel faylini yaratish va saqlash
+        Excel::store(new MyStudentExport($students), $fileName, 'public');
+
+        // Yuklab olish linkini qaytarish
+        return response()->json([
+            'download_url' => asset("storage/$fileName")
+        ]);
+    }
 
 }
