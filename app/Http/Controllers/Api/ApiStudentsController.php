@@ -97,7 +97,7 @@ class ApiStudentsController extends  Controller
 
             // Yuklab olish linkini qaytarish
             return response()->json([
-                'download_url' => asset("storage/$fileName")
+                'download_url' => url("storage/$fileName")
             ]);
         } catch (\Exception $e) {
             Log::error('Error occurred in exportExcel method', [
