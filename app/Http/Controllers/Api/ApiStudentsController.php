@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 
 class ApiStudentsController extends  Controller
@@ -29,6 +30,10 @@ class ApiStudentsController extends  Controller
                 foreach ($data['results'] as &$item) {
                     $adminName = ApiAdmins::getAdminNameById($item['scan_id']);
                     $item['scan_id'] = $adminName;
+
+                    $item['created_at'] = Carbon::parse($item['created_at'])
+                        ->setTimezone('Asia/Tashkent')  // Tashkent vaqti bo‘yicha
+                        ->format('d-M-Y H:i');  // Format: 25-Mar-2025 15:31
                 }
 
                 return response()->json($data, 200);
