@@ -23,7 +23,7 @@ class CandidateController extends Controller
     public function export()
     {
         // JSON ma'lumotlarini olish
-        $response = Http::get('http://172.24.25.141:5000/api/user_json/');
+        $response = Http::get('http://facesec.newuu.uz/api/user_json/');
         $data = $response->json();
 
         // Excel faylni yaratish va qaytarish
@@ -33,7 +33,7 @@ class CandidateController extends Controller
     public function search(Request $request)
     {
         // API URL
-        $apiUrl = "http://172.24.25.141:5000/api/user_json/";
+        $apiUrl = "http://facesec.newuu.uz/api/user_json/";
 
         // API'ga GET so‘rov yuborish
         $response = Http::get($apiUrl);
@@ -61,7 +61,7 @@ class CandidateController extends Controller
     {
         $page = $request->query('page', 1);
 
-        $response = Http::get("http://172.24.25.141:5000/api/user_images/?page={$page}");
+        $response = Http::get("http://facesec.newuu.uz/api/user_images/?page={$page}");
         $data = $response->json();
 
         // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
@@ -134,7 +134,7 @@ class CandidateController extends Controller
                 ]
             ];
 
-            $response = $client->post('http://172.24.25.141:5000/api/upload/', [
+            $response = $client->post('http://facesec.newuu.uz/api/upload/', [
                 'headers' => $headers,
                 'multipart' => $options['multipart']
             ]);
@@ -200,7 +200,7 @@ class CandidateController extends Controller
         Log::info('Ids integer formatida:', ['ids' => $candidateIds]);
 
         // Django API URL
-        $djangoApiUrl = "http://172.24.25.141:5000/api/candidates/delete/";
+        $djangoApiUrl = "http://facesec.newuu.uz/api/candidates/delete/";
         Log::info('Django API URL:', ['url' => $djangoApiUrl]);
 
         // Guzzle HTTP Client

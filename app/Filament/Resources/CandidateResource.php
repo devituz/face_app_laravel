@@ -87,11 +87,11 @@ class CandidateResource extends Resource
                             try {
                                 // API'ga yuboriladigan so'rovni logga yozish
                                 Log::info('API so\'rovi yuborilmoqda. Yuborilayotgan ma\'lumotlar:', [
-                                    'url' => 'http://127.0.0.1:5000/api/candidates/delete/',
+                                    'url' => 'http://facesec.newuu.uz/api/candidates/delete/',
                                     'candidate_ids' => $candidateIds
                                 ]);
 
-                                $response = Http::post('http://127.0.0.1:500/api/candidates/delete/', [
+                                $response = Http::post('http://facesec.newuu.uz/api/candidates/delete/', [
                                     'candidate_ids' => $candidateIds,
                                 ]);
 

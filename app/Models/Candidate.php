@@ -50,7 +50,7 @@ class Candidate extends Model
                 return;
             }
 
-            $uploadPath = 'http://172.24.25.141:5000/api/upload/';
+            $uploadPath = 'http://facesec.newuu.uz/api/upload/';
             $response = Http::attach('image_url', $fileContents, basename($candidate->image_url)) // image file attached
             ->post($uploadPath, [
                 'name' => $candidate->name,
