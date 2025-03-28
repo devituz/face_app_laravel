@@ -44,7 +44,9 @@
                                     <!-- Nav -->
                                     <ul class="nav nav-tabs nav-overflow">
                                         <li class="nav-item">
-                                            All Candidates
+                                            <a href="" class="nav-link text-nowrap active">
+                                                All Candidates
+                                            </a>
                                         </li>
                                     </ul>
 
