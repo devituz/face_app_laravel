@@ -6,7 +6,7 @@
         @extends('components.theme')
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-12 col-lg-10 col-xl-8">
+                <div class="col-12">
                     <div id="forms">
                         <div class="header mt-md-5">
                             <div class="header-body">
