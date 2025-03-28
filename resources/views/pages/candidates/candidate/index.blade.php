@@ -89,13 +89,13 @@
                                         <a class="list-sort text-body-secondary">Image</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>
+                                        <a class="list-sort text-body-secondary" >Fullname</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Identifier</a>
+                                        <a class="list-sort text-body-secondary" >Identifier</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Created_at</a>
+                                        <a class="list-sort text-body-secondary" >Created_at</a>
                                     </th>
                                 </tr>
                                 </thead>

@@ -96,19 +96,19 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Search Image</a>
+                                        <a class="list-sort text-body-secondary" >Search Image</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Upload Image</a>
+                                        <a class="list-sort text-body-secondary" >Upload Image</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>
+                                        <a class="list-sort text-body-secondary" >Fullname</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Identifier</a>
+                                        <a class="list-sort text-body-secondary" >Identifier</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Scan</a>
+                                        <a class="list-sort text-body-secondary" >Scan</a>
                                     </th>
                                     <th>
                                         <a class="list-sort text-body-secondary" data-sort="item-name">Created_at</a>

@@ -89,22 +89,22 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Image</a>
+                                        <a class="list-sort text-body-secondary" >Image</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>
+                                        <a class="list-sort text-body-secondary" >Fullname</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-email">Email</a>
+                                        <a class="list-sort text-body-secondary" >Email</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Phone</a>
+                                        <a class="list-sort text-body-secondary" >Phone</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-password">Password</a>
+                                        <a class="list-sort text-body-secondary">Password</a>
                                     </th>
                                     <th colspan="2">
-                                        <a class="list-sort text-body-secondary" data-sort="item-company">Created At</a>
+                                        <a class="list-sort text-body-secondary" >Created At</a>
                                     </th>
                                 </tr>
                                 </thead>
