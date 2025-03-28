@@ -42,11 +42,9 @@
                                 <div class="col">
 
                                     <!-- Nav -->
-                                    <ul class="nav nav-tabs nav-overflow header-tabs">
+                                    <ul class="nav nav-tabs nav-overflow">
                                         <li class="nav-item">
-                                            <a href="" class="nav-link text-nowrap active">
-                                                All Candidates
-                                            </a>
+                                            All Candidates
                                         </li>
                                     </ul>
 
