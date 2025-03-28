@@ -86,7 +86,7 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" data-sort="item-name">Image</a>
+                                        <a class="list-sort text-body-secondary">Image</a>
                                     </th>
                                     <th>
                                         <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>

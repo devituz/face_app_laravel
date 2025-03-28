@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='{"valueNames": ["item-name","item-identifier", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
+                    <div class="card" id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
