@@ -6,12 +6,31 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div id="forms">
-                        <div class="header mt-md-5">
-                            <div class="header-body">
-                                <h1 class="header-title">Edit Candidate</h1>
-                            </div>
+
+
+                    <div class="header">
+                        <div class="header-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+
+                                    <!-- Pretitle -->
+                                    <h6 class="header-pretitle">
+                                        Overview
+                                    </h6>
+
+                                    <!-- Title -->
+                                    <h1 class="header-title text-truncate">
+                                        Edit Candidate
+                                    </h1>
+
+                                </div>
+
+                            </div> <!-- / .row -->
+
                         </div>
+                    </div>
+                    <div id="forms">
+
                         <div class="card">
                             <div class="card-body">
 
