@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="card" id="contactsList">
+                    <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -79,22 +79,22 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" >Fullname</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-name">Fullname</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary">Email</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-email">Email</a>
                                     </th>
                                     <th>
-                                        <a class="list-sort text-body-secondary" >Phone</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Phone</a>
                                     </th>
                                     {{--                                    <th>--}}
                                     {{--                                        <a class="list-sort text-body-secondary" data-sort="item-phone">Status</a>--}}
                                     {{--                                    </th>--}}
                                     <th>
-                                        <a class="list-sort text-body-secondary" >Password</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-password">Password</a>
                                     </th>
                                     <th colspan="2">
-                                        <a class="list-sort text-body-secondary" >Created At</a>
+                                        <a class="list-sort text-body-secondary" data-sort="item-company">Created At</a>
                                     </th>
                                 </tr>
                                 </thead>
