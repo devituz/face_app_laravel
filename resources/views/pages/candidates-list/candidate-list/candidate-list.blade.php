@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="card" id="contactsList">
+                    <div class="card" data-list='' id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
