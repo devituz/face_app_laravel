@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Exports\CandidateExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Str;
 
 
 
@@ -57,8 +56,6 @@ class CandidateController extends Controller
 
         return view('pages.candidates.candidate.index', compact('filteredStudents'))->render();
     }
-
-
 
     public function index(Request $request)
     {
