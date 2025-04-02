@@ -77,7 +77,7 @@
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
                                         </div>
 
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="password_confirmation" class="form-label">Confirm Password</label>
                                             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
                                         </div>
