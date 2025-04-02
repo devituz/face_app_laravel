@@ -48,16 +48,16 @@
                                     @csrf
                                     <div class="row">
                                         <!-- Ism kiritish -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="name" class="form-label">Full Name</label>
                                             <input type="text" class="form-control" name="name" id="name" placeholder="Enter Full name" required>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="identifier" class="form-label">Identifier</label>
                                             <input type="text" class="form-control" name="identifier" id="identifier" placeholder="Enter identifier" required>
                                         </div>
                                         <!-- Rasm yuklash -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="image_url" class="form-label">Upload Image</label>
                                             <input type="file" class="form-control" name="image_url" id="image_url" accept="image/*" onchange="previewImage(event)" required>
                                             <div class="mt-3">

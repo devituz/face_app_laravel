@@ -51,22 +51,22 @@
 
                                     <div class="row">
                                         <!-- Full name input -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="name" class="form-label">Full Name</label>
                                             <input type="text" class="form-control" name="name" id="name" value="{{ $admin->name }}" placeholder="Enter Full name" required>
                                         </div>
                                         <!-- Phone Number input -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="phone" class="form-label">Phone Number</label>
                                             <input type="text" class="form-control" name="phone" id="phone" value="{{ $admin->phone }}" placeholder="Enter Phone Number" required>
                                         </div>
                                         <!-- Email input -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" class="form-control" name="email" id="email" value="{{ $admin->email }}" placeholder="Enter Email" required>
                                         </div>
                                         <!-- Image Upload -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="image" class="form-label">Upload Image</label>
                                             <input type="file" class="form-control" name="image" id="image" accept="image/*" onchange="previewImage(event)">
                                             <div class="mt-3">
@@ -75,12 +75,12 @@
                                         </div>
 
                                         <!-- Password input -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="password" class="form-label">Password</label>
                                             <input type="password" class="form-control" name="password" id="password" value="{{ $admin->password }}" placeholder="Enter Password">
                                         </div>
                                         <!-- Password confirmation input -->
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="password_confirmation" class="form-label">Confirm Password</label>
                                             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="{{ $admin->password }}" placeholder="Confirm Password">
                                         </div>
