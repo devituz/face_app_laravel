@@ -31,68 +31,33 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
-//    public function search(Request $request)
-//    {
-//        // API URL
-//        $apiUrl = "http://facesec.newuu.uz/api/user_json/";
-//
-//        // API'ga GET so‘rov yuborish
-//        $response = Http::get($apiUrl);
-//
-//        if ($response->failed()) {
-//            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
-//        }
-//
-//        // JSON ma'lumotlarni olish
-//        $students = collect($response->json()['students'] ?? []);
-//
-//        // Qidiruv so‘rovi
-//        $query = $request->input('query');
-//
-//        // Qidiruv bo‘yicha filterlash
-//        $filteredStudents = $students->filter(function ($student) use ($query) {
-//            return str_contains(strtolower($student['name']), strtolower($query)) ||
-//                str_contains(strtolower($student['identifier']), strtolower($query));
-//        });
-//
-//        return view('pages.candidates.candidate.index', compact('filteredStudents'))->render();
-//    }
-
-
     public function search(Request $request)
     {
-        $query = strtolower($request->input('query'));
-        $apiUrl = "http://facesec.newuu.uz/api/user_images/?page=";
+        // API URL
+        $apiUrl = "http://facesec.newuu.uz/api/user_json/";
 
-        $allStudents = collect(); // Natijalarni jamlash uchun
-        $page = 1;
+        // API'ga GET so‘rov yuborish
+        $response = Http::get($apiUrl);
 
-        do {
-            $response = Http::get($apiUrl . $page);
+        if ($response->failed()) {
+            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
+        }
 
-            if ($response->failed()) {
-                return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
-            }
+        // JSON ma'lumotlarni olish
+        $students = collect($response->json()['students'] ?? []);
 
-            $data = $response->json();
-            if (!isset($data['students']) || empty($data['students'])) {
-                break; // Ma'lumot tugagan bo'lsa, to'xtatamiz
-            }
+        // Qidiruv so‘rovi
+        $query = $request->input('query');
 
-            $students = collect($data['students']);
-            $allStudents = $allStudents->merge($students);
-
-            $page++; // Keyingi sahifaga o'tish
-        } while (!empty($students));
-
-        // **Qidiruv bo‘yicha filterlash**
-        $filteredStudents = $allStudents->filter(function ($student) use ($query) {
-            return Str::contains(strtolower($student['name']), $query) ||
-                Str::contains(strtolower($student['identifier']), $query);
+        // Qidiruv bo‘yicha filterlash
+        $filteredStudents = $students->filter(function ($student) use ($query) {
+            return str_contains(strtolower($student['name']), strtolower($query)) ||
+                str_contains(strtolower($student['identifier']), strtolower($query));
         });
 
-        return view('pages.candidates.candidate.index', compact('filteredStudents'));
+        return view('pages.candidates.candidate.index', compact('filteredStudents'))->render();
     }
+
 
 
     public function index(Request $request)
