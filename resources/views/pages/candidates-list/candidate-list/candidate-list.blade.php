@@ -182,7 +182,7 @@
 
                             <!-- Pagination (prev) -->
                             @if (request('query') === null && $prevPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
+                            <a class="btn btn-outline-primary" href="{{ route('candidate-list.index', ['page' => $prevPage]) }}">
                                 <i class="fe fe-arrow-left"></i> Prev
                             </a>
                             @elseif (request('query') === null)
@@ -193,7 +193,7 @@
 
                             <!-- Pagination (next) -->
                             @if (request('query') === null && $nextPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
+                            <a class="btn btn-outline-primary" href="{{ route('candidate-list.index', ['page' => $nextPage]) }}">
                                 Next <i class="fe fe-arrow-right"></i>
                             </a>
                             @elseif (request('query') === null)
