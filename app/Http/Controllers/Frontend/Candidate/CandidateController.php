@@ -32,13 +32,13 @@ class CandidateController extends Controller
 
     public function search(Request $request)
     {
-        // Django bazaviy URL'ni olish
-
-        // To'liq API URL yaratish (query parametri bilan)
+        // So‘rovdan 'query' parametrini olish
         $query = $request->input('query');
+
+        // API manzilini yaratish
         $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
 
-        // API'ga GET so‘rov yuborish
+        // API ga so‘rov yuborish
         $response = Http::get($apiUrl);
 
         // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
@@ -51,6 +51,7 @@ class CandidateController extends Controller
 
         return view('pages.candidates.candidate.index', compact('students'));
     }
+
 
     public function index(Request $request)
     {
