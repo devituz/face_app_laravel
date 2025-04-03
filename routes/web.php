@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('candidatelist/export', [CandidateListController::class, 'export'])->name('candidatelist.export');
 
     Route::get('/search-candidates', [CandidateController::class, 'search'])->name('candidates.search');
+    Route::get('/candidate-list', [CandidateListController::class, 'index'])->name('candidatelist.index');
 
 
     Route::resource('face-id-admin', FaceidContoller::class);
