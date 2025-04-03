@@ -30,46 +30,68 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
-    public function search(Request $request)
-    {
-        // So‘rovdan 'query' parametrini olish
-        $query = $request->input('query');
-
-        // API manzilini yaratish
-        $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
-
-        // API ga so‘rov yuborish
-        $response = Http::get($apiUrl);
-
-        // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
-        if ($response->failed()) {
-            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
-        }
-
-        // JSON javobni olish
-        $students = collect($response->json());
-
-        return view('pages.candidates.candidate.index', compact('students'));
-    }
+//    public function search(Request $request)
+//    {
+//        // So‘rovdan 'query' parametrini olish
+//        $query = $request->input('query');
+//
+//        // API manzilini yaratish
+//        $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
+//
+//        // API ga so‘rov yuborish
+//        $response = Http::get($apiUrl);
+//
+//        // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
+//        if ($response->failed()) {
+//            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
+//        }
+//
+//        // JSON javobni olish
+//        $students = collect($response->json());
+//
+//        return view('pages.candidates.candidate.index', compact('students'));
+//    }
 
 
     public function index(Request $request)
     {
+        // Qidiruv parametrini olish (agar mavjud bo'lsa)
+        $query = $request->input('query');
+
+        // Sahifa raqamini olish (default: 1)
         $page = $request->query('page', 1);
 
-        $response = Http::get("http://facesec.newuu.uz/api/user_images/?page={$page}");
+        // Qidiruv mavjud bo'lsa, qidiruv URL'ini yaratish
+        if ($query) {
+            $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query) . "&page={$page}";
+        } else {
+            // Qidiruv bo'lmasa, barcha ma'lumotlarni olish
+            $apiUrl = "http://facesec.newuu.uz/api/user_images/?page={$page}";
+        }
+
+        // API so'rovini yuborish
+        $response = Http::get($apiUrl);
         $data = $response->json();
 
-        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
-        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
-        $prevPage = $page > 1 ? $page - 1 : null;
+        // Sahifalashni hisoblash
+        $students = $data['students'] ?? [];
+        $totalStudents = $data['total_count'] ?? count($students); // Umumiy studentlar soni
+        $perPage = 10; // Bir sahifada nechta student ko'rsatilishi
 
+        // Sahifalash uchun kerakli ma'lumotlar
+        $totalPages = ceil($totalStudents / $perPage);
+        $nextPage = ($page < $totalPages) ? $page + 1 : null;
+        $prevPage = ($page > 1) ? $page - 1 : null;
+
+        // Natijalarni viewga yuborish
         return view('pages.candidates.candidate.index', [
-            'students' => $data['students'],
+            'students' => $students,
             'prevPage' => $prevPage,
-            'nextPage' => $nextPage
+            'nextPage' => $nextPage,
+            'query' => $query,  // Qidiruv so'rovi viewga yuboriladi
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
