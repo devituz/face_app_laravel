@@ -179,9 +179,10 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
+
                             <!-- Pagination (prev) -->
                             @if (request('query') === null && $prevPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate-list.index', ['page' => $prevPage]) }}">
+                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
                                 <i class="fe fe-arrow-left"></i> Prev
                             </a>
                             @elseif (request('query') === null)
@@ -192,7 +193,7 @@
 
                             <!-- Pagination (next) -->
                             @if (request('query') === null && $nextPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate-list.index', ['page' => $nextPage]) }}">
+                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
                                 Next <i class="fe fe-arrow-right"></i>
                             </a>
                             @elseif (request('query') === null)
@@ -201,7 +202,6 @@
                                 </button>
                             @endif
 
-                            <!-- Alert -->
                             <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
                                 <div class="row align-items-center">
                                     <div class="col">
@@ -213,7 +213,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto me-n3">
-                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
+                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
                                             Delete Selected
                                         </button>
                                     </div>
