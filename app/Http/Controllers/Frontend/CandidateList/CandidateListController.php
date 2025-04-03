@@ -58,12 +58,23 @@ class CandidateListController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get('http://facesec.newuu.uz/api/all/');
+        // query parametrini olish
+        $query = $request->query('query', null);
+
+        // Agar query mavjud bo'lsa, qidiruv so'rovi yuboriladi
+        $url = $query
+            ? 'http://facesec.newuu.uz/api/all/?query=' . urlencode($query) // Qidiruv bilan so'rov
+            : 'http://facesec.newuu.uz/api/all/'; // Barcha yozuvlar uchun so'rov
+
+        // API dan ma'lumot olish
+        $response = Http::get($url);
         $data = $response->json();
 
+        // Ma'lumotlarni o'zgartirish va formatlash
         $students = collect($data['search_records'])->map(function ($record) {
+            // scan_id tekshiruvi va admin ismini olish
             if (!is_null($record['scan_id']) && is_numeric($record['scan_id'])) {
                 $admin = ApiAdmins::find($record['scan_id']);
                 $record['scan_id'] = $admin ? $admin->name : null; // Admin topilmasa, null
@@ -71,18 +82,18 @@ class CandidateListController extends Controller
                 $record['scan_id'] = null;
             }
 
-            // created_at ni O'zbekiston vaqti bilan ko'rsatish (search_records darajasida)
+            // created_at ni O'zbekiston vaqti bilan ko'rsatish
             if (isset($record['created_at'])) {
                 $record['created_at'] = Carbon::parse($record['created_at'])
-                    ->setTimezone('Asia/Tashkent') // O'zbekiston vaqti
-                    ->format('M d, Y H:i:s'); // Formatlash
+                    ->setTimezone('Asia/Tashkent')
+                    ->format('M d, Y H:i:s');
             }
 
             // Student ichidagi created_at ni ham O'zbekiston vaqti bilan ko'rsatish
             if (isset($record['student']['created_at'])) {
                 $record['student']['created_at'] = Carbon::parse($record['student']['created_at'])
-                    ->setTimezone('Asia/Tashkent') // O'zbekiston vaqti
-                    ->format('M d, Y H:i:s'); // Formatlash
+                    ->setTimezone('Asia/Tashkent')
+                    ->format('M d, Y H:i:s');
             }
 
             return $record;
@@ -90,11 +101,10 @@ class CandidateListController extends Controller
             return !is_null($record['scan_id']); // scan_id null bo'lsa, o‘chiriladi
         });
 
-
-
-
+        // View-ga o'zgartirilgan ma'lumotlarni yuborish
         return view('pages.candidates-list.candidate-list.candidate-list', compact('students'));
     }
+
 
 
     public function bulkDestroy(Request $request)
