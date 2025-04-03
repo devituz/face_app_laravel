@@ -25,6 +25,9 @@ class FaceidContoller extends Controller
 
 
 
+
+
+
     public function create()
     {
         // Yangi adminni yaratish uchun bo'sh modelni yuborish

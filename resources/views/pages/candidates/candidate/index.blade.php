@@ -55,9 +55,10 @@
                                 <div class="col">
 
                                     <!-- Form -->
-                                    <form>
+                                    <form action="{{ route('candidates.search') }}" method="GET">
                                         <div class="input-group input-group-flush input-group-merge input-group-reverse">
-                                            <input class="form-control list-search" type="search" placeholder="Search">
+                                            <input class="form-control list-search" type="search" name="query"
+                                                   placeholder="Search" value="{{ request('query') }}">
                                             <span class="input-group-text">
                                                 <i class="fe fe-search"></i>
                                             </span>
