@@ -198,7 +198,6 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>
@@ -206,6 +205,16 @@
     </div>
 
     <script>
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const searchInput = document.querySelector('input[name="query"]');
+
+            if (searchInput.value.trim() === '') {
+                // Agar input bo'sh bo'lsa, formani yubormang va tezda url ga yo'naltiring
+                event.preventDefault(); // Formani yubormaslik
+                window.location.href = "{{ url('/candidate') }}"; // Yo'naltirish
+            }
+        });
         // Modal ochilganda rasm manzilini o'zgartirish
         document.querySelectorAll('.avatar img').forEach(function(avatar) {
             avatar.addEventListener('click', function() {
