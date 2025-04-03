@@ -179,24 +179,29 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
-                            <ul class="list-pagination-prev pagination pagination-tabs card-pagination">
-                                <li class="page-item">
-                                    <a class="page-link ps-0 pe-4 border-end" href="crm-contacts.html#">
-                                        <i class="fe fe-arrow-left me-1"></i> Prev
-                                    </a>
-                                </li>
-                            </ul>
+                            <!-- Pagination (prev) -->
+                            @if (request('query') === null && $prevPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
+                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
+                                <i class="fe fe-arrow-left"></i> Prev
+                            </a>
+                            @elseif (request('query') === null)
+                                <button class="btn btn-outline-secondary disabled">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </button>
+                            @endif
 
+                            <!-- Pagination (next) -->
+                            @if (request('query') === null && $nextPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
+                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
+                                Next <i class="fe fe-arrow-right"></i>
+                            </a>
+                            @elseif (request('query') === null)
+                                <button class="btn btn-outline-secondary disabled">
+                                    Next <i class="fe fe-arrow-right"></i>
+                                </button>
+                            @endif
 
-                            <ul class="list-pagination pagination pagination-tabs card-pagination"></ul>
-
-                            <ul class="list-pagination-next pagination pagination-tabs card-pagination">
-                                <li class="page-item">
-                                    <a class="page-link ps-4 pe-0 border-start" href="crm-contacts.html#">
-                                        Next <i class="fe fe-arrow-right ms-1"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            <!-- Alert -->
                             <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
                                 <div class="row align-items-center">
                                     <div class="col">
@@ -208,7 +213,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto me-n3">
-                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
+                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
                                             Delete Selected
                                         </button>
                                     </div>

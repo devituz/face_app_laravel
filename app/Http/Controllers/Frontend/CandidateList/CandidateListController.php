@@ -62,11 +62,12 @@ class CandidateListController extends Controller
     {
         // query parametrini olish
         $query = $request->query('query', null);
+        $page = $request->query('page', 1); // Sahifa raqamini olish (default: 1)
 
-        // Agar query mavjud bo'lsa, qidiruv so'rovi yuboriladi
+        // URL yaratish
         $url = $query
             ? 'http://facesec.newuu.uz/api/all/?query=' . urlencode($query) // Qidiruv bilan so'rov
-            : 'http://facesec.newuu.uz/api/all/'; // Barcha yozuvlar uchun so'rov
+            : 'http://facesec.newuu.uz/api/all/?page=' . $page; // Barcha yozuvlar uchun sahifa
 
         // API dan ma'lumot olish
         $response = Http::get($url);
@@ -101,9 +102,19 @@ class CandidateListController extends Controller
             return !is_null($record['scan_id']); // scan_id null bo'lsa, o‘chiriladi
         });
 
+        // Paginationni hisoblash
+        $prevPage = $page > 1 ? $page - 1 : null;
+        $nextPage = isset($data['pagination']['current_page']) && $data['pagination']['current_page'] < $data['pagination']['total_pages']
+            ? $page + 1 : null;
+
         // View-ga o'zgartirilgan ma'lumotlarni yuborish
-        return view('pages.candidates-list.candidate-list.candidate-list', compact('students'));
+        return view('pages.candidates-list.candidate-list.candidate-list', [
+            'students' => $students, // Faqat students ma'lumotlari
+            'prevPage' => $prevPage, // Oldingi sahifa
+            'nextPage' => $nextPage, // Keyingi sahifa
+        ]);
     }
+
 
 
 
