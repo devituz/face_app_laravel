@@ -43,4 +43,3 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
 
 
 
-Route::post('/candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');

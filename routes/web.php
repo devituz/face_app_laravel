@@ -35,11 +35,11 @@ Route::middleware('auth')->group(function () {
     })->name('user');
 
 // Tanlangan ID'larni o'chirish
+    Route::post('candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');
 
 
 
     Route::resource('candidate-list', CandidateListController::class);
-    Route::post('candidate-list/bulk-delete', [CandidateListController::class, 'bulkDestroy'])->name('candidate-list.bulkDelete');
     Route::get('candidatelist/export', [CandidateListController::class, 'export'])->name('candidatelist.export');
 
     Route::get('/search-candidates', [CandidateController::class, 'search'])->name('candidates.search');
