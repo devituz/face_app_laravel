@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('candidate-list', CandidateListController::class);
     Route::get('candidatelist/export', [CandidateListController::class, 'export'])->name('candidatelist.export');
 
-    Route::get('/search-candidates', [CandidateController::class, 'search'])->name('candidates.search');
+    Route::get('candidates', [CandidateController::class, 'index'])->name('candidates.index');
     Route::get('/candidate-list', [CandidateListController::class, 'index'])->name('candidatelist.index');
 
 
