@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/django/search-records', [App\Http\Controllers\DjangoController::class, 'getSearchRecords']);
 
 
 Route::post('/face/login', [ApiAdminsController::class, 'login']);

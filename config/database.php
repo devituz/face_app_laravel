@@ -78,6 +78,13 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'sqlite_django' => [
+            'driver' => 'sqlite',
+            'database' => env('DJANGO_DB'),
+            'prefix' => '',
+        ],
+
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
