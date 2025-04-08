@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Frontend\Candidate;
+use App\Models\ApiAdmins;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Utils;
@@ -53,23 +55,71 @@ class CandidateController extends Controller
     }
 
 
+//    public function index(Request $request)
+//    {
+//        $page = $request->query('page', 1);
+//
+//        $response = Http::get("http://facesec.newuu.uz/api/user_images/?page={$page}");
+//        $data = $response->json();
+//
+//        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
+//        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
+//        $prevPage = $page > 1 ? $page - 1 : null;
+//
+//        return view('pages.candidates.candidate.index', [
+//            'students' => $data['students'],
+//            'prevPage' => $prevPage,
+//            'nextPage' => $nextPage
+//        ]);
+//    }
+
+
     public function index(Request $request)
     {
+        $query = $request->query('query', null);
         $page = $request->query('page', 1);
 
-        $response = Http::get("http://facesec.newuu.uz/api/user_images/?page={$page}");
-        $data = $response->json();
+        // Faqat student_api_students jadvalidan ma'lumot olish
+        $data = DB::connection('sqlite_django')
+            ->table('student_api_students')
+            ->select(
+                'id',
+                'name',
+                'identifier',
+                'image_path',
+                'scan_id',
+                'created_at'
+            )
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->where('name', 'like', '%' . $query . '%');
+            })
+            ->paginate(5);
 
-        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
-        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
-        $prevPage = $page > 1 ? $page - 1 : null;
+        // Ma'lumotlarni formatlash
+        $students = $data->getCollection()->map(function ($record) {
+            $record->image_path = url('uploads/students/' . basename($record->image_path));
+
+            if ($record->scan_id) {
+                $admin = ApiAdmins::find($record->scan_id);
+                $record->scan_id = $admin ? $admin->name : $record->scan_id;
+            }
+
+            return $record;
+        });
+
+        $prevPage = $data->currentPage() > 1 ? $data->currentPage() - 1 : null;
+        $nextPage = $data->currentPage() < $data->lastPage() ? $data->currentPage() + 1 : null;
 
         return view('pages.candidates.candidate.index', [
-            'students' => $data['students'],
+            'students' => $students,
             'prevPage' => $prevPage,
-            'nextPage' => $nextPage
+            'nextPage' => $nextPage,
+            'currentPage' => $data->currentPage(),
+            'lastPage' => $data->lastPage(),
+            'query' => $query
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

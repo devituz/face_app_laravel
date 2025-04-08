@@ -108,10 +108,10 @@
                                             <!-- Avatar rasm -->
                                             <div class="avatar avatar-xs align-middle me-2">
                                                 <img class="avatar-img"
-                                                     src="{{ $student['image_url'] }}"
+                                                     src="{{ $student->image_path }}"
                                                      data-bs-toggle="modal"
                                                      data-bs-target="#imageModal"
-                                                     data-image="{{ $student['image_url'] }}"
+                                                     data-image="{{ $student->image_path }}"
                                                      alt="...">
                                             </div>
 
@@ -131,13 +131,13 @@
 
                                         </td>
                                         <td>
-                                            <span class="item-title">{{ $student['name'] }}</span>
+                                            <span class="item-title">{{ $student->name }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-identifier">{{ $student['identifier'] }}</span>
+                                            <span class="item-identifier">{{ $student->identifier }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-created_at">{{ $student['created_at'] }}</span>
+                                            <span class="item-created_at">{{ \Carbon\Carbon::parse($student->student_created_at)->format('M d, Y H:i:s') }}</span>
                                         </td>
 
 
