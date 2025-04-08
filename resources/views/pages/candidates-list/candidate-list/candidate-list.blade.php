@@ -69,9 +69,11 @@
                         </div>
 
                         <div class="table-responsive">
-                            <form method="POST" action="{{ route('candidatelist.bulkDelete') }}">
+                            <form id="bulk-delete-form" method="POST" action="{{ route('candidatelist.bulkDelete') }}">
                                 @csrf
                                 @method('DELETE')
+                                <input type="hidden" id="selected-ids" name="ids[]">
+
                             <table class="table table-sm table-hover table-nowrap card-table">
                                 <thead>
                                 <tr>
@@ -199,28 +201,6 @@
                                     <i class="fe fe-arrow-right"></i> Next
                                 </button>
                             @endif
-
-
-
-
-{{--                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">--}}
-{{--                                <div class="row align-items-center">--}}
-{{--                                    <div class="col">--}}
-{{--                                        <div class="form-check">--}}
-{{--                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>--}}
-{{--                                            <label class="form-check-label text-white" for="listAlertCheckbox">--}}
-{{--                                                <span class="list-alert-count">0</span> deal(s)--}}
-{{--                                            </label>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-auto me-n3">--}}
-{{--                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">--}}
-{{--                                            Delete Selected--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>--}}
-{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -242,7 +222,7 @@
         document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
                 toggleDeleteButton();
-                logSelectedIds(); // Tanlangan idlarni chiqarish
+                updateSelectedIds(); // Tanlangan ID'larni yangilash
             });
         });
 
@@ -253,7 +233,7 @@
                 checkbox.checked = isChecked;
             });
             toggleDeleteButton();
-            logSelectedIds(); // Tanlangan idlarni chiqarish
+            updateSelectedIds(); // Tanlangan ID'larni yangilash
         });
 
         // Delete tugmasini ko'rsatish yoki yashirish
@@ -269,56 +249,17 @@
             }
         }
 
-        // Tanlangan checkboxlar orqali ID'larni konsolga chiqarish
-        function logSelectedIds() {
+        // Tanlangan checkboxlar orqali ID'larni forma inputiga qo'shish
+        function updateSelectedIds() {
             const selectedIds = [];
             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
                 selectedIds.push(checkbox.getAttribute('data-id'));
             });
-            console.log('Selected IDss:', selectedIds); // Tanlangan idlarni chiqarish
+
+            // Tanlangan ID'larni forma inputiga qo'shish
+            document.getElementById('selected-ids').value = selectedIds.join(',');
         }
-
-
-        // Delete tugmasini bosilganda tanlangan ID'larni o'chirish
-        document.getElementById('bulk-delete-btn').addEventListener('click', function(event) {
-            event.preventDefault(); // Formani yuborishni to'xtatish (agar formaga bog'langan bo'lsa)
-
-            const selectedIds = [];
-            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
-                selectedIds.push(checkbox.getAttribute('data-id'));
-            });
-
-            if (selectedIds.length > 0) {
-                // AJAX so'rovini yuborish
-                fetch('{{ route('candidatelist.bulkDelete') }}', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ ids: selectedIds })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Tanlangan ma\'lumotlar o\'chirildi');
-                            // Tanlangan checkboxlarni olib tashlash
-                            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
-                                checkbox.closest('tr').remove();
-                            });
-                        } else {
-                            alert('Xatolik yuz berdi');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Xatolik yuz berdi');
-                    });
-            } else {
-                alert('Hech narsa tanlanmagan');
-            }
-        });
-
-
     </script>
+
+
 @endsection

@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         return view('user');
     })->name('user');
 
+// Tanlangan ID'larni o'chirish
     Route::delete('/candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');
 
 

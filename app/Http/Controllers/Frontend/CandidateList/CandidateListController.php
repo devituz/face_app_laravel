@@ -125,14 +125,15 @@ class CandidateListController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        // Tanlangan id'larni olish
+        // Tanlangan ID'larni olish
         $ids = $request->input('ids');
+        $idsArray = explode(',', $ids); // ID'larni array shaklida olish
 
         // Agar ids mavjud bo'lsa, ularni o'chirish
-        if ($ids && count($ids) > 0) {
+        if ($idsArray && count($idsArray) > 0) {
             DB::connection('sqlite_django')
                 ->table('student_api_searchrecord')
-                ->whereIn('id', $ids)
+                ->whereIn('id', $idsArray)
                 ->delete(); // Tanlangan yozuvlarni o'chiradi
         }
 
