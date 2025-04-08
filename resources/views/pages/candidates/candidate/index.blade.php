@@ -254,7 +254,7 @@
 
             if (selectedIds.length > 0) {
                 // AJAX so'rovini yuborish
-                fetch('{{ route('candidatelist.bulkDelete') }}', {
+                fetch('{{ route('candidates.bulkDelete') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

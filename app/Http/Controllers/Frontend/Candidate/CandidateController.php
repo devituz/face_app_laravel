@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Candidate;
 use App\Models\ApiAdmins;
+use App\Rules\ExistsOnConnection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -32,27 +33,27 @@ class CandidateController extends Controller
         return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
     }
 
-    public function search(Request $request)
-    {
-        // So‘rovdan 'query' parametrini olish
-        $query = $request->input('query');
-
-        // API manzilini yaratish
-        $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
-
-        // API ga so‘rov yuborish
-        $response = Http::get($apiUrl);
-
-        // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
-        if ($response->failed()) {
-            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
-        }
-
-        // JSON javobni olish
-        $students = collect($response->json());
-
-        return view('pages.candidates.candidate.index', compact('students'));
-    }
+//    public function search(Request $request)
+//    {
+//        // So‘rovdan 'query' parametrini olish
+//        $query = $request->input('query');
+//
+//        // API manzilini yaratish
+//        $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
+//
+//        // API ga so‘rov yuborish
+//        $response = Http::get($apiUrl);
+//
+//        // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
+//        if ($response->failed()) {
+//            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
+//        }
+//
+//        // JSON javobni olish
+//        $students = collect($response->json());
+//
+//        return view('pages.candidates.candidate.index', compact('students'));
+//    }
 
 
 //    public function index(Request $request)
@@ -206,79 +207,42 @@ class CandidateController extends Controller
 
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+
+
+    public function bulkDelete(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-
-
-    public function bulkDestroy(Request $request)
-    {
-        // Yuborilgan IDlar
-        $candidateIds = $request->input('ids'); // 'candidate_ids' o'rniga 'ids' ishlatilmoqda
-        Log::info('Yuborilgan ids:', ['ids' => $candidateIds]);
-
-        // IDsni integer formatiga o'tkazish
-        $candidateIds = array_map('intval', $candidateIds);
-        Log::info('Ids integer formatida:', ['ids' => $candidateIds]);
-
-        // Django API URL
-        $djangoApiUrl = "http://facesec.newuu.uz/api/candidates/delete/";
-        Log::info('Django API URL:', ['url' => $djangoApiUrl]);
-
-        // Guzzle HTTP Client
-        $client = new Client();
+        // Validatsiya qoidasini o'rnatish
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => ['required', new ExistsOnConnection('sqlite_django', 'student_api_students')],
+        ]);
 
         try {
-            // POST so'rov yuborish
-            Log::info('So\'rov yuborilmoqda...');
+            // O'chirish operatsiyasini bajarish
+            $deletedCount = DB::connection('sqlite_django')
+                ->table('student_api_students')
+                ->whereIn('id', $request->ids)
+                ->delete();
 
-            $response = $client->post($djangoApiUrl, [
-                'json' => [
-                    'ids' => $candidateIds,  // Django APIga 'ids' yuboriladi
-                ]
-            ]);
-
-            // Javobni olish
-            $responseBody = $response->getBody()->getContents();
-            Log::info('API javobi olindi:', ['response' => $responseBody]);
-
-            $responseData = json_decode($responseBody, true);
-
-            // API javobining status kodini tekshirish
-            if ($response->getStatusCode() === 200) {
-                Log::info('API muvaffaqiyatli javob berdi');
-                return response()->json(['success' => 'Candidates successfully deleted']);
+            // Natijani tekshirish va javob yuborish
+            if ($deletedCount > 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Tanlangan ma\'lumotlar o\'chirildi.',
+                ]);
             } else {
-                Log::error('Django API xatolik qaytardi', ['response' => $responseData]);
-                return response()->json(['error' => 'Error occurred in Django API'], 500);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hech qanday ma\'lumot o\'chirilmadi.',
+                ], 404);
             }
         } catch (\Exception $e) {
-            Log::error('API bilan bog\'lanishda xatolik', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Failed to connect to Django API: ' . $e->getMessage()], 500);
+            // Xatolikni qaytarish
+            return response()->json([
+                'success' => false,
+                'message' => 'Xatolik yuz berdi: ' . $e->getMessage(),
+            ], 500);
         }
     }
 
