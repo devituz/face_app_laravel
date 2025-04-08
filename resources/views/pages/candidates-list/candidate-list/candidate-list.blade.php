@@ -278,5 +278,47 @@
             console.log('Selected IDss:', selectedIds); // Tanlangan idlarni chiqarish
         }
 
+
+        // Delete tugmasini bosilganda tanlangan ID'larni o'chirish
+        document.getElementById('bulk-delete-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Formani yuborishni to'xtatish (agar formaga bog'langan bo'lsa)
+
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
+            });
+
+            if (selectedIds.length > 0) {
+                // AJAX so'rovini yuborish
+                fetch('{{ route('candidatelist.bulkDelete') }}', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Tanlangan ma\'lumotlar o\'chirildi');
+                            // Tanlangan checkboxlarni olib tashlash
+                            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                                checkbox.closest('tr').remove();
+                            });
+                        } else {
+                            alert('Xatolik yuz berdi');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Xatolik yuz berdi');
+                    });
+            } else {
+                alert('Hech narsa tanlanmagan');
+            }
+        });
+
+
     </script>
 @endsection
