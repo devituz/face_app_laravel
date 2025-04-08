@@ -25,8 +25,12 @@ class DjangoController extends Controller
 
         // Fayl yo‘lini to'liq URL formatiga o'zgartirish
         $data = $data->map(function ($record) {
-            // Faylning to'liq URL manzilini olish
+            // search_image_path ning to'liq URL manzilini olish
             $record->search_image_path = url('uploads/searches/' . basename($record->search_image_path));
+
+            // image_path ning to'liq URL manzilini olish
+            $record->image_path = url('uploads/students/' . basename($record->image_path));
+
             return $record;
         });
 
