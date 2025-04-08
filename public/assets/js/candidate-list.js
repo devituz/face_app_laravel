@@ -1,29 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const deleteBtn = document.getElementById('candidate-list-bulk-delete-btn');
-    const url = deleteBtn.getAttribute('data-url');  // URLni data-url atributidan olish
-
-    const checkboxes = document.querySelectorAll('.list-checkbox');
-    const selectAllCheckbox = document.getElementById('listCheckboxAll');
-    let selectedIds = [];
-
-    // Select all checkbox ni o'zgartirish
-    selectAllCheckbox.addEventListener('change', function() {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-
-        // Tanlangan IDlarni chiqarish
-        selectedIds = []; // Avvalgi tanlanganlarni tozalash
-        if (selectAllCheckbox.checked) {
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selectedIds.push(checkbox.getAttribute('data-id'));
-                }
-            });
-        }
-
-        console.log('Selected frfrfr: ', selectedIds);
-    });
 
     // Har bir checkboxni tekshirish
     checkboxes.forEach(checkbox => {
