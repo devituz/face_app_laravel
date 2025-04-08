@@ -259,7 +259,7 @@
 
         // Delete tugmasini bosilganda tanlangan ID'larni o'chirish
         document.getElementById('bulk-delete-btn').addEventListener('click', function(event) {
-            event.preventDefault(); // Formani yuborishni to'xtatish (agar formaga bog'langan bo'lsa)
+            event.preventDefault(); // Formani yuborishni to'xtatish
 
             const selectedIds = [];
             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
@@ -269,24 +269,23 @@
             if (selectedIds.length > 0) {
                 // AJAX so'rovini yuborish
                 fetch('{{ route('candidatelist.bulkDelete') }}', {
-                    method: 'DELETE', // DELETE metodini ishlatamiz
+                    method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
-
                     body: JSON.stringify({ ids: selectedIds })
                 })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Tanlangan ma\'lumotlar o\'chirildi');
+                            alert(data.message); // Success message
                             // Tanlangan checkboxlarni olib tashlash
                             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
-                                checkbox.closest('tr').remove();
+                                checkbox.closest('tr').remove(); // Tanlangan satrni o'chirish
                             });
                         } else {
-                            alert('Xatolik yuz berdi');
+                            alert(data.message); // Error message
                         }
                     })
                     .catch(error => {
