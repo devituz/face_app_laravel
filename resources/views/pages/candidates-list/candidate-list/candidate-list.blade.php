@@ -185,6 +185,10 @@
                                 <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $prevPage }}">
                                     <i class="fe fe-arrow-left"></i> Prev
                                 </a>
+                            @else
+                                <button class="btn btn-outline-primary" disabled>
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </button>
                             @endif
 
                             <!-- Pagination (next) -->
@@ -197,6 +201,7 @@
                                     <i class="fe fe-arrow-right"></i> Next
                                 </button>
                             @endif
+
 
 
 
