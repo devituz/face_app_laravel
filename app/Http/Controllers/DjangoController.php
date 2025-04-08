@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\ApiAdmins;
 use Illuminate\Support\Facades\DB;
 
 class DjangoController extends Controller
 {
+
     public function getSearchRecords()
     {
         // Django bazasidagi searchrecord va students jadvalarini bog'lab olish
@@ -23,7 +25,6 @@ class DjangoController extends Controller
             )
             ->get();
 
-        // Fayl yo‘lini to'liq URL formatiga o'zgartirish
         $data = $data->map(function ($record) {
             // search_image_path ning to'liq URL manzilini olish
             $record->search_image_path = url('uploads/searches/' . basename($record->search_image_path));
@@ -31,12 +32,19 @@ class DjangoController extends Controller
             // image_path ning to'liq URL manzilini olish
             $record->image_path = url('uploads/students/' . basename($record->image_path));
 
+            // scan_id ni tekshirib, ApiAdmins modelidan mos name olish
+            if ($record->scan_id) {
+                $admin = ApiAdmins::find($record->scan_id);  // scan_id ga mos adminni topish
+
+                // Agar admin topilsa, uning name'ini qo'shish, aks holda scan_id ni qo'shish
+                $record->scan_id = $admin ? $admin->name : $record->scan_id;
+            }
+
             return $record;
         });
 
         return response()->json($data);
     }
-
 
 
 }
