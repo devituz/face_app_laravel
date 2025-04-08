@@ -110,7 +110,7 @@
                                         <td>
 
                                             <div class="form-check">
-                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">
+                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student->search_id }}">
                                                 <label class="form-check-label" for="listCheckboxOne"></label>
                                             </div>
                                         </td>

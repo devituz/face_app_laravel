@@ -85,7 +85,7 @@ class CandidateListController extends Controller
             })
             ->paginate(5); // Pagination, har sahifada 5 ta yozuv
 
-        dd($data);
+
 
         // Data o'zgartirish va formatlash
         $students = $data->getCollection()->map(function ($record) {
@@ -123,7 +123,22 @@ class CandidateListController extends Controller
     }
 
 
+    public function deleteSelected(Request $request)
+    {
+        // Tanlangan id'larni olish
+        $ids = $request->input('ids');
 
+        // Agar ids mavjud bo'lsa, ularni o'chirish
+        if ($ids && count($ids) > 0) {
+            DB::connection('sqlite_django')
+                ->table('student_api_searchrecord')
+                ->whereIn('id', $ids)
+                ->delete(); // Tanlangan yozuvlarni o'chiradi
+        }
+
+        // O'chirishdan keyin qayta index sahifasiga yo'naltirish
+        return redirect()->route('candidates.index')->with('success', 'Selected records deleted successfully.');
+    }
 
 
 
