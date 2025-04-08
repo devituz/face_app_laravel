@@ -272,8 +272,9 @@
                     method: 'DELETE', // DELETE metodini ishlatamiz
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
+
                     body: JSON.stringify({ ids: selectedIds })
                 })
                     .then(response => response.json())
