@@ -109,10 +109,10 @@
                                     <tr>
                                         <td>
 
-{{--                                            <div class="form-check">--}}
-{{--                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">--}}
-{{--                                                <label class="form-check-label" for="listCheckboxOne"></label>--}}
-{{--                                            </div>--}}
+                                            <div class="form-check">
+                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">
+                                                <label class="form-check-label" for="listCheckboxOne"></label>
+                                            </div>
                                         </td>
 
                                         <td>

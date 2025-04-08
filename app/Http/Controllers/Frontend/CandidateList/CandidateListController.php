@@ -85,6 +85,8 @@ class CandidateListController extends Controller
             })
             ->paginate(5); // Pagination, har sahifada 5 ta yozuv
 
+        dd($data);
+
         // Data o'zgartirish va formatlash
         $students = $data->getCollection()->map(function ($record) {
             // search_image_path ning to'liq URL manzilini olish
