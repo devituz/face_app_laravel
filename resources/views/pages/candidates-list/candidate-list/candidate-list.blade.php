@@ -193,11 +193,11 @@
 
                             <!-- Pagination (next) -->
                             @if($nextPage)
-                                <a class="btn btn-outline-secondary" href="{{ url()->current() }}?page={{ $nextPage }}">
+                                <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $nextPage }}">
                                     <i class="fe fe-arrow-right"></i> Next
                                 </a>
                             @else
-                                <button class="btn btn-outline-secondary" disabled>
+                                <button class="btn btn-outline-primary" disabled>
                                     <i class="fe fe-arrow-right"></i> Next
                                 </button>
                             @endif
