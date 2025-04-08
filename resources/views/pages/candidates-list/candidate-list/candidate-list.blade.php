@@ -49,14 +49,14 @@
                                 <div class="col">
 
                                     <!-- Form -->
-                                    <form method="GET" action="{{ route('candidatelist.index') }}">
-                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">
-                                            <input class="form-control list-search" type="search" name="query" placeholder="Search" value="{{ request('query') }}">
-                                            <span class="input-group-text">
-                                            <i class="fe fe-search"></i>
-                                        </span>
-                                        </div>
-                                    </form>
+{{--                                    <form method="GET" action="{{ route('candidatelist.index') }}">--}}
+{{--                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">--}}
+{{--                                            <input class="form-control list-search" type="search" name="query" placeholder="Search" value="{{ request('query') }}">--}}
+{{--                                            <span class="input-group-text">--}}
+{{--                                            <i class="fe fe-search"></i>--}}
+{{--                                        </span>--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
 
                                 </div>
                                 <div class="col-auto me-n3">
@@ -109,10 +109,10 @@
                                     <tr>
                                         <td>
 
-                                            <div class="form-check">
-                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">
-                                                <label class="form-check-label" for="listCheckboxOne"></label>
-                                            </div>
+{{--                                            <div class="form-check">--}}
+{{--                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">--}}
+{{--                                                <label class="form-check-label" for="listCheckboxOne"></label>--}}
+{{--                                            </div>--}}
                                         </td>
 
                                         <td>
