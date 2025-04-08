@@ -125,20 +125,23 @@ class CandidateListController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        // Tanlangan ID'larni olish
-        $ids = $request->input('ids');
-        $idsArray = explode(',', $ids); // ID'larni array shaklida olish
+        // CSRF tokenni tekshirish
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'exists:students,id',  // students jadvalidan ID'lar mavjudligini tekshirish
+        ]);
 
-        // Agar ids mavjud bo'lsa, ularni o'chirish
-        if ($idsArray && count($idsArray) > 0) {
-            DB::connection('sqlite_django')
-                ->table('student_api_searchrecord')
-                ->whereIn('id', $idsArray)
-                ->delete(); // Tanlangan yozuvlarni o'chiradi
+        // Tanlangan ID'larni o'chirish
+        $deletedCount = DB::connection('sqlite_django')
+            ->table('student_api_searchrecord')
+            ->whereIn('id', $request->ids)
+            ->delete();
+
+        if ($deletedCount > 0) {
+            return response()->json(['success' => true, 'message' => 'Tanlangan ma\'lumotlar o\'chirildi']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Xatolik yuz berdi']);
         }
-
-        // O'chirishdan keyin qayta index sahifasiga yo'naltirish
-        return redirect()->route('candidatelist.index')->with('success', 'Selected records deleted successfully.');
     }
 
 
