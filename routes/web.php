@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
 
 // Tanlangan ID'larni o'chirish
     Route::post('candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');
-    Route::post('candidate/bulk-delete', [CandidateController::class, 'bulkDelete'])->name('candidates.bulkDelete');
+    Route::post('/candidates/bulk-delete', [CandidateController::class, 'bulkDelete'])->name('candidates.bulkDelete');
 
 
 
@@ -51,7 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::post('face-id-admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('face-id-admin.bulkDelete');
 
     Route::resource('candidate', CandidateController::class);
-    Route::post('candidate/bulk-delete', [CandidateController::class, 'bulkDestroy'])->name('candidate.bulkDelete');
     Route::get('students/export', [CandidateController::class, 'export'])->name('students.export');
 
 
