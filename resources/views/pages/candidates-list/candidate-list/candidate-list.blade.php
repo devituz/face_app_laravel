@@ -269,7 +269,7 @@
             if (selectedIds.length > 0) {
                 // AJAX so'rovini yuborish
                 fetch('{{ route('candidatelist.bulkDelete') }}', {
-                    method: 'DELETE',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
