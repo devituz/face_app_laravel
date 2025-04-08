@@ -242,6 +242,7 @@
         document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
                 toggleDeleteButton();
+                logSelectedIds(); // Tanlangan idlarni chiqarish
             });
         });
 
@@ -252,6 +253,7 @@
                 checkbox.checked = isChecked;
             });
             toggleDeleteButton();
+            logSelectedIds(); // Tanlangan idlarni chiqarish
         });
 
         // Delete tugmasini ko'rsatish yoki yashirish
@@ -266,5 +268,15 @@
                 deleteButton.style.display = 'none';
             }
         }
+
+        // Tanlangan checkboxlar orqali ID'larni konsolga chiqarish
+        function logSelectedIds() {
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
+            });
+            console.log('Selected IDs:', selectedIds); // Tanlangan idlarni chiqarish
+        }
+
     </script>
 @endsection
