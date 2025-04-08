@@ -49,14 +49,14 @@
                                 <div class="col">
 
                                     <!-- Form -->
-{{--                                    <form method="GET" action="{{ route('candidatelist.index') }}">--}}
-{{--                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">--}}
-{{--                                            <input class="form-control list-search" type="search" name="query" placeholder="Search" value="{{ request('query') }}">--}}
-{{--                                            <span class="input-group-text">--}}
-{{--                                            <i class="fe fe-search"></i>--}}
-{{--                                        </span>--}}
-{{--                                        </div>--}}
-{{--                                    </form>--}}
+                                    <form method="GET" action="{{ route('candidatelist.index') }}">
+                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">
+                                            <input class="form-control list-search" type="search" name="query" placeholder="Search" value="{{ request('query') }}">
+                                            <span class="input-group-text">
+                                            <i class="fe fe-search"></i>
+                                        </span>
+                                        </div>
+                                    </form>
 
                                 </div>
                                 <div class="col-auto me-n3">
