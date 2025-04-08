@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\CandidateList;
 use App\Exports\CandidatesListExport;
+use App\Rules\ExistsOnConnection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\ApiAdmins;
 use Illuminate\Support\Facades\Http;
@@ -130,89 +131,37 @@ class CandidateListController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        // Validatsiya qoidasini o'zgartirib, 'sqlite_django' ulanishini ishlatamiz
+        // Validatsiya qoidasini o'rnatish
         $this->validate($request, [
             'ids' => 'required|array',
-            'ids.*' => [
-                'required',
-                Rule::exists('student_api_searchrecord', 'id')->connection('sqlite_django'),
-            ],
+            'ids.*' => ['required', new ExistsOnConnection('sqlite_django', 'student_api_searchrecord')],
         ]);
 
         try {
-            // Perform the delete operation using the provided IDs
-            // Tanlangan ID'larni o'chirish
+            // O'chirish operatsiyasini bajarish
             $deletedCount = DB::connection('sqlite_django')
                 ->table('student_api_searchrecord')
                 ->whereIn('id', $request->ids)
                 ->delete();
 
-            // Check if any records were deleted and return appropriate response
+            // Natijani tekshirish va javob yuborish
             if ($deletedCount > 0) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Tanlangan ma\'lumotlar o\'chirildi', // Translated: 'Selected data deleted'
+                    'message' => 'Tanlangan ma\'lumotlar o\'chirildi.',
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Xatolik yuz berdi', // Translated: 'An error occurred'
-                ], 500);
+                    'message' => 'Hech qanday ma\'lumot o\'chirilmadi.',
+                ], 404);
             }
         } catch (\Exception $e) {
-            // Handle any errors that might occur during deletion
+            // Xatolikni qaytarish
             return response()->json([
                 'success' => false,
-                'message' => 'Xatolik yuz berdi: ' . $e->getMessage(), // Return the exception message in case of error
+                'message' => 'Xatolik yuz berdi: ' . $e->getMessage(),
             ], 500);
-        }}
-
-
-
-    public function bulkDestroy(Request $request)
-    {
-        // Yuborilgan IDlar
-        $candidateIds = $request->input('ids'); // 'candidate_ids' o'rniga 'ids' ishlatilmoqda
-        Log::info('Yuborilgan ids:', ['ids' => $candidateIds]);
-
-        // IDsni integer formatiga o'tkazish
-        $candidateIds = array_map('intval', $candidateIds);
-        Log::info('Ids integer formatida:', ['ids' => $candidateIds]);
-
-        // Django API URL
-        $djangoApiUrl = "http://facesec.newuu.uz/api/user_delete/";
-        Log::info('Django API URL:', ['url' => $djangoApiUrl]);
-
-        // Guzzle HTTP Client
-        $client = new Client();
-
-        try {
-            // POST so'rov yuborish
-            Log::info('So\'rov yuborilmoqda...');
-
-            $response = $client->post($djangoApiUrl, [
-                'json' => [
-                    'ids' => $candidateIds,  // Django APIga 'ids' yuboriladi
-                ]
-            ]);
-
-            // Javobni olish
-            $responseBody = $response->getBody()->getContents();
-            Log::info('API javobi olindi:', ['response' => $responseBody]);
-
-            $responseData = json_decode($responseBody, true);
-
-            // API javobining status kodini tekshirish
-            if ($response->getStatusCode() === 200) {
-                Log::info('API muvaffaqiyatli javob berdi');
-                return response()->json(['success' => 'Candidates successfully deleted']);
-            } else {
-                Log::error('Django API xatolik qaytardi', ['response' => $responseData]);
-                return response()->json(['error' => 'Error occurred in Django API'], 500);
-            }
-        } catch (\Exception $e) {
-            Log::error('API bilan bog\'lanishda xatolik', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Failed to connect to Django API: ' . $e->getMessage()], 500);
         }
     }
 
