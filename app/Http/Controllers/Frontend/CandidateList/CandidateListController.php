@@ -131,7 +131,7 @@ class CandidateListController extends Controller
         // Validate the incoming request to ensure 'ids' is an array and contains valid IDs
         $this->validate($request, [
             'ids' => 'required|array',
-            'ids.*' => 'exists:students,id', // Validate that each ID exists in the 'students' table
+            'ids.*' => 'exists:student_api_searchrecord,id', // Ensure validation occurs on the correct table
         ]);
 
         try {
