@@ -27,15 +27,14 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
     Route::get('/dashboards', function () {
         return view('pages.dashboards.dashboard.dashboard');
     })->name('dashboards');
-
-
     Route::get('/user', function () {
         return view('user');
     })->name('user');
+
+    Route::delete('/candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');
 
 
 

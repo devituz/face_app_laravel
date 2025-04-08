@@ -123,7 +123,7 @@ class CandidateListController extends Controller
     }
 
 
-    public function deleteSelected(Request $request)
+    public function bulkDelete(Request $request)
     {
         // Tanlangan id'larni olish
         $ids = $request->input('ids');
@@ -137,9 +137,8 @@ class CandidateListController extends Controller
         }
 
         // O'chirishdan keyin qayta index sahifasiga yo'naltirish
-        return redirect()->route('candidates.index')->with('success', 'Selected records deleted successfully.');
+        return redirect()->route('candidatelist.index')->with('success', 'Selected records deleted successfully.');
     }
-
 
 
 
