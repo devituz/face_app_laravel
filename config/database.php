@@ -80,9 +80,10 @@ return [
 
         'sqlite_django' => [
             'driver' => 'sqlite',
-            'database' => env('DJANGO_DB'),
+            'database' => env('DB_SQLITE_DJANGO_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
+
 
 
         'sqlsrv' => [
