@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CandidateListController extends Controller
 {
@@ -64,56 +65,53 @@ class CandidateListController extends Controller
         $query = $request->query('query', null);
         $page = $request->query('page', 1); // Sahifa raqamini olish (default: 1)
 
-        // URL yaratish
-        $url = $query
-            ? 'http://facesec.newuu.uz/api/all/?query=' . urlencode($query) // Qidiruv bilan so'rov
-            : 'http://facesec.newuu.uz/api/all/?page=' . $page; // Barcha yozuvlar uchun sahifa
+        // Data olish (Django bazasidan olish)
+        $data = DB::connection('sqlite_django')
+            ->table('student_api_searchrecord')
+            ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
+            ->select(
+                'student_api_searchrecord.id as search_id',
+                'student_api_searchrecord.search_image_path',
+                'student_api_searchrecord.created_at as search_created_at',
+                'student_api_students.name',
+                'student_api_students.identifier',
+                'student_api_students.image_path',
+                'student_api_students.scan_id',
+                'student_api_students.created_at as student_created_at'
+            )
+            ->get();
 
-        // API dan ma'lumot olish
-        $response = Http::get($url);
-        $data = $response->json();
+        // Data o'zgartirish va formatlash
+        $students = $data->map(function ($record) {
+            // search_image_path ning to'liq URL manzilini olish
+            $record->search_image_path = url('uploads/searches/' . basename($record->search_image_path));
 
-        // Ma'lumotlarni o'zgartirish va formatlash
-        $students = collect($data['search_records'])->map(function ($record) {
-            // scan_id tekshiruvi va admin ismini olish
-            if (!is_null($record['scan_id']) && is_numeric($record['scan_id'])) {
-                $admin = ApiAdmins::find($record['scan_id']);
-                $record['scan_id'] = $admin ? $admin->name : null; // Admin topilmasa, null
-            } else {
-                $record['scan_id'] = null;
-            }
+            // image_path ning to'liq URL manzilini olish
+            $record->image_path = url('uploads/students/' . basename($record->image_path));
 
-            // created_at ni O'zbekiston vaqti bilan ko'rsatish
-            if (isset($record['created_at'])) {
-                $record['created_at'] = Carbon::parse($record['created_at'])
-                    ->setTimezone('Asia/Tashkent')
-                    ->format('M d, Y H:i:s');
-            }
+            // scan_id ni tekshirib, ApiAdmins modelidan mos name olish
+            if ($record->scan_id) {
+                $admin = ApiAdmins::find($record->scan_id);  // scan_id ga mos adminni topish
 
-            // Student ichidagi created_at ni ham O'zbekiston vaqti bilan ko'rsatish
-            if (isset($record['student']['created_at'])) {
-                $record['student']['created_at'] = Carbon::parse($record['student']['created_at'])
-                    ->setTimezone('Asia/Tashkent')
-                    ->format('M d, Y H:i:s');
+                // Agar admin topilsa, uning name'ini qo'shish, aks holda scan_id ni qo'shish
+                $record->scan_id = $admin ? $admin->name : $record->scan_id;
             }
 
             return $record;
-        })->filter(function ($record) {
-            return !is_null($record['scan_id']); // scan_id null bo'lsa, o‘chiriladi
         });
 
         // Paginationni hisoblash
         $prevPage = $page > 1 ? $page - 1 : null;
-        $nextPage = isset($data['pagination']['current_page']) && $data['pagination']['current_page'] < $data['pagination']['total_pages']
-            ? $page + 1 : null;
+        $nextPage = $page + 1;
 
         // View-ga o'zgartirilgan ma'lumotlarni yuborish
         return view('pages.candidates-list.candidate-list.candidate-list', [
-            'students' => $students, // Faqat students ma'lumotlari
-            'prevPage' => $prevPage, // Oldingi sahifa
-            'nextPage' => $nextPage, // Keyingi sahifa
+            'students' => $students,  // Faqat students ma'lumotlari
+            'prevPage' => $prevPage,  // Oldingi sahifa
+            'nextPage' => $nextPage,  // Keyingi sahifa
         ]);
     }
+
 
 
 
