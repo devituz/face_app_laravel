@@ -65,7 +65,7 @@ class CandidateListController extends Controller
         $query = $request->query('query', null);
         $page = $request->query('page', 1); // Sahifa raqamini olish (default: 1)
 
-        // Data olish (Django bazasidan olish) va limitlash
+        // Data olish va pagination qo'llash
         $data = DB::connection('sqlite_django')
             ->table('student_api_searchrecord')
             ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
@@ -79,12 +79,14 @@ class CandidateListController extends Controller
                 'student_api_students.scan_id',
                 'student_api_students.created_at as student_created_at'
             )
-            ->skip(($page - 1) * 5)  // 5 ta har bir sahifa uchun, $page-1 ga ko'paytirib skip qilish
-            ->take(5) // Faqat 5 ta yozuv olish
-            ->get();
+            ->where(function ($query) {
+                // Agar kerak bo'lsa, query uchun filter qo'shish
+                // Misol: $query->where('student_api_searchrecord.name', 'like', '%query%');
+            })
+            ->paginate(5); // Pagination, har sahifada 5 ta yozuv
 
         // Data o'zgartirish va formatlash
-        $students = $data->map(function ($record) {
+        $students = $data->getCollection()->map(function ($record) {
             // search_image_path ning to'liq URL manzilini olish
             $record->search_image_path = url('uploads/searches/' . basename($record->search_image_path));
 
@@ -103,16 +105,19 @@ class CandidateListController extends Controller
         });
 
         // Paginationni hisoblash
-        $prevPage = $page > 1 ? $page - 1 : null;
-        $nextPage = $page + 1;
+        $prevPage = $data->currentPage() > 1 ? $data->currentPage() - 1 : null;
+        $nextPage = $data->currentPage() < $data->lastPage() ? $data->currentPage() + 1 : null;
 
         // View-ga o'zgartirilgan ma'lumotlarni yuborish
         return view('pages.candidates-list.candidate-list.candidate-list', [
             'students' => $students,  // Faqat students ma'lumotlari
             'prevPage' => $prevPage,  // Oldingi sahifa
             'nextPage' => $nextPage,  // Keyingi sahifa
+            'currentPage' => $data->currentPage(), // Joriy sahifa
+            'lastPage' => $data->lastPage(), // Oxirgi sahifa
         ]);
     }
+
 
 
 

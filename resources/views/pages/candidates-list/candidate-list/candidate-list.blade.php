@@ -181,26 +181,19 @@
                         <div class="card-footer d-flex justify-content-between">
 
                             <!-- Pagination (prev) -->
-                            @if (request('query') === null && $prevPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidatelist.index', ['page' => $prevPage]) }}">
-                                <i class="fe fe-arrow-left"></i> Prev
-                            </a>
-                            @elseif (request('query') === null)
-                                <button class="btn btn-outline-secondary disabled">
+                            @if($prevPage)
+                                <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $prevPage }}">
                                     <i class="fe fe-arrow-left"></i> Prev
-                                </button>
+                                </a>
                             @endif
 
-                            <!-- Pagination (next) -->
-                            @if (request('query') === null && $nextPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidatelist.index', ['page' => $nextPage]) }}">
-                                Next <i class="fe fe-arrow-right"></i>
-                            </a>
-                            @elseif (request('query') === null)
-                                <button class="btn btn-outline-secondary disabled">
-                                    Next <i class="fe fe-arrow-right"></i>
-                                </button>
+                            @if($nextPage)
+                                <a class="btn btn-outline-secondary" href="{{ url()->current() }}?page={{ $nextPage }}">
+                                    <i class="fe fe-arrow-right"></i> Next
+                                </a>
                             @endif
+
+
 
                             <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
                                 <div class="row align-items-center">
