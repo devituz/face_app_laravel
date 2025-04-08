@@ -55,15 +55,15 @@
                                 <div class="col">
 
                                     <!-- Form -->
-                                    <form action="{{ route('candidates.search') }}" method="GET">
-                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">
-                                            <input class="form-control list-search" type="search" name="query"
-                                                   placeholder="Search" value="{{ request('query') }}">
-                                            <span class="input-group-text">
-                                                <i class="fe fe-search"></i>
-                                            </span>
-                                        </div>
-                                    </form>
+{{--                                    <form action="{{ route('candidates.search') }}" method="GET">--}}
+{{--                                        <div class="input-group input-group-flush input-group-merge input-group-reverse">--}}
+{{--                                            <input class="form-control list-search" type="search" name="query"--}}
+{{--                                                   placeholder="Search" value="{{ request('query') }}">--}}
+{{--                                            <span class="input-group-text">--}}
+{{--                                                <i class="fe fe-search"></i>--}}
+{{--                                            </span>--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
 
                                 </div>
 
@@ -98,9 +98,8 @@
                                 @foreach ($students as $student)
                                     <tr>
                                         <td>
-                                            <!-- Checkbox -->
                                             <div class="form-check">
-                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student['id'] }}">
+                                                <input class="form-check-input list-checkbox" id="listCheckboxOne" type="checkbox" data-id="{{ $student->id }}">
                                                 <label class="form-check-label" for="listCheckboxOne"></label>
                                             </div>
                                         </td>
@@ -155,47 +154,28 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
+
                             <!-- Pagination (prev) -->
-                            @if (request('query') === null && $prevPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $prevPage]) }}">
-                                <i class="fe fe-arrow-left"></i> Prev
-                            </a>
-                            @elseif (request('query') === null)
-                                <button class="btn btn-outline-secondary disabled">
+                            @if($prevPage)
+                                <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $prevPage }}">
+                                    <i class="fe fe-arrow-left"></i> Prev
+                                </a>
+                            @else
+                                <button class="btn btn-outline-primary" disabled>
                                     <i class="fe fe-arrow-left"></i> Prev
                                 </button>
                             @endif
 
                             <!-- Pagination (next) -->
-                            @if (request('query') === null && $nextPage) <!-- Qidiruv bo'lmasa paginatsiya ko'rsatiladi -->
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index', ['page' => $nextPage]) }}">
-                                Next <i class="fe fe-arrow-right"></i>
-                            </a>
-                            @elseif (request('query') === null)
-                                <button class="btn btn-outline-secondary disabled">
-                                    Next <i class="fe fe-arrow-right"></i>
+                            @if($nextPage)
+                                <a class="btn btn-outline-primary" href="{{ url()->current() }}?page={{ $nextPage }}">
+                                    <i class="fe fe-arrow-right"></i> Next
+                                </a>
+                            @else
+                                <button class="btn btn-outline-primary" disabled>
+                                    <i class="fe fe-arrow-right"></i> Next
                                 </button>
                             @endif
-
-                            <!-- Alert -->
-                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
-                                            <label class="form-check-label text-white" for="listAlertCheckbox">
-                                                <span class="list-alert-count">0</span> deal(s)
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto me-n3">
-                                        <button id="candidate-bulk-delete-btn" data-url="{{ route('candidate.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
-                                            Delete Selected
-                                        </button>
-                                    </div>
-                                </div>
-                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
-                            </div>
                         </div>
 
                     </div>
