@@ -279,8 +279,11 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            deleteButton.style.display = 'block';
+
                             alert(data.message); // Success message
+
+                            document.getElementById('bulk-delete-btn').style.display = 'none';
+
                             // Tanlangan checkboxlarni olib tashlash
                             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
                                 checkbox.closest('tr').remove(); // Tanlangan satrni o'chirish
