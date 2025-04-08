@@ -60,21 +60,18 @@
 
                                 </div>
                                 <div class="col-auto me-n3">
-
-                                    <!-- Select -->
-                                    <form>
-                                        <select class="form-select form-select-sm form-control-flush" data-choices='{"searchEnabled": false}'>
-                                            <option>5 per page</option>
-                                            <option selected>10 per page</option>
-                                            <option>All</option>
-                                        </select>
-                                    </form>
-
+                                    <!-- Delete Button (Initially Hidden) -->
+                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;">
+                                        Delete Selected
+                                    </button>
                                 </div>
                             </div> <!-- / .row -->
                         </div>
 
                         <div class="table-responsive">
+                            <form method="POST" action="{{ route('candidatelist.bulkDelete') }}">
+                                @csrf
+                                @method('DELETE')
                             <table class="table table-sm table-hover table-nowrap card-table">
                                 <thead>
                                 <tr>
@@ -176,6 +173,7 @@
                                 </div>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
@@ -205,24 +203,24 @@
 
 
 
-                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>
-                                            <label class="form-check-label text-white" for="listAlertCheckbox">
-                                                <span class="list-alert-count">0</span> deal(s)
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto me-n3">
-                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">
-                                            Delete Selected
-                                        </button>
-                                    </div>
-                                </div>
-                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>
-                            </div>
+{{--                            <div class="list-alert alert alert-dark alert-dismissible border fade" role="alert">--}}
+{{--                                <div class="row align-items-center">--}}
+{{--                                    <div class="col">--}}
+{{--                                        <div class="form-check">--}}
+{{--                                            <input class="form-check-input" id="listAlertCheckbox" type="checkbox" checked disabled>--}}
+{{--                                            <label class="form-check-label text-white" for="listAlertCheckbox">--}}
+{{--                                                <span class="list-alert-count">0</span> deal(s)--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-auto me-n3">--}}
+{{--                                        <button id="candidate-list-bulk-delete-btn" data-url="{{ route('candidate-list.bulkDelete') }}" class="btn btn-sm bg-danger text-white">--}}
+{{--                                            Delete Selected--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <button type="button" class="list-alert-close btn-close" aria-label="Close"></button>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -231,14 +229,42 @@
         </div>
     </div>
 
-<script>
-    // Modal ochilganda rasm manzilini o'zgartirish
-    document.querySelectorAll('.avatar img').forEach(function(avatar) {
-        avatar.addEventListener('click', function() {
-            var imageUrl = avatar.getAttribute('data-image');
-            document.getElementById('modalImage').src = imageUrl;
+    <script>
+        // Modal ochilganda rasm manzilini o'zgartirish
+        document.querySelectorAll('.avatar img').forEach(function(avatar) {
+            avatar.addEventListener('click', function() {
+                var imageUrl = avatar.getAttribute('data-image');
+                document.getElementById('modalImage').src = imageUrl;
+            });
         });
-    });
 
-</script>
+        // Checkboxlarni kuzatish
+        document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                toggleDeleteButton();
+            });
+        });
+
+        // All checkboxlarni tanlash
+        document.getElementById('listCheckboxAll').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+                checkbox.checked = isChecked;
+            });
+            toggleDeleteButton();
+        });
+
+        // Delete tugmasini ko'rsatish yoki yashirish
+        function toggleDeleteButton() {
+            const selectedCheckboxes = document.querySelectorAll('.list-checkbox:checked').length;
+            const deleteButton = document.getElementById('bulk-delete-btn');
+
+            // Agar checkboxlar tanlangan bo'lsa, delete buttonni ko'rsatish
+            if (selectedCheckboxes > 0) {
+                deleteButton.style.display = 'block';
+            } else {
+                deleteButton.style.display = 'none';
+            }
+        }
+    </script>
 @endsection
