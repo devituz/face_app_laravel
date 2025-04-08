@@ -79,10 +79,6 @@ class CandidateListController extends Controller
                 'student_api_students.scan_id',
                 'student_api_students.created_at as student_created_at'
             )
-            ->where(function ($query) {
-                // Agar kerak bo'lsa, query uchun filter qo'shish
-                // Misol: $query->where('student_api_searchrecord.name', 'like', '%query%');
-            })
             ->paginate(5); // Pagination, har sahifada 5 ta yozuv
 
         // Data o'zgartirish va formatlash
@@ -117,6 +113,7 @@ class CandidateListController extends Controller
             'lastPage' => $data->lastPage(), // Oxirgi sahifa
         ]);
     }
+
 
 
 

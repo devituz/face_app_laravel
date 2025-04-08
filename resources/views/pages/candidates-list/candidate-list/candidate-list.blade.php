@@ -187,10 +187,15 @@
                                 </a>
                             @endif
 
+                            <!-- Pagination (next) -->
                             @if($nextPage)
                                 <a class="btn btn-outline-secondary" href="{{ url()->current() }}?page={{ $nextPage }}">
                                     <i class="fe fe-arrow-right"></i> Next
                                 </a>
+                            @else
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="fe fe-arrow-right"></i> Next
+                                </button>
                             @endif
 
 
