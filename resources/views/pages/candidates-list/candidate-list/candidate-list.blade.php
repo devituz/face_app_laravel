@@ -275,7 +275,7 @@
             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
                 selectedIds.push(checkbox.getAttribute('data-id'));
             });
-            console.log('Selected IDs:', selectedIds); // Tanlangan idlarni chiqarish
+            console.log('Selected IDss:', selectedIds); // Tanlangan idlarni chiqarish
         }
 
     </script>
