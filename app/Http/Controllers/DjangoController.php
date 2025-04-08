@@ -17,6 +17,7 @@ class DjangoController extends Controller
                 'student_api_searchrecord.created_at as search_created_at',
                 'student_api_students.name',
                 'student_api_students.identifier',
+                'student_api_students.image_path',
                 'student_api_students.scan_id',
                 'student_api_students.created_at as student_created_at'
             )
