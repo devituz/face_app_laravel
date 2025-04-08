@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiAdminsController;
 use App\Http\Controllers\Api\ApiStudentsController;
 use App\Http\Controllers\Frontend\Candidate\CandidateController;
+use App\Http\Controllers\Frontend\CandidateList\CandidateListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,9 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
 //    Route::get('/excel-export', [ApiStudentsController::class, 'exportExcel']);
 
 });
+
+
+
+
+
+Route::post('/candidatelist/bulk-delete', [CandidateListController::class, 'bulkDelete'])->name('candidatelist.bulkDelete');

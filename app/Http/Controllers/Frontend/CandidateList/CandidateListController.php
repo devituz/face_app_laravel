@@ -123,27 +123,45 @@ class CandidateListController extends Controller
     }
 
 
+
+
+
     public function bulkDelete(Request $request)
     {
-        // CSRF tokenni tekshirish
+        // Validate the incoming request to ensure 'ids' is an array and contains valid IDs
         $this->validate($request, [
             'ids' => 'required|array',
-            'ids.*' => 'exists:students,id',  // students jadvalidan ID'lar mavjudligini tekshirish
+            'ids.*' => 'exists:students,id', // Validate that each ID exists in the 'students' table
         ]);
 
-        // Tanlangan ID'larni o'chirish
-        $deletedCount = DB::connection('sqlite_django')
-            ->table('student_api_searchrecord')
-            ->whereIn('id', $request->ids)
-            ->delete();
+        try {
+            // Perform the delete operation using the provided IDs
+            // Tanlangan ID'larni o'chirish
+            $deletedCount = DB::connection('sqlite_django')
+                ->table('student_api_searchrecord')
+                ->whereIn('id', $request->ids)
+                ->delete();
 
-        if ($deletedCount > 0) {
-            return response()->json(['success' => true, 'message' => 'Tanlangan ma\'lumotlar o\'chirildi']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Xatolik yuz berdi']);
+            // Check if any records were deleted and return appropriate response
+            if ($deletedCount > 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Tanlangan ma\'lumotlar o\'chirildi', // Translated: 'Selected data deleted'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Xatolik yuz berdi', // Translated: 'An error occurred'
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            // Handle any errors that might occur during deletion
+            return response()->json([
+                'success' => false,
+                'message' => 'Xatolik yuz berdi: ' . $e->getMessage(), // Return the exception message in case of error
+            ], 500);
         }
     }
-
 
 
 
