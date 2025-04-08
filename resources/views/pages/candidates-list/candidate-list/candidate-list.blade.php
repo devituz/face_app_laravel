@@ -279,6 +279,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
+                            deleteButton.style.display = 'block';
                             alert(data.message); // Success message
                             // Tanlangan checkboxlarni olib tashlash
                             document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
