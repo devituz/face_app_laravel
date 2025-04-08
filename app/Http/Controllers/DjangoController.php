@@ -7,7 +7,7 @@ class DjangoController extends Controller
 {
     public function getSearchRecords()
     {
-        // Django bazasidagi table dan ma’lumot olish
+        // Django bazasidagi table'dan ma'lumot olish
         $data = DB::connection('sqlite_django')->table('student_api_searchrecord')->get();
 
         // Fayl yo‘lini to'liq URL formatiga o'zgartirish
@@ -17,7 +17,9 @@ class DjangoController extends Controller
             return $record;
         });
 
+        // JSON formatida javob qaytarish
         return response()->json($data);
     }
+
 }
 
