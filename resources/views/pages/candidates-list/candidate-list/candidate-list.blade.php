@@ -118,10 +118,10 @@
                                         <td>
                                             <div class="avatar avatar-xs align-middle me-2">
                                                 <img class="avatar-img"
-                                                     src="{{ $student['search_image_urls'] }}"
+                                                     src="{{ $student->search_image_path }}"
                                                      data-bs-toggle="modal"
                                                      data-bs-target="#imageModal"
-                                                     data-image="{{ $student['search_image_urls'] }}"
+                                                     data-image="{{ $student->search_image_path }}"
                                                      alt="...">
                                             </div>
                                         </td>
@@ -129,10 +129,10 @@
                                         <td>
                                             <div class="avatar avatar-xs align-middle me-2">
                                                 <img class="avatar-img"
-                                                     src="{{ $student['student']['image_url'] }}"
+                                                     src="{{ $student->image_path }}"
                                                      data-bs-toggle="modal"
                                                      data-bs-target="#imageModal"
-                                                     data-image="{{ $student['student']['image_url'] }}"
+                                                     data-image="{{ $student->image_path }}"
                                                      alt="...">
                                             </div>
                                         </td>
@@ -153,16 +153,16 @@
                                         </div>
 
                                         <td>
-                                            <span class="item-title">{{ $student['student']['name'] }}</span>
+                                            <span class="item-title">{{ $student->name }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-identifier">{{ $student['student']['identifier'] }}</span>
+                                            <span class="item-identifier">{{ $student->identifier }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-identifier">{{ $student['scan_id'] }}</span>
+                                            <span class="item-identifier">{{ $student->scan_id ?? 'No scan available' }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-created_at">{{ $student['created_at'] }}</span>
+                                            <span class="item-created_at">{{ \Carbon\Carbon::parse($student->student_created_at)->format('M d, Y H:i:s') }}</span>
                                         </td>
 
                                     </tr>
