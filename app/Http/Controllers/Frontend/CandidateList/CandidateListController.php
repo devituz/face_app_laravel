@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+
 
 class CandidateListController extends Controller
 {
@@ -128,10 +130,13 @@ class CandidateListController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        // Validate the incoming request to ensure 'ids' is an array and contains valid IDs
+        // Validatsiya qoidasini o'zgartirib, 'sqlite_django' ulanishini ishlatamiz
         $this->validate($request, [
             'ids' => 'required|array',
-            'ids.*' => 'exists:student_api_searchrecord,id', // Ensure validation occurs on the correct table
+            'ids.*' => [
+                'required',
+                Rule::exists('student_api_searchrecord', 'id')->connection('sqlite_django'),
+            ],
         ]);
 
         try {
@@ -160,8 +165,7 @@ class CandidateListController extends Controller
                 'success' => false,
                 'message' => 'Xatolik yuz berdi: ' . $e->getMessage(), // Return the exception message in case of error
             ], 500);
-        }
-    }
+        }}
 
 
 
