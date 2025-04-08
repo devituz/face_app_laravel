@@ -65,7 +65,7 @@ class CandidateListController extends Controller
         $query = $request->query('query', null);
         $page = $request->query('page', 1); // Sahifa raqamini olish (default: 1)
 
-        // Data olish (Django bazasidan olish)
+        // Data olish (Django bazasidan olish) va limitlash
         $data = DB::connection('sqlite_django')
             ->table('student_api_searchrecord')
             ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
@@ -79,6 +79,8 @@ class CandidateListController extends Controller
                 'student_api_students.scan_id',
                 'student_api_students.created_at as student_created_at'
             )
+            ->skip(($page - 1) * 5)  // 5 ta har bir sahifa uchun, $page-1 ga ko'paytirib skip qilish
+            ->take(5) // Faqat 5 ta yozuv olish
             ->get();
 
         // Data o'zgartirish va formatlash
@@ -111,6 +113,7 @@ class CandidateListController extends Controller
             'nextPage' => $nextPage,  // Keyingi sahifa
         ]);
     }
+
 
 
 
