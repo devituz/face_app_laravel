@@ -66,11 +66,19 @@
                                     </form>
 
                                 </div>
+                                <div class="col-auto me-n3">
+                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;">
+                                        Delete Selected
+                                    </button>
+                                </div>
 
                             </div> <!-- / .row -->
                         </div>
 
                         <div class="table-responsive">
+                            <form method="POST" action="{{ route('candidates.bulkDelete') }}">
+                            @csrf
+                            @method('DELETE')
                             <table class="table table-sm table-hover table-nowrap card-table">
                                 <thead>
                                 <tr>
@@ -151,6 +159,7 @@
                                 </div>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
@@ -185,8 +194,6 @@
     </div>
 
     <script>
-
-
         // Modal ochilganda rasm manzilini o'zgartirish
         document.querySelectorAll('.avatar img').forEach(function(avatar) {
             avatar.addEventListener('click', function() {
@@ -195,31 +202,91 @@
             });
         });
 
+        // Checkboxlarni kuzatish
+        document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                toggleDeleteButton();
+                logSelectedIds(); // Tanlangan idlarni chiqarish
+            });
+        });
 
+        // All checkboxlarni tanlash
+        document.getElementById('listCheckboxAll').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+                checkbox.checked = isChecked;
+            });
+            toggleDeleteButton();
+            logSelectedIds(); // Tanlangan idlarni chiqarish
+        });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            let checkboxes = document.querySelectorAll(".list-checkbox");
-            let alertBox = document.querySelector(".list-alert");
-            let alertCount = document.querySelector(".list-alert-count");
+        // Delete tugmasini ko'rsatish yoki yashirish
+        function toggleDeleteButton() {
+            const selectedCheckboxes = document.querySelectorAll('.list-checkbox:checked').length;
+            const deleteButton = document.getElementById('bulk-delete-btn');
 
-            function updateAlert() {
-                let selectedCount = document.querySelectorAll(".list-checkbox:checked").length;
-
-                if (selectedCount > 0) {
-                    alertBox.classList.add("show");
-                    alertCount.textContent = selectedCount;
-                } else {
-                    alertBox.classList.remove("show");
-                }
+            // Agar checkboxlar tanlangan bo'lsa, delete buttonni ko'rsatish
+            if (selectedCheckboxes > 0) {
+                deleteButton.style.display = 'block';
+            } else {
+                deleteButton.style.display = 'none';
             }
+        }
 
-            checkboxes.forEach(function (checkbox) {
-                checkbox.addEventListener("change", updateAlert);
+        // Tanlangan checkboxlar orqali ID'larni konsolga chiqarish
+        function logSelectedIds() {
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
+            });
+            console.log('Selected IDss:', selectedIds); // Tanlangan idlarni chiqarish
+        }
+
+
+        // Delete tugmasini bosilganda tanlangan ID'larni o'chirish
+        document.getElementById('bulk-delete-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Formani yuborishni to'xtatish
+
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
             });
 
-            // Sahifa yuklanganda tekshirish
-            updateAlert();
+            if (selectedIds.length > 0) {
+                // AJAX so'rovini yuborish
+                fetch('{{ route('candidatelist.bulkDelete') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+
+                            alert(data.message); // Success message
+
+                            document.getElementById('bulk-delete-btn').style.display = 'none';
+
+                            // Tanlangan checkboxlarni olib tashlash
+                            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                                checkbox.closest('tr').remove(); // Tanlangan satrni o'chirish
+                            });
+                        } else {
+                            alert(data.message); // Error message
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Xatolik yuz berdi');
+                    });
+            } else {
+                alert('Hech narsa tanlanmagan');
+            }
         });
+
 
     </script>
 
