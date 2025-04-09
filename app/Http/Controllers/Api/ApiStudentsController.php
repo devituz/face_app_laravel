@@ -98,11 +98,11 @@ class ApiStudentsController extends  Controller
             )
             ->get();
 
-        // Admin nomini qo‘shish va formatlash
+        // Ma'lumotni tayyorlash
         $students = $data->map(function ($item) {
             return [
                 'id' => $item->search_id,
-                'scan_id' => \App\Models\ApiAdmins::getAdminNameById($item->scan_id), // Admin nomi
+                'scan_id' => \App\Models\ApiAdmins::getAdminNameById($item->scan_id),
                 'student_name' => $item->student_name ?? 'Noma’lum',
                 'created_at' => Carbon::parse($item->search_created_at)
                     ->setTimezone('Asia/Tashkent')
@@ -110,8 +110,19 @@ class ApiStudentsController extends  Controller
             ];
         });
 
-        // Excel faylni qaytarish
-        return Excel::download(new MyStudentExport($students), 'ScanList.xlsx');
+        // Fayl nomi
+        $fileName = 'ScanList_' . now()->format('Ymd_His') . '.xlsx';
+
+        // Faylni storage/app/public/ga saqlash
+        Excel::store(new MyStudentExport($students), 'public/' . $fileName);
+
+        // Public URLni olish
+        $url = asset('storage/' . $fileName);
+
+        // JSON javob
+        return response()->json([
+            'download_url' => $url
+        ]);
     }
 
 }
