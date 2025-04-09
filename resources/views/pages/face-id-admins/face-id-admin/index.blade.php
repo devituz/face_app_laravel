@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-list='' id="contactsList">
+                    <div class="card" id="contactsList">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -179,6 +179,11 @@
     </div>
 
 
+    @extends('components.model')
+    @extends('pages.face-id-admins.face-id-admin.modal')
+
+
+
     <script>
         document.querySelectorAll('.avatar').forEach(function(avatar) {
             avatar.addEventListener('click', function() {
@@ -188,7 +193,5 @@
         });
 
     </script>
-    @extends('components.model')
-    @extends('pages.face-id-admins.face-id-admin.modal')
 
 @endsection
