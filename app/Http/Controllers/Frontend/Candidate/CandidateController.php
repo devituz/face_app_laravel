@@ -25,13 +25,26 @@ class CandidateController extends Controller
 
     public function export()
     {
-        // JSON ma'lumotlarini olish
-        $response = Http::get('http://172.24.25.141:5000/api/user_json/');
-        $data = $response->json();
+        // Ma'lumotlarni SQLite-dan olish
+        $data = DB::connection('sqlite_django')
+            ->table('student_api_students')
+            ->select('id', 'name', 'identifier', 'created_at')
+            ->get();
+
+        // Faqat kerakli maydonlar bilan qaytarish
+        $students = $data->map(function ($student) {
+            return [
+                'id' => $student->id,
+                'name' => $student->name,
+                'identifier' => $student->identifier,
+                'created_at' => $student->created_at,
+            ];
+        });
 
         // Excel faylni yaratish va qaytarish
-        return Excel::download(new CandidateExport($data['students']), 'Candidate.xlsx');
+        return Excel::download(new CandidateExport($students), 'Candidate.xlsx');
     }
+
 
 //    public function search(Request $request)
 //    {
