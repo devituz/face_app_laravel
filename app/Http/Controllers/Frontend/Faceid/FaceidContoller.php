@@ -180,15 +180,43 @@ class FaceidContoller extends Controller
 
     public function bulkDestroy(Request $request)
     {
-        // Yuborilgan IDlar
-        $ids = $request->ids;
+        // Validatsiya: ids massiv bo'lishi va har bir id mavjud bo'lishi kerak
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'required|exists:api_admins,id',
+        ]);
 
-        // IDlar bo'yicha adminlarni o'chirish
-        ApiAdmins::whereIn('id', $ids)->delete();
+        try {
+            $ids = $request->ids;
 
-        // Yuborilgan xabar bilan qaytish
-        return response()->json(['success' => 'Admins successfully deleted']);
+            // O'chirish
+            $deletedCount = ApiAdmins::whereIn('id', $ids)->delete();
+
+            // Javob
+            if ($deletedCount === count($ids)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Barcha adminlar muvaffaqiyatli o\'chirildi.'
+                ]);
+            } elseif ($deletedCount > 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Ba\'zi adminlar o\'chirildi, ammo hammasi emas.'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hech qanday admin topilmadi yoki o\'chirilmadi.'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Xatolik yuz berdi: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 
     // Controllerda
     public function back(Request $request)
