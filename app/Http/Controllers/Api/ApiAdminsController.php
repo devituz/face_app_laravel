@@ -128,9 +128,12 @@ class ApiAdminsController extends Controller
                     ->select('image_path')
                     ->first();
 
+
                 if ($student && $student->image_path) {
+
                     // Public link yasash (agar image_path public/storage/ ichida bo‘lsa)
-                    $imageUrl = asset('storage/' . $student->image_path);
+                    $imageUrl = url("uploads/students/" . $student->image_path);
+
                     $responseData['image_url'] = $imageUrl;
                 } else {
                     $responseData['image_url'] = null;
