@@ -40,14 +40,14 @@ class CandidatesListExport implements FromCollection, WithHeadings, WithMapping
     public function map($record): array
     {
         return [
-            $record['id'],
-            $record['student']['name'],
-            $record['student']['identifier'],
-            $record['scan_id'],
-            $record['created_at'],
-
+            $record->search_id,  // Changed from $record['id'] to $record->search_id
+            $record->name,       // Changed from $record['student']['name'] to $record->name
+            $record->identifier, // Changed from $record['student']['identifier'] to $record->identifier
+            $record->scan_id,    // Changed from $record['scan_id'] to $record->scan_id
+            $record->search_created_at, // Changed from $record['created_at'] to $record->search_created_at
         ];
     }
+
 
 
 }

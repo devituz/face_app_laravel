@@ -72,6 +72,7 @@ class CandidateListController extends Controller
     }
 
 
+
     // show metodiga ehtiyoj yo'q
 
 
