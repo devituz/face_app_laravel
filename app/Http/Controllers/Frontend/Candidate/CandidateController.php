@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Exports\CandidateExport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Carbon\Carbon;
 
 
 class CandidateController extends Controller
@@ -21,6 +21,8 @@ class CandidateController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
 
 
     public function export()
@@ -31,13 +33,15 @@ class CandidateController extends Controller
             ->select('id', 'name', 'identifier', 'created_at')
             ->get();
 
-        // Faqat kerakli maydonlar bilan qaytarish
+        // Faqat kerakli maydonlar bilan qaytarish va created_at ni O'zbekiston vaqti bilan formatlash
         $students = $data->map(function ($student) {
             return [
                 'id' => $student->id,
                 'name' => $student->name,
                 'identifier' => $student->identifier,
-                'created_at' => $student->created_at,
+                'created_at' => Carbon::parse($student->created_at)
+                    ->setTimezone('Asia/Tashkent') // O'zbekiston vaqti
+                    ->format('M d, Y H:i:s'), // Formatlash
             ];
         });
 
@@ -46,46 +50,7 @@ class CandidateController extends Controller
     }
 
 
-//    public function search(Request $request)
-//    {
-//        // So‘rovdan 'query' parametrini olish
-//        $query = $request->input('query');
-//
-//        // API manzilini yaratish
-//        $apiUrl = "http://facesec.newuu.uz/api/search_user_json/?query=" . urlencode($query);
-//
-//        // API ga so‘rov yuborish
-//        $response = Http::get($apiUrl);
-//
-//        // Agar API so‘rovda xatolik bo‘lsa, error qaytarish
-//        if ($response->failed()) {
-//            return response()->json(['message' => 'API maʼlumotini olishda xatolik!'], 500);
-//        }
-//
-//        // JSON javobni olish
-//        $students = collect($response->json());
-//
-//        return view('pages.candidates.candidate.index', compact('students'));
-//    }
 
-
-//    public function index(Request $request)
-//    {
-//        $page = $request->query('page', 1);
-//
-//        $response = Http::get("http://facesec.newuu.uz/api/user_images/?page={$page}");
-//        $data = $response->json();
-//
-//        // Keyingi sahifa mavjud yoki yo'qligini tekshiramiz
-//        $nextPage = count($data['students']) > 0 ? $page + 1 : null;
-//        $prevPage = $page > 1 ? $page - 1 : null;
-//
-//        return view('pages.candidates.candidate.index', [
-//            'students' => $data['students'],
-//            'prevPage' => $prevPage,
-//            'nextPage' => $nextPage
-//        ]);
-//    }
 
 
     public function index(Request $request)
