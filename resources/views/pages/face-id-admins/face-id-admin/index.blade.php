@@ -53,9 +53,8 @@
 
                                 <div class="col-auto me-n3">
                                     <!-- Delete Button (Initially Hidden) -->
-                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;" title="Delete Selected">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
+                                    <i id="bulk-delete-btn" class="bi bi-trash-fill text-danger" style="cursor: pointer; display: none;" title="Delete Selected"></i>
+
 
                                 </div>
                             </div>
