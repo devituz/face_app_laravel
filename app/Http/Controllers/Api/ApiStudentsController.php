@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ApiAdmins;
 use Illuminate\Http\Request;
@@ -18,40 +18,67 @@ class ApiStudentsController extends  Controller
 
     public function myregister(Request $request)
     {
-        $scan_id = Auth::id();
+        $scan_id = Auth::id(); // Yoki istalgan boshqa manbadan olinadi
 
         try {
-            $response = Http::post('http://172.24.25.141:5000/api/getme_register/', [
-                'scan_id' => $scan_id,
-            ]);
+            // Bazadan ma'lumot olish
+            $data = DB::connection('sqlite_django')
+                ->table('student_api_searchrecord')
+                ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
+                ->where('student_api_students.scan_id', $scan_id)
+                ->orderByDesc('student_api_searchrecord.id')
+                ->select(
+                    'student_api_searchrecord.id as search_id',
+                    'student_api_searchrecord.search_image_path',
+                    'student_api_searchrecord.created_at as search_created_at',
+                    'student_api_students.id as student_id',
+                    'student_api_students.name',
+                    'student_api_students.identifier',
+                    'student_api_students.image_path',
+                    'student_api_students.created_at as student_created_at',
+                    'student_api_students.scan_id'
+                )
+                ->get();
 
-            if ($response->successful()) {
-                $data = $response->json();
+            // Ma'lumotni tayyorlash
+            $results = $data->map(function ($item) {
+                // Admin nomini olish
+                $adminName = ApiAdmins::getAdminNameById($item->scan_id);
 
-                // Har bir natija uchun scan_id ni ApiAdmins jadvalidagi name bilan almashtiramiz
-                foreach ($data['results'] as &$item) {
-                    $adminName = ApiAdmins::getAdminNameById($item['scan_id']);
-                    $item['scan_id'] = $adminName;
+                // Student image URL
+                $studentImage = $item->image_path ? url("/media/students/" . basename($item->image_path)) : null;
 
-                    $item['created_at'] = Carbon::parse($item['created_at'])
-                        ->setTimezone('Asia/Tashkent')  // Tashkent vaqti bo‘yicha
-                        ->format('d-M-Y H:i');  // Format: 25-Mar-2025 15:31
-                }
+                // Search image URL
+                $searchImage = $item->search_image_path ? url("/media/searches/" . basename($item->search_image_path)) : null;
 
-                return response()->json($data, 200);
-            } else {
-                Log::error("Hozircha yo'q", [
-                    'body' => $response->body(),
-                ]);
-                return response()->json(['error' => "Hozircha yo'q"], $response->status());
+                // Tashkent vaqti formatlash
+                $createdAt = Carbon::parse($item->search_created_at)
+                    ->setTimezone('Asia/Tashkent')
+                    ->format('d-M-Y H:i');
+
+                return [
+                    'id' => $item->search_id,
+                    'student_name' => $item->name ?? "Noma'lum",
+                    'student_image' => array_filter([$studentImage, $searchImage]),
+                    'identifier' => $item->identifier,
+                    'scan_id' => $adminName,
+                    'created_at' => $createdAt,
+                ];
+            });
+
+            if ($results->isEmpty()) {
+                return response()->json(['detail' => 'Ushbu scan_id uchun yozuv topilmadi'], 404);
             }
+
+            return response()->json(['results' => $results], 200);
         } catch (\Exception $e) {
-            Log::error('Error occurred in register method', [
+            Log::error('DB connection orqali ma\'lumot olishda xatolik', [
                 'message' => $e->getMessage(),
             ]);
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function exportExcel()
     {
