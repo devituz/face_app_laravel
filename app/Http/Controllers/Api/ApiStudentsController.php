@@ -46,7 +46,7 @@ class ApiStudentsController extends  Controller
                 $adminName = ApiAdmins::getAdminNameById($item->scan_id);
 
                 // Student image URL
-                $studentImage = $item->image_path ? url("uploads/students" . basename($item->image_path)) : null;
+                $studentImage = $item->image_path ? url("uploads/students/" . basename($item->image_path)) : null;
 
                 // Search image URL
                 $searchImage = $item->search_image_path ? url("uploads/searches/" . basename($item->search_image_path)) : null;
