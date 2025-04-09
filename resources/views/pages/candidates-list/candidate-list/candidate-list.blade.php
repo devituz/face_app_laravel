@@ -158,7 +158,7 @@
                                             <span class="item-identifier">{{ $student->scan_id ?? 'No scan available' }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-created_at">{{ $student->search_created_at }}</span>
+                                            <span class="item-created_at">{{ $student->student_created_at }}</span>
                                         </td>
 
                                     </tr>
