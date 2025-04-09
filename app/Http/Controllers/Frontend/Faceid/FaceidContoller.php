@@ -9,18 +9,38 @@ use Illuminate\Support\Facades\Storage;
 
 class FaceidContoller extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // ApiAdmins modelidan barcha adminlarni olish
-        $admins = ApiAdmins::all();
+        // Qidiruv so'zini olish
+        $query = trim($request->query('query', ''));
 
+        // Adminlarni olish (query bo'lsa, name bo'yicha filterlash)
+        $adminsQuery = ApiAdmins::query();
 
-        // Adminlar sonini hisoblash
-        $adminCount = $admins->count();
+        if ($query) {
+            $adminsQuery->where('name', 'like', '%' . $query . '%');
+        }
 
+        // Sahifalash (5 tadan)
+        $admins = $adminsQuery->paginate(5)->appends(['query' => $query]);
 
-        // Blade faylga yuborish
-        return view('pages.face-id-admins.face-id-admin.index', compact('admins', 'adminCount'));
+        // Adminlar soni (filterlangan)
+        $adminCount = $admins->total();
+
+        // Sahifa navigatsiyasi
+        $prevPage = $admins->currentPage() > 1 ? $admins->currentPage() - 1 : null;
+        $nextPage = $admins->currentPage() < $admins->lastPage() ? $admins->currentPage() + 1 : null;
+
+        // Viewga yuborish
+        return view('pages.face-id-admins.face-id-admin.index', [
+            'admins' => $admins,
+            'adminCount' => $adminCount,
+            'query' => $query,
+            'prevPage' => $prevPage,
+            'nextPage' => $nextPage,
+            'currentPage' => $admins->currentPage(),
+            'lastPage' => $admins->lastPage(),
+        ]);
     }
 
 

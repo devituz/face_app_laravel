@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('face-id-admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('face-id-admin.bulkDelete');
 
     Route::resource('candidate', CandidateController::class);
+    Route::post('candidate/bulk-delete', [CandidateController::class, 'bulkDestroy'])->name('candidate.bulkDelete');
     Route::get('students/export', [CandidateController::class, 'export'])->name('students.export');
 
 
