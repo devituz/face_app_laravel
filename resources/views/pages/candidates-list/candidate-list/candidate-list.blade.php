@@ -158,7 +158,7 @@
                                             <span class="item-identifier">{{ $student->scan_id ?? 'No scan available' }}</span>
                                         </td>
                                         <td>
-                                            <span class="item-created_at">{{ \Carbon\Carbon::parse($student->student_created_at)->format('M d, Y H:i:s') }}</span>
+                                            <span class="item-created_at">{{ \Carbon\Carbon::parse($student->search_created_at)->format('M d, Y H:i:s') }}</span>
                                         </td>
 
                                     </tr>
