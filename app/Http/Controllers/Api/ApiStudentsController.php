@@ -117,7 +117,7 @@ class ApiStudentsController extends  Controller
         Excel::store(new MyStudentExport($students), 'public/' . $fileName);
 
         // Public URLni olish
-        $url = asset('storage/' . $fileName);
+        $url = url('storage/' . $fileName);
 
         // JSON javob
         return response()->json([
