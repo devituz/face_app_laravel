@@ -7,10 +7,9 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset("assets/favicon/favicon.ico")}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('assets/logo/NewUU_Logo.png')}}" type="image/x-icon">
 
     <!-- Map CSS -->
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css">
 
     <!-- Libs CSS -->
     <link rel="stylesheet" href="{{asset("assets/css/libs.bundle.css")}}">

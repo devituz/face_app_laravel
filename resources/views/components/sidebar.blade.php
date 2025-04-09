@@ -8,34 +8,11 @@
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand">
                 <img src="{{asset('assets/logo/NewUU_Logo.png')}}" class="navbar-brand-img mx-auto" alt="...">
             </a>
 
-            <!-- User (xs) -->
-            <div class="navbar-user d-md-none">
 
-                <!-- Dropdown -->
-                <div class="dropdown">
-
-                    <!-- Toggle -->
-                    <a href="index.html#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="avatar avatar-sm avatar-online">
-                            <img src="{{asset('assets/img/avatars/profiles/avatar-1.jpg')}}" class="avatar-img rounded-circle" alt="...">
-                        </div>
-                    </a>
-
-                    <!-- Menu -->
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIcon">
-                        <a href="profile-posts.html" class="dropdown-item">Profile</a>
-                        <a href="account-general.html" class="dropdown-item">Settings</a>
-                        <hr class="dropdown-divider">
-                        <a href="sign-in.html" class="dropdown-item">Logout</a>
-                    </div>
-
-                </div>
-
-            </div>
 
             <div class="collapse navbar-collapse" id="sidebarCollapse">
 
