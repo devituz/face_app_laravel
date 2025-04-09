@@ -53,8 +53,10 @@
 
                                 <div class="col-auto me-n3">
                                     <!-- Delete Button (Initially Hidden) -->
-                                    <i id="bulk-delete-btn" class="bi bi-trash-fill text-danger" style="cursor: pointer; display: none;" title="Delete Selected"></i>
-
+                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;" title="Delete Selected">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                    <button class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" class="lucide lucide-trash-2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg></button>
 
                                 </div>
                             </div>
