@@ -31,7 +31,7 @@ class MyStudentExport implements FromCollection, WithHeadings
                 'ID' => $record['id'],
                 'Scan qilgan shaxs' => $record['scan_id'],
                 'Ism' => $record['student_name'],
-                'Vaqt' => Carbon::parse($record['created_at'])->format('Y-m-d H:i:s'),
+                'Vaqt' => $record['created_at'], // Formatlangan holda kelgan
             ];
         });
     }

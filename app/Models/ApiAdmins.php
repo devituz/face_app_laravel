@@ -20,9 +20,13 @@ class ApiAdmins extends Authenticatable
         'is_admin'
     ];
 
+
+
+
     public static function getAdminNameById($id)
     {
-        return self::where('id', $id)->value('name') ?? 'Unknown Admin';
+        $admin = self::find($id);
+        return $admin ? $admin->name : 'Noma’lum';
     }
 
 

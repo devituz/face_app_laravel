@@ -82,54 +82,36 @@ class ApiStudentsController extends  Controller
 
     public function exportExcel()
     {
-        $scan_id = Auth::id();
+        $scan_id = Auth::id(); // Foydalanuvchi ID si
 
-        try {
-            $response = Http::post('http://172.24.25.141:5000/api/getme_register/', [
-                'scan_id' => $scan_id,
-            ]);
+        // Bazadan ma’lumotlarni olish
+        $data = DB::connection('sqlite_django')
+            ->table('student_api_searchrecord')
+            ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
+            ->where('student_api_students.scan_id', $scan_id)
+            ->orderByDesc('student_api_searchrecord.id')
+            ->select(
+                'student_api_searchrecord.id as search_id',
+                'student_api_searchrecord.created_at as search_created_at',
+                'student_api_students.name as student_name',
+                'student_api_students.scan_id'
+            )
+            ->get();
 
-            if (!$response->successful()) {
-                Log::error("Hozircha yo'q", [
-                    'body' => $response->body(),
-                ]);
-                return response()->json(['error' => "Hozircha yo'q"], $response->status());
-            }
+        // Admin nomini qo‘shish va formatlash
+        $students = $data->map(function ($item) {
+            return [
+                'id' => $item->search_id,
+                'scan_id' => \App\Models\ApiAdmins::getAdminNameById($item->scan_id), // Admin nomi
+                'student_name' => $item->student_name ?? 'Noma’lum',
+                'created_at' => Carbon::parse($item->search_created_at)
+                    ->setTimezone('Asia/Tashkent')
+                    ->format('Y-m-d H:i:s'),
+            ];
+        });
 
-            $data = $response->json();
-
-            if (!isset($data['results'])) {
-                return response()->json(['error' => 'No data found'], 404);
-            }
-
-            // Kerakli maydonlarni yig‘ish
-            $students = collect($data['results'])->map(function ($record) {
-                return [
-                    'id' => $record['id'],
-                    'scan_id' => ApiAdmins::getAdminNameById($record['scan_id']),
-                    'student_name' => $record['student_name'],
-                    'created_at' => Carbon::parse($record['created_at'])
-                        ->setTimezone('Asia/Tashkent')
-                        ->format('d-M-Y H:i'),
-                ];
-            });
-
-            // Fayl nomi
-            $fileName = 'students-export.xlsx';
-
-            // Excel faylini yaratish va saqlash
-            Excel::store(new MyStudentExport($students), $fileName, 'public');
-
-            // Yuklab olish linkini qaytarish
-            return response()->json([
-                'download_url' => url("storage/$fileName")
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error occurred in exportExcel method', [
-                'message' => $e->getMessage(),
-            ]);
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
+        // Excel faylni qaytarish
+        return Excel::download(new MyStudentExport($students), 'ScanList.xlsx');
     }
 
 }
