@@ -51,17 +51,20 @@
 
                                 </div>
 
-{{--                                <div class="col-auto me-n3">--}}
-{{--                                    <!-- Delete Button (Initially Hidden) -->--}}
-{{--                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;">--}}
-{{--                                        Delete Selected--}}
-{{--                                    </button>--}}
-{{--                                </div>--}}
+                                <div class="col-auto me-n3">
+                                    <!-- Delete Button (Initially Hidden) -->
+                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;">
+                                        Delete Selected
+                                    </button>
+                                </div>
                             </div>
 
                         </div>
 
                         <div class="table-responsive">
+                            <form method="POST" action="{{ route('face-id-admin.bulkDelete') }}">
+                                @csrf
+                                @method('DELETE')
                             <table class="table table-sm table-hover table-nowrap card-table">
                                 <thead>
                                 <tr>
@@ -146,6 +149,7 @@
                                 </div>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
@@ -185,12 +189,99 @@
 
 
     <script>
-        document.querySelectorAll('.avatar').forEach(function(avatar) {
+        // Modal ochilganda rasm manzilini o'zgartirish
+        document.querySelectorAll('.avatar img').forEach(function(avatar) {
             avatar.addEventListener('click', function() {
                 var imageUrl = avatar.getAttribute('data-image');
                 document.getElementById('modalImage').src = imageUrl;
             });
         });
+
+        // Checkboxlarni kuzatish
+        document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                toggleDeleteButton();
+                logSelectedIds(); // Tanlangan idlarni chiqarish
+            });
+        });
+
+        // All checkboxlarni tanlash
+        document.getElementById('listCheckboxAll').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.list-checkbox').forEach(function(checkbox) {
+                checkbox.checked = isChecked;
+            });
+            toggleDeleteButton();
+            logSelectedIds(); // Tanlangan idlarni chiqarish
+        });
+
+        // Delete tugmasini ko'rsatish yoki yashirish
+        function toggleDeleteButton() {
+            const selectedCheckboxes = document.querySelectorAll('.list-checkbox:checked').length;
+            const deleteButton = document.getElementById('bulk-delete-btn');
+
+            // Agar checkboxlar tanlangan bo'lsa, delete buttonni ko'rsatish
+            if (selectedCheckboxes > 0) {
+                deleteButton.style.display = 'block';
+            } else {
+                deleteButton.style.display = 'none';
+            }
+        }
+
+        // Tanlangan checkboxlar orqali ID'larni konsolga chiqarish
+        function logSelectedIds() {
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
+            });
+            console.log('Selected IDss:', selectedIds); // Tanlangan idlarni chiqarish
+        }
+
+
+        // Delete tugmasini bosilganda tanlangan ID'larni o'chirish
+        document.getElementById('bulk-delete-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Formani yuborishni to'xtatish
+
+            const selectedIds = [];
+            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                selectedIds.push(checkbox.getAttribute('data-id'));
+            });
+
+            if (selectedIds.length > 0) {
+                // AJAX so'rovini yuborish
+                fetch('{{ route('face-id-admin.bulkDelete') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+
+                            alert(data.message); // Success message
+
+                            document.getElementById('bulk-delete-btn').style.display = 'none';
+
+                            // Tanlangan checkboxlarni olib tashlash
+                            document.querySelectorAll('.list-checkbox:checked').forEach(function(checkbox) {
+                                checkbox.closest('tr').remove(); // Tanlangan satrni o'chirish
+                            });
+                        } else {
+                            alert(data.message); // Error message
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Xatolik yuz berdi');
+                    });
+            } else {
+                alert('Hech narsa tanlanmagan');
+            }
+        });
+
 
     </script>
 
