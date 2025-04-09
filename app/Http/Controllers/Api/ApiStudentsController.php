@@ -80,49 +80,6 @@ class ApiStudentsController extends  Controller
     }
 
 
-    public function exportExcel()
-    {
-        $scan_id = Auth::id(); // Foydalanuvchi ID si
 
-        // Bazadan ma’lumotlarni olish
-        $data = DB::connection('sqlite_django')
-            ->table('student_api_searchrecord')
-            ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
-            ->where('student_api_students.scan_id', $scan_id)
-            ->orderByDesc('student_api_searchrecord.id')
-            ->select(
-                'student_api_searchrecord.id as search_id',
-                'student_api_searchrecord.created_at as search_created_at',
-                'student_api_students.name as student_name',
-                'student_api_students.scan_id'
-            )
-            ->get();
-
-        // Ma'lumotni tayyorlash
-        $students = $data->map(function ($item) {
-            return [
-                'id' => $item->search_id,
-                'scan_id' => \App\Models\ApiAdmins::getAdminNameById($item->scan_id),
-                'student_name' => $item->student_name ?? 'Noma’lum',
-                'created_at' => Carbon::parse($item->search_created_at)
-                    ->setTimezone('Asia/Tashkent')
-                    ->format('Y-m-d H:i:s'),
-            ];
-        });
-
-        // Fayl nomi
-        $fileName = 'ScanList_' . now()->format('Ymd_His') . '.xlsx';
-
-        // Faylni storage/app/public/ga saqlash
-        Excel::store(new MyStudentExport($students), 'public/' . $fileName);
-
-        // Public URLni olish
-        $url = url('storage/' . $fileName);
-
-        // JSON javob
-        return response()->json([
-            'download_url' => $url
-        ]);
-    }
 
 }

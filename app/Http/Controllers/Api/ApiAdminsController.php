@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ApiAdmins;
 use Illuminate\Http\Request;
@@ -99,29 +99,54 @@ class ApiAdminsController extends Controller
         $file = $request->file('file');
 
         try {
-            $scan_id = Auth::id(); // Avtomatik ravishda foydalanuvchi ID'sini olish
+            $scan_id = Auth::id(); // Avtomatik foydalanuvchi ID
 
             $response = Http::attach('file', file_get_contents($file), $file->getClientOriginalName())
-                    ->post('http://172.24.25.141:5000/api/search/', [
-                        'scan_id' => $scan_id, // Avtomatik IDni yuborish
-                    ]);
+                ->post('http://172.24.25.141:5000/api/search/', [
+                    'scan_id' => $scan_id,
+                ]);
 
             if (!$response->successful()) {
                 Log::error('API request failed', [
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
+
+                return response()->json(['error' => 'Search failed'], $response->status());
             }
 
-            return response()->json($response->json(), $response->status());
+            $responseData = $response->json();
+
+            // Tashqi APIdan olingan student ID
+            $studentId = $responseData['id'] ?? null;
+
+            if ($studentId) {
+                // SQLite orqali student_api_students jadvalidan image_path ni olish
+                $student = DB::connection('sqlite_django')
+                    ->table('student_api_students')
+                    ->where('id', $studentId)
+                    ->select('image_path')
+                    ->first();
+
+                if ($student && $student->image_path) {
+                    // Public link yasash (agar image_path public/storage/ ichida bo‘lsa)
+                    $imageUrl = asset('storage/' . $student->image_path);
+                    $responseData['image_url'] = $imageUrl;
+                } else {
+                    $responseData['image_url'] = null;
+                }
+            }
+
+            return response()->json($responseData, 200);
         } catch (\Exception $e) {
             Log::error('Error occurred in search method', [
                 'message' => $e->getMessage(),
-                'request' => $request->all(), // Yuborilgan so'rov ma'lumotlari
+                'request' => $request->all(),
             ]);
 
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
 }
