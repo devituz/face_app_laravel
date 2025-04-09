@@ -130,9 +130,11 @@ class ApiAdminsController extends Controller
 
 
                 if ($student && $student->image_path) {
+                    // Faqat fayl nomini olish
+                    $fileName = basename($student->image_path);
 
-                    // Public link yasash (agar image_path public/storage/ ichida bo‘lsa)
-                    $imageUrl = url("uploads/students/" . $student->image_path);
+                    // URL yasash
+                    $imageUrl = url("uploads/students/" . $fileName);
 
                     $responseData['image_url'] = $imageUrl;
                 } else {
@@ -140,7 +142,7 @@ class ApiAdminsController extends Controller
                 }
             }
 
-            return response()->json($responseData, 200);
+                return response()->json($responseData, 200);
         } catch (\Exception $e) {
             Log::error('Error occurred in search method', [
                 'message' => $e->getMessage(),
