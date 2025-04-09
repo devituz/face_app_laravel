@@ -184,7 +184,7 @@
 
 
     @extends('components.model')
-    @extends('pages.face-id-admins.face-id-admin.modal')
+{{--    @extends('pages.face-id-admins.face-id-admin.modal')--}}
 
 
 
