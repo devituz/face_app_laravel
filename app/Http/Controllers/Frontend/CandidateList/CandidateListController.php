@@ -22,7 +22,7 @@ class CandidateListController extends Controller
 
     public function export()
     {
-        $response = Http::get('http://facesec.newuu.uz/api/all/');
+        $response = Http::get('http://172.24.25.141:5000/api/all/');
         $data = $response->json();
 
         $students = collect($data['search_records'])->map(function ($record) {

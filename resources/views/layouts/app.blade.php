@@ -9,9 +9,6 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('assets/logo/NewUU_Logo.png')}}" type="image/x-icon">
 
-    <!-- Map CSS -->
-
-    <!-- Libs CSS -->
     <link rel="stylesheet" href="{{asset("assets/css/libs.bundle.css")}}">
 
     <!-- Theme CSS -->
