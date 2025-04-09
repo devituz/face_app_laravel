@@ -53,16 +53,16 @@
 
                 <!-- Navigation -->
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{{ url('/dashboards') }}" class="nav-link {{ Request::is('dashboards') ? 'active' : '' }}">
-                            <i class="fe fe-home"></i> Default
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url('/user') }}" class="nav-link {{ Request::is('user') ? 'active' : '' }}">
-                            <i class="fe fe-home"></i> Project Management
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ url('/dashboards') }}" class="nav-link {{ Request::is('dashboards') ? 'active' : '' }}">--}}
+{{--                            <i class="fe fe-home"></i> Default--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ url('/user') }}" class="nav-link {{ Request::is('user') ? 'active' : '' }}">--}}
+{{--                            <i class="fe fe-home"></i> Project Management--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="nav-item">
                         <a href="{{ url('/candidate-list') }}" class="nav-link {{ Request::is('candidate-list') ? 'active' : '' }}">
                             <i class="fe fe-users"></i> Scan Lists
