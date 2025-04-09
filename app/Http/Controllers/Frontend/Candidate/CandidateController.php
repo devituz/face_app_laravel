@@ -26,7 +26,7 @@ class CandidateController extends Controller
     public function export()
     {
         // JSON ma'lumotlarini olish
-        $response = Http::get('http://facesec.newuu.uz/api/user_json/');
+        $response = Http::get('http://172.24.25.141:5000/api/user_json/');
         $data = $response->json();
 
         // Excel faylni yaratish va qaytarish
@@ -181,7 +181,7 @@ class CandidateController extends Controller
                 ]
             ];
 
-            $response = $client->post('http://facesec.newuu.uz/api/upload/', [
+            $response = $client->post('http://172.24.25.141:5000/api/upload/', [
                 'headers' => $headers,
                 'multipart' => $options['multipart']
             ]);
