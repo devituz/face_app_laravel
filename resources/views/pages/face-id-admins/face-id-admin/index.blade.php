@@ -53,9 +53,10 @@
 
                                 <div class="col-auto me-n3">
                                     <!-- Delete Button (Initially Hidden) -->
-                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;">
-                                        Delete Selected
+                                    <button type="submit" class="btn btn-danger" id="bulk-delete-btn" style="display:none;" title="Delete Selected">
+                                        <i class="bi bi-trash-fill"></i>
                                     </button>
+
                                 </div>
                             </div>
 
@@ -183,7 +184,7 @@
     </div>
 
 
-    @extends('components.model')
+{{--    @extends('components.model')--}}
 {{--    @extends('pages.face-id-admins.face-id-admin.modal')--}}
 
 
