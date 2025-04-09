@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('face-id-admin', FaceidContoller::class);
+    Route::get('face-id-admin', [FaceidContoller::class, 'index'])->name('face-id-admin.index');
+
     Route::post('face-id-admin/bulk-delete', [FaceidContoller::class, 'bulkDestroy'])->name('face-id-admin.bulkDelete');
 
     Route::resource('candidate', CandidateController::class);
