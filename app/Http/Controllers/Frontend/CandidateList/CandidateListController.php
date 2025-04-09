@@ -22,40 +22,55 @@ class CandidateListController extends Controller
 
     public function export()
     {
-        $response = Http::get('http://172.24.25.141:5000/api/all/');
-        $data = $response->json();
+        // Ma'lumotlarni SQLite-dan olish
+        $data = DB::connection('sqlite_django')
+            ->table('student_api_searchrecord')
+            ->join('student_api_students', 'student_api_searchrecord.student_id', '=', 'student_api_students.id')
+            ->select(
+                'student_api_searchrecord.id as search_id',
+                'student_api_searchrecord.search_image_path',
+                'student_api_searchrecord.created_at as search_created_at',
+                'student_api_students.name',
+                'student_api_students.identifier',
+                'student_api_students.image_path',
+                'student_api_students.scan_id',
+                'student_api_students.created_at as student_created_at'
+            )
+            ->get();
 
-        $students = collect($data['search_records'])->map(function ($record) {
-            if (!is_null($record['scan_id']) && is_numeric($record['scan_id'])) {
-                $admin = ApiAdmins::find($record['scan_id']);
-                $record['scan_id'] = $admin ? $admin->name : null; // Admin topilmasa, null
+        // Har bir yozuvni o'zgartirish
+        $students = $data->map(function ($record) {
+            // scan_id bo'yicha admin nomini olish
+            if (!is_null($record->scan_id) && is_numeric($record->scan_id)) {
+                $admin = ApiAdmins::find($record->scan_id);
+                $record->scan_id = $admin ? $admin->name : null; // Admin topilmasa, null
             } else {
-                $record['scan_id'] = null;
+                $record->scan_id = null;
             }
 
             // created_at ni O'zbekiston vaqti bilan ko'rsatish (search_records darajasida)
-            if (isset($record['created_at'])) {
-                $record['created_at'] = Carbon::parse($record['created_at'])
+            if (isset($record->search_created_at)) {
+                $record->search_created_at = Carbon::parse($record->search_created_at)
                     ->setTimezone('Asia/Tashkent') // O'zbekiston vaqti
                     ->format('M d, Y H:i:s'); // Formatlash
             }
 
             // Student ichidagi created_at ni ham O'zbekiston vaqti bilan ko'rsatish
-            if (isset($record['student']['created_at'])) {
-                $record['student']['created_at'] = Carbon::parse($record['student']['created_at'])
+            if (isset($record->student_created_at)) {
+                $record->student_created_at = Carbon::parse($record->student_created_at)
                     ->setTimezone('Asia/Tashkent') // O'zbekiston vaqti
                     ->format('M d, Y H:i:s'); // Formatlash
             }
 
             return $record;
         })->filter(function ($record) {
-            return !is_null($record['scan_id']); // scan_id null bo'lsa, o‘chiriladi
+            return !is_null($record->scan_id); // scan_id null bo'lsa, o‘chiriladi
         });
-
 
         // Excelni eksport qilish
         return Excel::download(new CandidatesListExport($students), 'Scan-list.xlsx');
     }
+
 
     // show metodiga ehtiyoj yo'q
 
