@@ -136,9 +136,9 @@ class ApiAdminsController extends Controller
                     // URL yasash
                     $imageUrl = url("uploads/students/" . $fileName);
 
-                    $responseData['image_url'] = $imageUrl;
+                    $responseData['file'] = $imageUrl;
                 } else {
-                    $responseData['image_url'] = null;
+                    $responseData['file'] = null;
                 }
             }
 
