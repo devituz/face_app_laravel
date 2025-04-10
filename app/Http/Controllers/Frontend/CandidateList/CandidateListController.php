@@ -100,6 +100,7 @@ class CandidateListController extends Controller
             ->when($query, function ($queryBuilder) use ($query) {
                 return $queryBuilder->where('student_api_students.name', 'like', '%' . $query . '%');
             })
+            ->orderBy('created_at', 'desc')
             ->paginate(5); // Pagination, har sahifada 5 ta yozuv
 
 

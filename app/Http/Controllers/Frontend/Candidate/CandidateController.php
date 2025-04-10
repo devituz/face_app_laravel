@@ -72,6 +72,7 @@ class CandidateController extends Controller
             ->when($query, function ($queryBuilder) use ($query) {
                 return $queryBuilder->where('name', 'like', '%' . $query . '%');
             })
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         // Ma'lumotlarni formatlash
