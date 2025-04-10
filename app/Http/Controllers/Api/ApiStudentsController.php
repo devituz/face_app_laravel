@@ -57,7 +57,7 @@ class ApiStudentsController extends  Controller
                     ->format('d-M-Y H:i');
 
                 return [
-                    'id' => $item->search_id,
+                    'id' => $item->student_id,
                     'student_name' => $item->name ?? "Noma'lum",
                     'student_image' => array_filter([$studentImage, $searchImage]),
                     'identifier' => $item->identifier,
