@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend\Faceid;
 use App\Http\Controllers\Controller;
 use App\Models\ApiAdmins;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Storage;
 
 class FaceidContoller extends Controller
@@ -72,7 +74,7 @@ class FaceidContoller extends Controller
             $admin->name = $request->name;
             $admin->phone = $request->phone;
             $admin->email = $request->email;
-            $admin->password = $request->password;
+            $admin->password = Hash::make($request->password); // ✅ Parolni hash qilish
 
             // Agar rasm yuklangan bo‘lsa, uni saqlash
             if ($request->hasFile('image')) {

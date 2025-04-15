@@ -121,9 +121,6 @@
                                         </td>
 
                                         <td>
-                                            <span class="item-phone text-reset">{{ $admin->password }}</span>
-                                        </td>
-                                        <td>
                                             <span class="item-phone text-reset">{{ $admin->formatted_created_at }}</span>
                                         </td>
                                         <td class="text-end">
