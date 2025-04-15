@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+
 
 class ApiAdminsController extends Controller
 {
@@ -34,19 +36,19 @@ class ApiAdminsController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Telefon raqam bo'yicha foydalanuvchini tekshirish
+        // Telefon raqam bo'yicha foydalanuvchini topamiz
         $admin = ApiAdmins::where('phone', $credentials['phone'])->first();
 
         $phoneError = false;
         $passwordError = false;
 
         if (!$admin) {
-            $phoneError = true; // Telefon raqam noto'g'ri
-        } else if ($admin->password !== $credentials['password']) {
-            $passwordError = true; // Parol noto'g'ri
+            $phoneError = true;
+        } elseif (!Hash::check($credentials['password'], $admin->password)) {
+            $passwordError = true;
         }
 
-        // Xato holatlarni qaytarish
+        // Xatoliklar bo'yicha javoblar
         if ($phoneError && $passwordError) {
             return response()->json(['message' => 'Both informations are wrong'], 401);
         } elseif ($phoneError) {
@@ -59,6 +61,7 @@ class ApiAdminsController extends Controller
             return response()->json(['message' => 'Limited time'], 403);
         }
 
+        // Token yaratish
         $token = $admin->createToken('AdminToken')->plainTextToken;
 
         return response()->json([
