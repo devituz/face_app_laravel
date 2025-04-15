@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapTiler with Leaflet Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #map {
+            height: 100vh; /* Butun ekranni xarita uchun ajratish */
+        }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: black;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading">Yuklanmoqda...</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // MapTiler API kalitingiz
+    const apiKey = 'w1KXDdKMhQLnMVSGG92d'; // O‘zingizning MapTiler API kalitingizni kiriting
+
+    // Boshlang'ich nuqtasi: 41.2500, 69.1400 (Toshkentning yuqori chap burchagi)
+    const initialLatLng = [41.2500, 69.1400];
+
+    // Xarita markazi va zoom
+    const map = L.map('map').setView(initialLatLng, 8.5);
+
+    // MapTiler xarita qatlamini qo‘shish
+    L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${apiKey}`, {
+        tileSize: 512,
+        zoomOffset: -1,
+        attribution: '&copy; <a href="https://www.maptiler.com/">MapTiler</a> & <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+        unloadInvisibleTiles: true
+    }).addTo(map);
+
+    // Toshkentning kengaytirilgan chegarasini aniqlash
+    const boundary = L.polygon([
+        [41.2500, 69.1400],  // Yuqori chap
+        [41.3700, 69.1700],  // O'ngga kengaytirilgan
+        [41.3700, 69.3000],  // O'ng pastga
+        [41.2500, 69.3200],  // Past o'ng
+        [41.2000, 69.2500],  // Past chap
+        [41.2500, 69.1400]   // Yuqori chap
+    ]).addTo(map).bindPopup("Toshkent Shahri Chegarasi (Kengaytirilgan)");
+
+    // Foydalanuvchining joylashuvini aniqlash
+    let userMarker = null;
+    let userPath = [];
+
+    // Tugash nuqtasi statik (misol uchun, Toshkentning boshqa joyi)
+    const endPoint = [41.345831, 69.21501]; // Tugash joyining koordinatalari
+
+    const endMarker = L.marker(endPoint).addTo(map)
+        .bindPopup("Tugash nuqtasi")
+        .openPopup();
+
+    // Foydalanuvchi joylashuvi aniqlanganda ishlaydigan funksiya
+    function onLocationFound(e) {
+        const userLocation = e.latlng;
+
+        // Foydalanuvchining joylashuvini xaritada ko'rsatish
+        if (!userMarker) {
+            userMarker = L.marker(userLocation).addTo(map)
+                .bindPopup("Sizning joylashuvingiz")
+                .openPopup();
+        } else {
+            userMarker.setLatLng(userLocation);
+        }
+
+        // Foydalanuvchining harakatlanish yo'lini saqlash
+        userPath.push(userLocation);
+
+        // Yo'lni chizish
+        L.polyline(userPath, {color: 'blue', weight: 4}).addTo(map);
+
+        // Xarita markazini foydalanuvchining joylashuviga moslashtirish
+        map.setView(userLocation, 13);
+
+        // Agar foydalanuvchi chegaradan chiqqan bo'lsa, xabar ko'rsatish
+        if (!boundary.getBounds().contains(userLocation)) {
+            alert("Siz Toshkent shahri chegarasidan chiqib ketdingiz!");
+        }
+
+        // Mashrutni yangilash
+        drawRoute(userLocation, endPoint);
+    }
+
+    function onLocationError(e) {
+        alert("Joylashuvni olishda xato yuz berdi: " + e.message);
+    }
+
+    // Foydalanuvchining joylashuvini olish
+    function trackUserLocation() {
+        map.locate({setView: true, maxZoom: 16});
+    }
+
+    // Mashrutni chizish uchun fetch so'rovini yuborish
+    function drawRoute(start, end) {
+        // Foydalanuvchi va tugash nuqtasining koordinatalari
+        const startLngLat = `${start.lng},${start.lat}`;
+        const endLngLat = `${end[1]},${end[0]}`;
+
+        // API so'rovi (masalan, Open Route Service yoki o'zingizning custom API)
+        fetch(`http://localhost:5000/route/v1/driving/${startLngLat};${endLngLat}?overview=full&geometries=geojson`)
+            .then(response => response.json())
+            .then(data => {
+                const route = data.routes[0].geometry;
+                // Agar eski yo'l mavjud bo'lsa, uni olib tashlash
+                if (window.routeLayer) {
+                    map.removeLayer(window.routeLayer);
+                }
+                // Yangi yo'lni chizish
+                window.routeLayer = L.geoJSON(route, {
+                    style: {
+                        color: 'blue',
+                        weight: 5
+                    }
+                }).addTo(map);
+            })
+            .catch(error => console.error('Mashrutni olishda xato yuz berdi:', error));
+    }
+
+    // Joylashuvni topish
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+
+    // Doimiy ravishda foydalanuvchining joylashuvini tekshirish
+    setInterval(trackUserLocation, 5000); // Har 5 sekundda foydalanuvchining joylashuvini yangilash
+
+    // Xarita yuklanayotgan va joylashuv aniqlanmagan vaqtda "Yuklanmoqda"ni ko'rsatish
+    window.onload = function() {
+        document.getElementById('loading').style.display = 'block';
+    };
+
+    // Xarita yuklanganda "Yuklanmoqda" xabarini ko'rsatish
+    map.on('load', function() {
+        document.getElementById('loading').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

@@ -68,7 +68,7 @@
                                         <!-- Image Upload -->
                                         <div class="col-md-4 mb-3">
                                             <label for="image" class="form-label">Upload Image</label>
-                                            <input type="file" class="form-control" name="image" id="image" accept="image/*" onchange="previewImage(event)">
+                                            <input type="file" class="form-control" name="image" id="image" accept="image/*" onchange="previewImage(event)" required>
                                             <div class="mt-3">
                                                 <img id="imagePreview" src="{{ $admin->image ? asset('storage/' . $admin->image) : '#' }}" alt="Image preview" style="width: 100%; max-height: 200px; object-fit: cover;">
                                             </div>
@@ -77,12 +77,12 @@
                                         <!-- Password input -->
                                         <div class="col-md-4 mb-3">
                                             <label for="password" class="form-label">Password</label>
-                                            <input type="password" class="form-control" name="password" id="password" value="{{ $admin->password }}" placeholder="Enter Password">
+                                            <input type="password" class="form-control" name="password" id="password" value="{{ $admin->password }}" placeholder="Enter Password" required>
                                         </div>
                                         <!-- Password confirmation input -->
                                         <div class="col-md-4 mb-3">
                                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="{{ $admin->password }}" placeholder="Confirm Password">
+                                            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="{{ $admin->password }}" placeholder="Confirm Password" required>
                                         </div>
                                     </div>
 

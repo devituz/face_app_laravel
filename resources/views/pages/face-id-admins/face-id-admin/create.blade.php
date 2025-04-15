@@ -66,7 +66,7 @@
                                         <!-- Image Upload -->
                                         <div class="col-md-4 mb-3">
                                             <label for="image" class="form-label">Upload Image</label>
-                                            <input type="file" class="form-control" name="image" id="image" accept="image/*" onchange="previewImage(event)">
+                                            <input type="file" class="form-control" name="image" id="image" accept="image/*" onchange="previewImage(event)" required>
                                             <div class="mt-3">
                                                 <img id="imagePreview" src="#" alt="Image preview" style="display: none; width: 100%; max-height: 200px; object-fit: cover;">
                                             </div>
