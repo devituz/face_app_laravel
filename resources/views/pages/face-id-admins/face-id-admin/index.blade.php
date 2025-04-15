@@ -85,9 +85,7 @@
                                     <th>
                                         <a class="list-sort text-body-secondary" >Phone</a>
                                     </th>
-                                    <th>
-                                        <a class="list-sort text-body-secondary">Password</a>
-                                    </th>
+
                                     <th colspan="2">
                                         <a class="list-sort text-body-secondary" >Created At</a>
                                     </th>
