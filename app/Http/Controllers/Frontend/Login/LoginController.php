@@ -31,7 +31,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('candidate-list');
+            return redirect()->route('candidatelist.index');
         }
         return back()->withErrors(['error' => 'Email or password is incorrect']);
     }
